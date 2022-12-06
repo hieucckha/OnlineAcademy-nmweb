@@ -1,0 +1,25 @@
+{
+  "name": "onlineacademy-nmweb",
+  "description": "Online Academy for Intro to Web - HCMUS",
+  "license": "MIT",
+  "version": "0.1",
+  "private": true,
+  "main": "./src/bin/www",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node ./bin/www",
+    "dev": "nodemon --watch src src/bin/www"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "ejs": "~2.6.1",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20",
+    "prettier": "^2.8.0"
+  }
+}
