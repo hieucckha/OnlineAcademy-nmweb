@@ -1,0 +1,63 @@
+<link rel="stylesheet" href="../../public/css/teacherNewCourse.css">
+<form>
+    <div class="form-group" style="background-color: #636F7A;">
+        <label for="CourseName" style="display: inline-block; padding: 30px">Course Name: </label>
+        <input type="text" class="form-control" name="CourseName" id="CourseName" aria-describedby="helpId" placeholder="" style="width: 50%; margin-left: 10px; display: inline-block;">
+        <button type="submit" class="btn btn-primary float-right" style="display: inline-block; margin-right: 10px">Save</button>
+        <small id="helpId" class="form-text" style="color: white;">Lecturers: {{account.FirstName}} {{account.LastName}}</small>
+    </div>
+
+    <div style="margin-left: 3%; width: 15%; display: inline-block; float: left;">
+        <div>Plan your course</div>
+        <ul style="list-style-type: none;">
+            <li class ="Plan-item"><i class="bi bi-circle"></i> Tagert student</li>
+            <li class ="Plan-item"><i class="bi bi-circle"></i> Course structure</li>
+        </ul>
+
+        <div>Create your content</div>
+        <ul style="list-style-type: none;">
+            <li class ="Plan-item"><i class="bi bi-circle"></i> Film &amp; edit</li>
+            <li class ="Plan-item"><i class="bi bi-circle"></i> Curriculum</li>
+            <li class ="Plan-item"><i class="bi bi-circle"></i> Caption (optional)</li>
+        </ul>
+
+        <div>Publish your course</div>
+        <ul style="list-style-type: none;">
+            <li class ="Plan-item"><i class="bi bi-circle"></i> Course landing page</li>
+            <li class ="Plan-item"><i class="bi bi-circle"></i> Price &amp; coupons</li>
+            <li class ="Plan-item"><i class="bi bi-circle"></i> Communications</li>
+        </ul>
+    </div>
+    <div class = "shadow-sm" style="display: inline-block; float: right; width:80%; marginRight: 2%">
+        <div>Curriculum</div>
+        <div style="border-top: 1px solid black;">
+            <div>Start putting together your course by creating sections, lectures and practice (quizzes and coding exercise) below</div>
+            {{#each Detail.list}}
+                <form class="form-inline">
+                    <div class="form-group">
+                        <label for="SectionName" style="display: inline-block;">Section {{id}}</label>
+                        <input type="text" name="SectionName" id="SectionName" class="form-control" placeholder="{{name}}" aria-describedby="helpId" style="display: inline-block;">
+                        <label for="Result" style="display: inline-block;">What will student be able to do at the end of  this section?</label>
+                        <input type="text" name="Result" id="Result" class="form-control" placeholder="{{result}}" aria-describedby="helpId" style="display: inline-block;">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="position:relative; Left: 90%">Save Section</button>
+                </form>
+            {{/each}}
+        </div>
+        <div style="text-align: center;">
+            <table >
+                <tr>
+                    <td><button type="button" class="btn btn-secondary buttonAdd">Add Lecture</button></td>
+                    <td><button type="button" class="btn btn-secondary buttonAdd">Add Quiz</button></td>
+                </tr>
+                <tr>
+                    <td><button type="button" class="btn btn-secondary buttonAdd">Add Code Exercise</button></td>
+                    <td><button type="button" class="btn btn-secondary buttonAdd">Add Assignment</button></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><button type="button" class="btn btn-secondary" style="width: 350px;">Add Section</button></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</form>
