@@ -16,16 +16,4 @@ router.get('/', (req, res) => {
   }
 });
 
-router.get('/search-result', (req, res) => {
-  const Courses = courseModel.Courses();
-  const path = "../public/img/courseImg/" + String(Courses.Name) + ".jpg";
-  if (fs.existsSync(path)) {
-    Courses.Image = String(Course.Name);
-    res.render('Course/searchPage');
-  } else {
-    res.render('Course/searchPage');
-  }
-});
-
-
 export default router;
