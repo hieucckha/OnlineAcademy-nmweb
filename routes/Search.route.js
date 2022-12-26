@@ -22,8 +22,10 @@ router.get('/', (req, res) => {
     if (fs.existsSync(path)) {
         Courses.Image = String(Course.Name);
         res.render('Course/searchPage');
+        //
     } else {
         res.render('Course/searchPage');
+        //
     }
 });
 
