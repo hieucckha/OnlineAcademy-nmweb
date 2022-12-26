@@ -1,6 +1,10 @@
 import express from 'express';
 import morgan from 'morgan';
 import { engine } from 'express-handlebars';
+import homeRoutes from './routes/Home.route.js';
+import courseRoutes from './routes/Course.route.js';
+import searchRoutes from './routes/Search.route.js';
+import registerRoutes from './routes/Register.route.js';
 
 const app = express();
 
@@ -17,6 +21,10 @@ app.get('/', function(req, res){
     res.render('home.hbs');
 })
 
+app.use('/home', homeRoutes);
+app.use('/course', courseRoutes);
+app.use('/search-result', searchRoutes);
+app.use('/register', registerRoutes);
 
 const port = 3000;
 

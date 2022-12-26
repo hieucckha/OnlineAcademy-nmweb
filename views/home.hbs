@@ -11,7 +11,7 @@
 
 <body>
   <!-- ========================================================= navbar ========================================================= -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">Online Academy</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,7 +48,7 @@
       </ul>
       <form class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        <button href="/views/Course/searchPage.hbs" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
     </div>
   </nav>
@@ -76,8 +76,10 @@
                 <div class="card-body">
                   <h5 class="card-title">{{Cource.Name}}</h5>
                   <h6>
-                    <p class="card-text">{{Cource.Sector}}</p>
+                    <p class="card-text">{{Cource.Category}}</p>
                     <p class="card-text">{{Cource.Teacher}}</p>
+                    <p class="card-text">Rating : {{Cource.Rating}}/5</p>
+                    <p class="card-text">Number of students : {{Cource.NumberOfStudents}}</p>
                   </h6>
                   {{#if isDiscount}}
                   <h5>
@@ -123,8 +125,10 @@
                 <div class="card-body">
                   <h5 class="card-title">{{Cource.Name}}</h5>
                   <h6>
-                    <p class="card-text">{{Cource.Sector}}</p>
+                    <p class="card-text">{{Cource.Category}}</p>
                     <p class="card-text">{{Cource.Teacher}}</p>
+                    <p class="card-text">Rating : {{Cource.Rating}}/5</p>
+                    <p class="card-text">Number of students : {{Cource.NumberOfStudents}}</p>
                   </h6>
                   {{#if isDiscount}}
                   <h5>
@@ -170,8 +174,10 @@
                 <div class="card-body">
                   <h5 class="card-title">{{Cource.Name}}</h5>
                   <h6>
-                    <p class="card-text">{{Cource.Sector}}</p>
+                    <p class="card-text">{{Cource.Category}}</p>
                     <p class="card-text">{{Cource.Teacher}}</p>
+                    <p class="card-text">Rating : {{Cource.Rating}}/5</p>
+                    <p class="card-text">Number of students : {{Cource.NumberOfStudents}}</p>
                   </h6>
                   {{#if isDiscount}}
                   <h5>
@@ -208,7 +214,7 @@
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="sr-only">Previous</span>
     </a>
-    <!-- footer -->
+    <!-- ========================================================= footer ========================================================= -->
     <footer class="bg-light py-3 mt-5">
       <div class="container">
         <p class="text-center">Copyright &copy; Online Academy</p>
