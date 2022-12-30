@@ -15,12 +15,15 @@ app.use(express.urlencoded({
 app.engine('hbs', engine({
     defaultLayout: 'main.hbs'
 }));
-app.use('/public', express.static('public'));
 app.set('view engine', 'hbs');
 app.set('views', './views');
 
     
 app.get('/', function(req, res){
+    res.render('home.hbs');
+});
+
+app.get('/test', function(req, res){
     res.render('home.hbs');
 });
 

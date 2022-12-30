@@ -27,6 +27,7 @@ router.get('/', (req, res) => {
 router.get('/edit', (req, res) => {
     const accountInfo = accountModel.getInfo();
     const ShortName = accountInfo.FirstName.substring(0, 1) + accountInfo.LastName.substring(0, 1);
+
     res.render('teacher/edit',{
         layout: 'main.hbs',
         account : accountInfo,
@@ -49,12 +50,14 @@ router.get('/new/course', (req, res) => {
     const ShortName = accountInfo.FirstName.substring(0, 1) + accountInfo.LastName.substring(0, 1);
     const Course = courseModel.CourseDetail();
     console.log(Course.sectionList);
+
     res.render('teacher/newCourse',{
         account: accountInfo,
         accountShortName: ShortName,
         Detail: Course,
     });
 });
+
 router.get('/edit/course', (req, res) =>{
     const CourseList = courseModel.getAllCourses();
     console.log(CourseList);
@@ -64,7 +67,7 @@ router.get('/edit/course', (req, res) =>{
 });
 router.get('/edit/course/:id', (req, res) =>{
     const Course = courseModel.CourseDetail();
-    console.log(Course);
+    console.log(Course.sectionList[0].videoList[0].id);
     res.render('teacher/editCourse',{
         course: Course,
     });

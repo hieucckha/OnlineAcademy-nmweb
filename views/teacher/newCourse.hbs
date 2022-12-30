@@ -45,10 +45,9 @@
                             <label for="Result" style="display: inline-block;">What will student be able to do at the end of  this section?</label>
                             <input type="text" name="Result" id="Result" class="form-control" placeholder="" aria-describedby="helpId" style="display: inline-block;">
                             <div class="input-group mb-3">
-                            <div class="custom-file" id="inputFile 1" style="display: none;">
-                                <input type="file" class="custom-file-input" id="inputGroupFile01">
-                                <label class="custom-file-label" for="inputGroupFile01"></label>
+                            <div id="videoGroup1" style="display: none;">
                             </div>
+
                         </div>
                         <button type="submit" class="btn btn-primary" style="position:relative; float:right">Save Section</button>
 
@@ -56,11 +55,11 @@
                             <table>
                                 <tr>
                                     <td><button id = "aLecture 1" type="button" class="btn btn-secondary buttonAdd" onclick="addNewLecture(this.id)">Add Lecture</button></td>
-                                    <td><button type="button" class="btn btn-secondary buttonAdd">Add Quiz</button></td>
+                                    <td><button type="button" class="btn btn-secondary buttonAdd disabled">Add Quiz</button></td>
                                 </tr>
                                 <tr>
-                                    <td><button type="button" class="btn btn-secondary buttonAdd">Add Code Exercise</button></td>
-                                    <td><button type="button" class="btn btn-secondary buttonAdd">Add Assignment</button></td>
+                                    <td><button type="button" class="btn btn-secondary buttonAdd disabled">Add Code Exercise</button></td>
+                                    <td><button type="button" class="btn btn-secondary buttonAdd disabled">Add Assignment</button></td>
                                 </tr>
                             </table>
                         </div>
@@ -81,7 +80,19 @@
     function addNewLecture(id){
         const SliptID = id.split(' ');
         const sectionId = SliptID[1];
-        document.getElementById('inputFile ' + sectionId).style.display = "block";
+        document.getElementById('videoGroup' + sectionId).style.display = "block";
+        document.getElementById('videoGroup' + sectionId).innerHTML += 
+        `
+            <div id="inputFile ${sectionId}">
+                <label for="videoName" style="display: inline-block;">Video name {{this.id}}:</label>
+                <input type="text" name="videoName" id="videoName" class="form-control" placeholder="{{this.name}}" aria-describedby="helpId" style="display: inline-block;">
+
+                <div class="input-group mb-3">
+                    <input type="file" class="form-control" id="inputGroupFile02">
+                    <label class="input-group-text" for="inputGroupFile02"><button>Upload</button></label>
+                </div>
+            </div>
+        `;
     }
 
     function addNewSection(){
@@ -95,10 +106,9 @@
                             <label for="Result" style="display: inline-block;">What will student be able to do at the end of  this section?</label>
                             <input type="text" name="Result" id="Result" class="form-control" placeholder="" aria-describedby="helpId" style="display: inline-block;">
                             <div class="input-group mb-3">
-                            <div class="custom-file" id="inputFile ${SectionId}" style="display: none;">
-                                <input type="file" class="custom-file-input" id="inputGroupFile01">
-                                <label class="custom-file-label" for="inputGroupFile01"></label>
+                            <div id="videoGroup${SectionId}" style="display: none;">
                             </div>
+                            
                         </div>
                         <button type="submit" class="btn btn-primary" style="position:relative; float:right">Save Section</button>
 
@@ -106,11 +116,11 @@
                             <table>
                                 <tr>
                                     <td><button id = "aLecture ${SectionId}" type="button" class="btn btn-secondary buttonAdd" onclick="addNewLecture(this.id)">Add Lecture</button></td>
-                                    <td><button type="button" class="btn btn-secondary buttonAdd">Add Quiz</button></td>
+                                    <td><button type="button" class="btn btn-secondary buttonAdd disabled">Add Quiz</button></td>
                                 </tr>
                                 <tr>
-                                    <td><button type="button" class="btn btn-secondary buttonAdd">Add Code Exercise</button></td>
-                                    <td><button type="button" class="btn btn-secondary buttonAdd">Add Assignment</button></td>
+                                    <td><button type="button" class="btn btn-secondary buttonAdd disabled">Add Code Exercise</button></td>
+                                    <td><button type="button" class="btn btn-secondary buttonAdd disabled">Add Assignment</button></td>
                                 </tr>
                             </table>
                         </div>

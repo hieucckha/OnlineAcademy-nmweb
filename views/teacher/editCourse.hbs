@@ -46,11 +46,23 @@
                                 <input type="text" name="SectionName" id="SectionName" class="form-control" placeholder="{{this.name}}" aria-describedby="helpId" style="display: inline-block;">
                                 <label for="Result" style="display: inline-block;">What will student be able to do at the end of  this section?</label>
                                 <input type="text" name="Result" id="Result" class="form-control" placeholder="{{this.result}}" aria-describedby="helpId" style="display: inline-block;">
-                                <div class="input-group mb-3">
-                                    <div class="custom-file" id="inputFile {{this.id}}" style="display: none;">
-                                        <input type="file" class="custom-file-input" id="inputGroupFile01">
-                                        <label class="custom-file-label" for="inputGroupFile01"></label>
-                                    </div>
+
+                                {{#if this.video}}
+                                    <div id="videoGroup{{this.id}}" style="display: block;">
+                                {{else}}
+                                    <div id="videoGroup{{this.id}}" style="display: none;">
+                                {{/if}}
+                                    {{#each this.videoList}}
+                                        <div id="inputFile {{../this.id}} {{this.id}}">
+                                            <label for="videoName" style="display: inline-block;">Video name:</label>
+                                            <input type="text" name="videoName" id="videoName" class="form-control" placeholder="{{this.name}}" aria-describedby="helpId" style="display: inline-block;">
+
+                                            <div class="input-group mb-3">
+                                                <input type="file" class="form-control" id="inputGroupFile02">
+                                                <label class="input-group-text" for="inputGroupFile02"><button>Upload</button></label>
+                                            </div>
+                                        </div>
+                                    {{/each}}
                                 </div>
                             <button type="submit" class="btn btn-primary" style="position:relative; float:right">Save Section</button>
 
@@ -58,11 +70,11 @@
                                 <table>
                                     <tr>
                                         <td><button id = "aLecture {{this.id}}" type="button" class="btn btn-secondary buttonAdd" onclick="addNewLecture(this.id)">Add Lecture</button></td>
-                                        <td><button type="button" class="btn btn-secondary buttonAdd">Add Quiz</button></td>
+                                        <td><button type="button" class="btn btn-secondary buttonAdd disabled">Add Quiz</button></td>
                                     </tr>
                                     <tr>
-                                        <td><button type="button" class="btn btn-secondary buttonAdd">Add Code Exercise</button></td>
-                                        <td><button type="button" class="btn btn-secondary buttonAdd">Add Assignment</button></td>
+                                        <td><button type="button" class="btn btn-secondary buttonAdd disabled">Add Code Exercise</button></td>
+                                        <td><button type="button" class="btn btn-secondary buttonAdd disabled">Add Assignment</button></td>
                                     </tr>
                                 </table>
                             </div>
@@ -88,40 +100,53 @@
     function addNewLecture(id){
         const SliptID = id.split(' ');
         const sectionId = SliptID[1];
-        document.getElementById('inputFile ' + sectionId).style.display = "block";
+        document.getElementById('videoGroup' + sectionId).style.display = "block";
+        document.getElementById('videoGroup' + sectionId).innerHTML += 
+        `
+            <div id="inputFile ${sectionId}">
+                <label for="videoName" style="display: inline-block;">Video name {{this.id}}:</label>
+                <input type="text" name="videoName" id="videoName" class="form-control" placeholder="{{this.name}}" aria-describedby="helpId" style="display: inline-block;">
+
+                <div class="input-group mb-3">
+                    <input type="file" class="form-control" id="inputGroupFile02">
+                    <label class="input-group-text" for="inputGroupFile02"><button>Upload</button></label>
+                </div>
+            </div>
+        `;
     }
 
     function addNewSection(){
         SectionId+=1;
         document.getElementById('SectionsList').innerHTML += 
             `<div style="border: 1px solid black; border-radius: 10px">
-                    <form class="form-inline">
-                        <div class="form-group">
-                            <label for="SectionName" style="display: inline-block;">Section ${SectionId}</label>
-                            <input type="text" name="SectionName" id="SectionName" class="form-control" placeholder="Name of this section" aria-describedby="helpId" style="display: inline-block;">
-                            <label for="Result" style="display: inline-block;">What will student be able to do at the end of  this section?</label>
-                            <input type="text" name="Result" id="Result" class="form-control" placeholder="" aria-describedby="helpId" style="display: inline-block;">
-                            <div class="input-group mb-3">
-                            <div class="custom-file" id="inputFile ${SectionId}" style="display: none;">
-                                <input type="file" class="custom-file-input" id="inputGroupFile01">
-                                <label class="custom-file-label" for="inputGroupFile01"></label>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary" style="position:relative; float:right">Save Section</button>
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <label for="SectionName" style="display: inline-block;">Section ${SectionId}</label>
+                                <input type="text" name="SectionName" id="SectionName" class="form-control" placeholder="" aria-describedby="helpId" style="display: inline-block;">
+                                <label for="Result" style="display: inline-block;">What will student be able to do at the end of  this section?</label>
+                                <input type="text" name="Result" id="Result" class="form-control" placeholder="" aria-describedby="helpId" style="display: inline-block;">
 
-                        <div class="d-flex justify-content-center" style="margin-top: 60px;">
-                            <table>
-                                <tr>
-                                    <td><button id = "aLecture ${SectionId}" type="button" class="btn btn-secondary buttonAdd" onclick="addNewLecture(this.id)">Add Lecture</button></td>
-                                    <td><button type="button" class="btn btn-secondary buttonAdd">Add Quiz</button></td>
-                                </tr>
-                                <tr>
-                                    <td><button type="button" class="btn btn-secondary buttonAdd">Add Code Exercise</button></td>
-                                    <td><button type="button" class="btn btn-secondary buttonAdd">Add Assignment</button></td>
-                                </tr>
-                            </table>
-                        </div>
-                    </form>
+                                
+                                <div id="videoGroup${SectionId}" style="display: none;">
+                                    
+                                </div>
+                                
+                            <button type="submit" class="btn btn-primary" style="position:relative; float:right">Save Section</button>
+
+                            <div class="d-flex justify-content-center" style="margin-top: 60px;">
+                                <table>
+                                    <tr>
+                                        <td><button id = "aLecture ${SectionId}" type="button" class="btn btn-secondary buttonAdd" onclick="addNewLecture(this.id)">Add Lecture</button></td>
+                                        <td><button type="button" class="btn btn-secondary buttonAdd disabled">Add Quiz</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><button type="button" class="btn btn-secondary buttonAdd disabled">Add Code Exercise</button></td>
+                                        <td><button type="button" class="btn btn-secondary buttonAdd disabled">Add Assignment</button></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </form>
+                    </div>
                 </div>`
         ;   
     }

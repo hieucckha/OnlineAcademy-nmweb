@@ -1,10 +1,24 @@
 export default{
+    VideoDetail(){
+        const detail = {
+            id: '1',
+            name: 'First Lesson',
+        }
+        return detail;
+    },
     SectionDetail(){
+        const videoL = [];
+        for(let i = 0;i <3; i++){
+            const video = this.VideoDetail();
+            video.id = Number(i+1).toString();
+            videoL.push(video);
+        }
         const detail = {
             id: '1',
             name: 'Yoga introduction',
             result: '',
-            file: '',
+            videoList: videoL,
+            video: true,
         };
         return detail;
     },
@@ -23,7 +37,7 @@ export default{
             destription: 'Abc',
             studentNum: 10,
             sectionNum: 15,
-            complete: false,
+            complete: true,
             sectionList: SectionList, 
         };
         return detail;
