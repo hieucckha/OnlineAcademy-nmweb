@@ -5,20 +5,10 @@
       "server": "localhost",
       "port": 5432,
       "driver": "PostgreSQL",
-      "name": "localhost",
-      "username": "hieu",
-      "password": "123456",
-      "database": "studentdatabase"
-    },
-    {
-      "previewLimit": 50,
-      "server": "localhost",
-      "port": 5432,
-      "driver": "PostgreSQL",
+      "name": "db",
       "database": "academy_db",
       "username": "root",
-      "password": "123456",
-      "name": "academy_db_localhost"
+      "password": "123456"
     }
   ]
 }
