@@ -14,8 +14,8 @@ router.get('/learningHistory', async function (req, res) {
     res.render('vwCourses/learningHistory');
 })
 
-router.get('/watchVideo', async function (req, res) {
-    res.render('vwCourses/watchVideo');
+router.get('/watchVideos', async function (req, res) {
+    res.render('vwCourses/watchVideos');
 })
 
 export default router;
