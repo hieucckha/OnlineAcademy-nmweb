@@ -3,26 +3,22 @@ export default class User {
     userId,
     email,
     password,
-    phone,
-    type,
+    avatar,
     firstName,
     lastName,
-    avatar,
     caption,
-    bio,
-    website
+    biography,
+    role
   ) {
     this.userId = userId;
     this.email = email;
-    this.phone = phone;
     this.password = password;
-    this.type = type;
+    this.avatar = avatar;
     this.firstName = firstName;
     this.lastName = lastName;
-    this.avatar = avatar;
     this.caption = caption;
-    this.bio = bio;
-    this.website = website;
+    this.biography = biography;
+    this.role = role;
   }
   // getInfo() {
   //   const Info = {

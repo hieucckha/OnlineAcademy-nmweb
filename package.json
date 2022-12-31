@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "author": "",
   "license": "ISC",
-  "main": "app.js",
+  "main": "./App.js",
   "type": "module",
   "scripts": {
     "start": "node app",
