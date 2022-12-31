@@ -5,7 +5,7 @@
       "server": "localhost",
       "port": 5432,
       "driver": "PostgreSQL",
-      "name": "db",
+      "name": "academy_db@locahost",
       "database": "academy_db",
       "username": "root",
       "password": "123456"
