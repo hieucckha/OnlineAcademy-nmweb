@@ -3,7 +3,6 @@ export default class User {
     userId,
     email,
     phone,
-    password,
     type,
     firstName,
     lastName,
@@ -13,33 +12,32 @@ export default class User {
     website,
     language
   ) {
-    this.userId = userId;
-    this.email = email;
-    this.phone = phone;
-    this.password = password;
-    this.type = type;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.avatar = avatar;
-    this.caption = caption;
-    this.bio = bio;
-    this.website = website;
-    this.language = language;
-  }
-  // getInfo() {
-  //   const Info = {
-  //     Id: 1,
-  //     FirstName: 'Bảo',
-  //     LastName: 'Hoàng',
-  //     Caption: '',
-  //     Biography: '',
-  //     Language: '',
-  //     EmailContant: '',
-  //     PhoneNumber: '',
-  //     Avatar: '',
-  //     Website: '',
-  //     Language: '',
-  //   };
-  //   return Info;
-  // },
+    this.Id = userId;
+    this.Email = email;
+    this.PhoneNumber = phone;
+    this.Type = type;
+    this.FirstName = firstName;
+    this.LastName = lastName;
+    this.Avatar = avatar;
+    this.Caption = caption;
+    this.Bio = bio;
+    this.Website = website;
+    this.Language = language;
+  },
+  getInfo() {
+    const Info = {
+      Id: 1,
+      FirstName: 'Bảo',
+      LastName: 'Hoàng',
+      Caption: '',
+      Biography: '',
+      Language: '',
+      EmailContant: '',
+      PhoneNumber: '',
+      Avatar: '',
+      Website: '',
+      Language: '',
+    };
+    return Info;
+  },
 }

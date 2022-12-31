@@ -49,6 +49,7 @@ CREATE TABLE lectures(
   video_title varchar(100),
   video_description varchar(255),
   source varchar(100),
+
   is_preview boolean DEFAULT false,
   CONSTRAINT lectures_pkey PRIMARY KEY(lecture_id)
 );
