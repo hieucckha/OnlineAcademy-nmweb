@@ -2,16 +2,15 @@ export default class User {
   constructor(
     userId,
     email,
-    phone,
     password,
+    phone,
     type,
     firstName,
     lastName,
     avatar,
     caption,
     bio,
-    website,
-    language
+    website
   ) {
     this.userId = userId;
     this.email = email;
@@ -24,7 +23,6 @@ export default class User {
     this.caption = caption;
     this.bio = bio;
     this.website = website;
-    this.language = language;
   }
   // getInfo() {
   //   const Info = {
