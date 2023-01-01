@@ -1,36 +1,28 @@
+import userService from '../services/user.service.js';
 import categoryService from '../services/category.service.js';
 
 (async () => {
-  await categoryService.insert(
-    '1870de01-b21f-47c5-8e0a-ae3833bba654',
-    'Web Development'
-  );
-  await categoryService.insert(
-    '1870de01-b21f-47c5-8e0a-ae3833bba654',
-    'Data Science'
-  );
-  await categoryService.insert(
-    '1870de01-b21f-47c5-8e0a-ae3833bba654',
-    'Mobile Development'
-  );
-  await categoryService.insert(
-    '1870de01-b21f-47c5-8e0a-ae3833bba654',
-    'Programming Languages'
-  );
-  await categoryService.insert(
-    '1870de01-b21f-47c5-8e0a-ae3833bba654',
-    'Game Development'
+  // console.log(
+  //   await userService.createStudent(
+  //     'conpasslaconheo@gmail.com',
+  //     '123456',
+  //     'Hieu',
+  //     'Nguyen'
+  //   )
+  // );
+  const user = await userService.getByEmail('conpasslaconheo@gmail.com');
+  console.log('user tu test###', user);
+  await userService.updateInfo(
+    user.userId,
+    null,
+    'Hieu',
+    'Nguyen',
+    'Day la toi',
+    'Xin chao cac banj minh la Hieu'
   );
 
-  console.log(await categoryService.getList());
-  // const listCategoryObject = await categoryService.getList();
-  // const listCategory = listCategoryObject.map((category) => {
-  //   return category.category_id;
-  // });
-  // listCategory.forEach(async (categoryId) => {
-  //   console.log(
-  //     `${categoryId} is delete: `,
-  //     await categoryService.delete(categoryId)
-  //   );
-  // });
+  console.log(
+    'user sau update###',
+    await userService.getByEmail('conpasslaconheo@gmail.com')
+  );
 })();

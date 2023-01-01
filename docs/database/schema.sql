@@ -7,6 +7,7 @@ CREATE TABLE categories(
 );
 CREATE TABLE sections(
   section_id char(36) NOT NULL,
+  section_order integer NOT NULL,
   section_title varchar(50),
   course_id char(36) NOT NULL,
   CONSTRAINT sections_pkey PRIMARY KEY(section_id)
@@ -22,8 +23,8 @@ CREATE TABLE courses(
   discount integer,
   status integer,
   rating float4,
-  num_enroll integer,
-  num_rating integer,
+  num_enroll integer DEFAULT 0,
+  num_rating integer DEFAULT 0,
   create_by char(36) NOT NULL,
   create_at timestamp,
   update_at timestamp,
@@ -41,6 +42,7 @@ CREATE TABLE enrollments(
 CREATE TABLE lectures(
   lecture_id char(36) NOT NULL,
   section_id char(36) NOT NULL,
+  lecture_order integer NOT NULL,
   lecture_title varchar(100),
   description varchar(255),
   source varchar(100),
@@ -64,16 +66,6 @@ CREATE TABLE watch_list(
   user_id char(36) NOT NULL,
   course_id char(36) NOT NULL,
   CONSTRAINT watch_list_pkey PRIMARY KEY(user_id, course_id)
-);
-CREATE TABLE course(
-  id integer NOT NULL,
-  category_id integer NOT NULL,
-  CONSTRAINT course_pkey PRIMARY KEY(id)
-);
-CREATE TABLE category (
-  id integer NOT NULL,
-  parent integer,
-  CONSTRAINT category_pkey PRIMARY KEY(id)
 );
 CREATE TABLE watch_status(
   user_id char(36) NOT NULL,
@@ -111,10 +103,6 @@ ALTER TABLE watch_list
 ADD CONSTRAINT watch_list_course_id_fkey FOREIGN KEY (course_id) REFERENCES courses (course_id);
 ALTER TABLE watch_list
 ADD CONSTRAINT watch_list_user_id_fkey FOREIGN KEY (user_id) REFERENCES users (user_id);
-ALTER TABLE category
-ADD CONSTRAINT category_fkey FOREIGN KEY (parent) REFERENCES category (id);
-ALTER TABLE course
-ADD CONSTRAINT course_category_id_fkey FOREIGN KEY (category_id) REFERENCES category (id);
 ALTER TABLE courses
 ADD CONSTRAINT courses_create_by_fkey FOREIGN KEY (create_by) REFERENCES users (user_id);
 ALTER TABLE watch_status
@@ -123,3 +111,77 @@ ALTER TABLE watch_status
 ADD CONSTRAINT watch_status_lecture_id_fkey FOREIGN KEY (lecture_id) REFERENCES lectures (lecture_id);
 ALTER TABLE view_number
 ADD CONSTRAINT view_number_course_id_fkey FOREIGN KEY (course_id) REFERENCES courses (course_id);
+-- Session login
+CREATE TABLE "session" (
+  "sid" varchar NOT NULL COLLATE "default",
+  "sess" json NOT NULL,
+  "expire" timestamp(6) NOT NULL
+) WITH (OIDS = FALSE);
+ALTER TABLE "session"
+ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
+CREATE INDEX "IDX_session_expire" ON "session" ("expire");
+--
+-- Full Text Search
+ALTER TABLE courses
+ADD COLUMN textsearchable_index_col tsvector GENERATED ALWAYS AS (
+    to_tsvector('english', coalesce(course_title, ''))
+  ) STORED;
+CREATE INDEX textsearch_idx ON courses USING GIN (textsearchable_index_col);
+-- Function insert course
+drop FUNCTION if exists fn_insert_course;
+CREATE FUNCTION fn_insert_course(
+  courseId character(36),
+  courseTitle character(100),
+  categoryId character(36),
+  image character(100),
+  bDescription character(50),
+  description character(255),
+  price integer,
+  discount integer,
+  status integer,
+  createBy character(36)
+) RETURNS character(36) AS $$
+DECLARE timenow TIMESTAMP;
+DECLARE result character(36);
+BEGIN --
+timenow := current_timestamp;
+--
+INSERT INTO courses(
+    course_id,
+    course_title,
+    category_id,
+    image,
+    b_description,
+    description,
+    price,
+    discount,
+    status,
+    num_enroll,
+    num_rating,
+    create_by,
+    create_at,
+    update_at
+  )
+VALUES(
+    $1,
+    $2,
+    $3,
+    $4,
+    $5,
+    $6,
+    $7,
+    $8,
+    $9,
+    0,
+    0,
+    $10,
+    timenow,
+    timenow
+  );
+SELECT course_id INTO result
+FROM courses
+where course_id = $1;
+RETURN result;
+END;
+$$ LANGUAGE plpgsql --
+- -
