@@ -1,3 +1,12 @@
-# DOCUMEN FOR DATABASE
-- Cần kiểm tra `status` của khóa học trước khi hiển thị lên front end
-  - ***`Status 49`*** -> Đây là khóa học đã bị xóa, vui lòng không hiển thị Front-end
+# Note về database
+
+## Bảng `users`
+
+- role gồm 3 role:
+  - 0 cho admin
+  - 1 cho giáo viên
+  - 2 cho học sinh
+
+## Bảng `lectures`
+
+- length là độ dài của video tính theo giây

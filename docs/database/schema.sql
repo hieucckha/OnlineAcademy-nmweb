@@ -1,15 +1,9 @@
 SET check_function_bodies = false;
--- Drop shema
--- DROP SCHEMA public CASCADE;
--- CREATE SCHEMA public;
--- GRANT ALL ON SCHEMA public TO root;
--- GRANT ALL ON SCHEMA public TO public;
---
 CREATE TABLE categories(
-category_id char(36) NOT NULL,
-category_title varchar(50),
-category_parent char(36),
-CONSTRAINT categories_pkey PRIMARY KEY(category_id)
+  category_id char(36) NOT NULL,
+  category_title varchar(50),
+  category_parent char(36),
+  CONSTRAINT categories_pkey PRIMARY KEY(category_id)
 );
 CREATE TABLE sections(
   section_id char(36) NOT NULL,
@@ -79,7 +73,14 @@ CREATE TABLE watch_status(
   status integer,
   CONSTRAINT watch_status_pkey PRIMARY KEY(user_id, lecture_id)
 );
-COMMENT ON COLUMN watch_status.status IS 'from 0 to 100';
+CREATE TABLE "session" (
+  "sid" varchar NOT NULL COLLATE "default",
+  "sess" json NOT NULL,
+  "expire" timestamp(6) NOT NULL
+) WITH (OIDS = FALSE);
+ALTER TABLE "session"
+ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
+CREATE INDEX "IDX_session_expire" ON "session" ("expire");
 CREATE TABLE view_number(
   course_id char(36) NOT NULL,
   date date NOT NULL,
@@ -143,9 +144,24 @@ CREATE FUNCTION fn_insert_course(
 DECLARE timenow TIMESTAMP;
 DECLARE result character(36);
 BEGIN --
-  timenow := current_timestamp;
+timenow := current_timestamp;
 --
-  INSERT INTO courses(course_id, course_title, category_id, image, b_description, description, price, discount, status,num_enroll, num_rating, create_by, create_at, update_at)
+INSERT INTO courses(
+    course_id,
+    course_title,
+    category_id,
+    image,
+    b_description,
+    description,
+    price,
+    discount,
+    status,
+    num_enroll,
+    num_rating,
+    create_by,
+    create_at,
+    update_at
+  )
 VALUES(
     $1,
     $2,
@@ -168,4 +184,4 @@ where course_id = $1;
 RETURN result;
 END;
 $$ LANGUAGE plpgsql --
---
+- -
