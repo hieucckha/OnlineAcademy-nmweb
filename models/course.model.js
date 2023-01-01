@@ -33,6 +33,7 @@ export default class Course {
     this.updateAt = updateAt;
 
     this.sectionList = [];
+    this.feedback = [];
   }
 }
 

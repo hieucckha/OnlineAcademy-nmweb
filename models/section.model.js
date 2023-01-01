@@ -1,8 +1,10 @@
 export default class Section {
-  constructor(sectionId, sectionTitle, sectionOrder, courseId) {
+  constructor(sectionId, sectionOrder, sectionTitle, courseId) {
     this.sectionId = sectionId;
-    this.sectionTitle = sectionTitle;
     this.sectionOrder = sectionOrder;
+    this.sectionTitle = sectionTitle;
     this.course_id = courseId;
+
+    this.listLecture = [];
   }
 }
