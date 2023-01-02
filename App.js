@@ -6,7 +6,19 @@ import courseRoutes from './routes/Course.route.js';
 import searchRoutes from './routes/Search.route.js';
 import registerRoutes from './routes/Register.route.js';
 
+import activate_views from './middlewares/view.mdw.js';
+import activate_routes from './middlewares/routes.mdw.js';
+
 const app = express();
+const PORT = 3000;
+
+app.use(express.static('public'));
+app.use(express.urlencoded({
+    extended: true
+}));
+
+activate_views(app);
+activate_routes(app);
 
 app.use(morgan('dev'));
 app.use(express.static('public'));
@@ -26,8 +38,6 @@ app.use('/course', courseRoutes);
 app.use('/search-result', searchRoutes);
 app.use('/register', registerRoutes);
 
-const port = 3000;
-
-app.listen(port, function(){
-    console.log(`App listening at http://localhost:${port}`);
+app.listen(PORT, function() {
+    console.log(`E-Commerce App listening at http://localhost:${PORT}`)
 });
