@@ -68,7 +68,7 @@ export default {
 
     return null;
   },
-  delete: async(userId, courseId){
+  delete: async (userId, courseId) => {
     try {
       const sql = `
     DELETE FROM enrollments
@@ -78,11 +78,10 @@ export default {
       const result = await db.one(sql, [userId, courseId]);
 
       return result;
-    }
-    catch (err) {
+    } catch (err) {
       console.log(err);
     }
 
     return null;
-  }
+  },
 };

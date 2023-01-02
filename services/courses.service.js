@@ -405,4 +405,127 @@ export default {
     }
     return null;
   },
+  searchCourse: async (keyWord, page) => {
+    try {
+      const sql = `
+      SELECT course_id, course_title, image, b_description, create_by, rating, num_rating, price, discount
+      FROM courses
+      WHERE textsearchable_index_col @@ to_tsquery($1)
+      ORDER num_enroll desc
+      LIMIT $3 OFFSET $2`;
+
+      const key = keyWord.split(' ').join(' & ');
+
+      const COURSE_PER_PAGE = 10;
+      const offset = (page - 1) * COURSE_PER_PAGE;
+
+      const result = await db.manyOrNone(sql, [key, offset, COURSE_PER_PAGE]);
+
+      if (result.length != 0) {
+        const listCourse = [];
+
+        for (let course of result) {
+          const tmp = new Course();
+
+          tmp.courseId = course.course_id;
+          tmp.title = course.course_title;
+          tmp.image = course.image;
+          tmp.bDescription = course.b_description;
+          tmp.createBy = course.create_by;
+          tmp.numRating = course.num_rating;
+          tmp.price = course.price;
+          tmp.discount = course.discount;
+
+          listCourse.push(tmp);
+        }
+
+        return listCourse;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    return null;
+  },
+  searchCourseRatingDesc: async (keyWord, page) => {
+    try {
+      const sql = `
+      SELECT course_id, course_title, image, b_description, create_by, rating, num_rating, price, discount
+      FROM courses
+      WHERE textsearchable_index_col @@ to_tsquery($1)
+      ORDER rating desc
+      LIMIT $3 OFFSET $2`;
+
+      const key = keyWord.split(' ').join(' & ');
+
+      const COURSE_PER_PAGE = 10;
+      const offset = (page - 1) * COURSE_PER_PAGE;
+
+      const result = await db.manyOrNone(sql, [key, offset, COURSE_PER_PAGE]);
+
+      if (result.length != 0) {
+        const listCourse = [];
+
+        for (let course of result) {
+          const tmp = new Course();
+
+          tmp.courseId = course.course_id;
+          tmp.title = course.course_title;
+          tmp.image = course.image;
+          tmp.bDescription = course.b_description;
+          tmp.createBy = course.create_by;
+          tmp.numRating = course.num_rating;
+          tmp.price = course.price;
+          tmp.discount = course.discount;
+
+          listCourse.push(tmp);
+        }
+
+        return listCourse;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    return null;
+  },
+  searchCoursePriceAsc: async (keyWord, page) => {
+    try {
+      const sql = `
+      SELECT course_id, course_title, image, b_description, create_by, rating, num_rating, price, discount
+      FROM courses
+      WHERE textsearchable_index_col @@ to_tsquery($1)
+      ORDER price asc
+      LIMIT $3 OFFSET $2`;
+
+      const key = keyWord.split(' ').join(' & ');
+
+      const COURSE_PER_PAGE = 10;
+      const offset = (page - 1) * COURSE_PER_PAGE;
+
+      const result = await db.manyOrNone(sql, [key, offset, COURSE_PER_PAGE]);
+
+      if (result.length != 0) {
+        const listCourse = [];
+
+        for (let course of result) {
+          const tmp = new Course();
+
+          tmp.courseId = course.course_id;
+          tmp.title = course.course_title;
+          tmp.image = course.image;
+          tmp.bDescription = course.b_description;
+          tmp.createBy = course.create_by;
+          tmp.numRating = course.num_rating;
+          tmp.price = course.price;
+          tmp.discount = course.discount;
+
+          listCourse.push(tmp);
+        }
+
+        return listCourse;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    return null;
+  },
 };
