@@ -315,7 +315,7 @@ export default {
         createBy,
       ]);
 
-      return result.course.Id;
+      return result;
     } catch (err) {
       console.log(err);
     }
@@ -348,7 +348,7 @@ export default {
         discount,
       ]);
 
-      return result;
+      return result.course_id;
     } catch (err) {
       console.log(err);
     }
@@ -361,11 +361,11 @@ export default {
     UPDATE courses
     set num_enroll = num_enroll + 1
     WHERE course_id=$1
-    RETURNING num_enroll`;
+    RETURNING course_id`;
 
       const result = await db.one(sql, [courseId]);
 
-      return result.num_enroll;
+      return result.course_id;
     } catch (err) {
       console.log(err);
     }
@@ -377,11 +377,11 @@ export default {
       UPDATE courses
       set num_rating = num_rating + 1
       WHERE course_id=$1
-      RETURNING num_rating`;
+      RETURNING course_id`;
 
       const result = await db.one(sql, [courseId]);
 
-      return result.num_rating;
+      return result.course_id;
     } catch (err) {
       console.log(err);
     }
@@ -395,16 +395,14 @@ export default {
                     FROM enrollments as enroll
                     WHERE enroll.course_id = $1)
       WHERE course_id=$1
-      RETURNING num_rating`;
+      RETURNING course_id`;
 
       const result = await db.one(sql, [courseId]);
 
-      return result.;
+      return result.course_id;
     } catch (err) {
       console.log(err);
     }
     return null;
   },
 };
-
-
