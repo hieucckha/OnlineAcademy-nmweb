@@ -1,18 +1,30 @@
 {
   "type": "module",
-  "name": "express-project",
+  "name": "mac",
   "version": "1.0.0",
-  "description": "PTUDW - Final Project - Online Academy",
-  "main": "app.js",
+  "description": "",
+  "main": "index.js",
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bootstrap-icons": "^1.10.2",
+    "bcryptjs": "^2.4.3",
+    "connect-session-knex": "^3.0.0",
     "express": "^4.18.2",
+    "express-async-errors": "^3.1.1",
     "express-handlebars": "^6.0.6",
-    "morgan": "^1.10.0"
+    "express-handlebars-sections": "^1.0.1",
+    "express-session": "^1.17.3",
+    "jquery": "^3.6.2",
+    "knex": "^2.3.0",
+    "moment": "^2.29.4",
+    "numeral": "^2.0.6"
+  },
+  "devDependencies": {
+    "video.js": "^7.20.3"
   }
 }
