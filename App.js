@@ -6,7 +6,6 @@ import courseRoutes from './routes/Course.route.js';
 import searchRoutes from './routes/Search.route.js';
 import registerRoutes from './routes/Register.route.js';
 
-import activate_views from './middlewares/view.mdw.js';
 import activate_routes from './middlewares/routes.mdw.js';
 
 const app = express();
@@ -17,7 +16,6 @@ app.use(express.urlencoded({
     extended: true
 }));
 
-activate_views(app);
 activate_routes(app);
 
 app.use(morgan('dev'));
