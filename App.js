@@ -2,7 +2,7 @@ import express from 'express';
 import morgan from 'morgan';
 import { engine } from 'express-handlebars';
 import homeRoutes from './routes/Home.route.js';
-import courseRoutes from './routes/Course.route.js';
+import courseListRoutes from './routes/CourseList.route.js';
 import searchRoutes from './routes/Search.route.js';
 import registerRoutes from './routes/Register.route.js';
 
@@ -32,7 +32,7 @@ app.get('/', function(req, res){
 })
 
 app.use('/home', homeRoutes);
-app.use('/course', courseRoutes);
+app.use('/course', courseListRoutes);
 app.use('/search-result', searchRoutes);
 app.use('/register', registerRoutes);
 
