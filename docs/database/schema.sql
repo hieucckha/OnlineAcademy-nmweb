@@ -1,18 +1,19 @@
+--
+-- ### Drop shema ###
+-- DROP SCHEMA public CASCADE;
+-- CREATE SCHEMA public;
+-- GRANT ALL ON SCHEMA public TO root;
+-- GRANT ALL ON SCHEMA public TO public;
+-- ### This is for drop schema pubilc (or drop database) ### Because all schema only store in schema public so wannna drop database just drop public schema
+--
 SET check_function_bodies = false;
-CREATE TABLE categories(
+CREATE TABLE categories (
   category_id char(36) NOT NULL,
   category_title varchar(50),
   category_parent char(36),
   CONSTRAINT categories_pkey PRIMARY KEY(category_id)
 );
-CREATE TABLE sections(
-  section_id char(36) NOT NULL,
-  section_order integer NOT NULL,
-  section_title varchar(50),
-  course_id char(36) NOT NULL,
-  CONSTRAINT sections_pkey PRIMARY KEY(section_id)
-);
-CREATE TABLE courses(
+CREATE TABLE courses (
   course_id char(36) NOT NULL,
   course_title varchar(100) NOT NULL,
   category_id char(36) NOT NULL,
@@ -30,7 +31,14 @@ CREATE TABLE courses(
   update_at timestamp,
   CONSTRAINT courses_pkey PRIMARY KEY(course_id)
 );
-CREATE TABLE enrollments(
+CREATE TABLE sections (
+  section_id char(36) NOT NULL,
+  section_order integer NOT NULL,
+  section_title varchar(50),
+  course_id char(36) NOT NULL,
+  CONSTRAINT sections_pkey PRIMARY KEY(section_id)
+);
+CREATE TABLE enrollments (
   user_id char(36) NOT NULL,
   course_id char(36) NOT NULL,
   enroll_date date,
@@ -39,7 +47,7 @@ CREATE TABLE enrollments(
   "comment" varchar(255),
   CONSTRAINT enrollments_pkey PRIMARY KEY(user_id, course_id)
 );
-CREATE TABLE lectures(
+CREATE TABLE lectures (
   lecture_id char(36) NOT NULL,
   section_id char(36) NOT NULL,
   lecture_order integer NOT NULL,
@@ -50,7 +58,7 @@ CREATE TABLE lectures(
   is_preview boolean DEFAULT false,
   CONSTRAINT lectures_pkey PRIMARY KEY(lecture_id)
 );
-CREATE TABLE users(
+CREATE TABLE users (
   user_id char(36) NOT NULL,
   email varchar(50) NOT NULL,
   "password" char(60) NOT NULL,
@@ -62,26 +70,18 @@ CREATE TABLE users(
   "role" integer NOT NULL,
   CONSTRAINT users_pkey PRIMARY KEY(user_id)
 );
-CREATE TABLE watch_list(
+CREATE TABLE watch_list (
   user_id char(36) NOT NULL,
   course_id char(36) NOT NULL,
   CONSTRAINT watch_list_pkey PRIMARY KEY(user_id, course_id)
 );
-CREATE TABLE watch_status(
+CREATE TABLE watch_status (
   user_id char(36) NOT NULL,
   lecture_id char(36) NOT NULL,
   status integer,
   CONSTRAINT watch_status_pkey PRIMARY KEY(user_id, lecture_id)
 );
-CREATE TABLE "session" (
-  "sid" varchar NOT NULL COLLATE "default",
-  "sess" json NOT NULL,
-  "expire" timestamp(6) NOT NULL
-) WITH (OIDS = FALSE);
-ALTER TABLE "session"
-ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
-CREATE INDEX "IDX_session_expire" ON "session" ("expire");
-CREATE TABLE view_number(
+CREATE TABLE view_number (
   course_id char(36) NOT NULL,
   date date NOT NULL,
   num_view integer DEFAULT 0,
@@ -111,7 +111,9 @@ ALTER TABLE watch_status
 ADD CONSTRAINT watch_status_lecture_id_fkey FOREIGN KEY (lecture_id) REFERENCES lectures (lecture_id);
 ALTER TABLE view_number
 ADD CONSTRAINT view_number_course_id_fkey FOREIGN KEY (course_id) REFERENCES courses (course_id);
--- Session login
+--
+-- ### This is for Session login ###
+--
 CREATE TABLE "session" (
   "sid" varchar NOT NULL COLLATE "default",
   "sess" json NOT NULL,
@@ -121,15 +123,18 @@ ALTER TABLE "session"
 ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
 CREATE INDEX "IDX_session_expire" ON "session" ("expire");
 --
--- Full Text Search
+-- ### Full Text Search ###
+--
 ALTER TABLE courses
 ADD COLUMN textsearchable_index_col tsvector GENERATED ALWAYS AS (
     to_tsvector('english', coalesce(course_title, ''))
   ) STORED;
 CREATE INDEX textsearch_idx ON courses USING GIN (textsearchable_index_col);
--- Function insert course
-drop FUNCTION if exists fn_insert_course;
-CREATE FUNCTION fn_insert_course(
+--
+-- ### Function For Insert Course ###
+--
+DROP FUNCTION IF EXISTS fn_insert_course;
+CREATE FUNCTION fn_insert_course (
   courseId character(36),
   courseTitle character(100),
   categoryId character(36),
@@ -143,10 +148,8 @@ CREATE FUNCTION fn_insert_course(
 ) RETURNS character(36) AS $$
 DECLARE timenow TIMESTAMP;
 DECLARE result character(36);
-BEGIN --
-timenow := current_timestamp;
---
-INSERT INTO courses(
+BEGIN timenow := current_timestamp;
+INSERT INTO courses (
     course_id,
     course_title,
     category_id,
@@ -180,8 +183,7 @@ VALUES(
   );
 SELECT course_id INTO result
 FROM courses
-where course_id = $1;
+WHERE course_id = $1;
 RETURN result;
 END;
-$$ LANGUAGE plpgsql --
-- -
+$$ LANGUAGE plpgsql

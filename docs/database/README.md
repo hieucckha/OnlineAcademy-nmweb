@@ -10,3 +10,7 @@
 ## Bảng `lectures`
 
 - length là độ dài của video tính theo giây
+
+## Bảng `watch_status`
+
+- status có giới hạn từ 0 tới 100
