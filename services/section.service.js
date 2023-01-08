@@ -21,7 +21,8 @@ export default {
         }
 
         return null;
-    }, getAllFullSection: async (courseId) => {
+    },
+    getAllFullSection: async (courseId) => {
         try {
             const sql = `
                 SELECT section_id, section_order, section_title, course_id
@@ -50,7 +51,8 @@ export default {
         }
 
         return null;
-    }, insert: async (sectionOrder, sectionTitle, courseId) => {
+    },
+    insert: async (sectionOrder, sectionTitle, courseId) => {
         try {
             const sql = `
                 INSERT INTO sections (section_id, section_order, section_title, course_id)
@@ -64,7 +66,8 @@ export default {
             console.log(err);
         }
         return null;
-    }, delete: async (id) => {
+    },
+    delete: async (id) => {
         try {
             const sql = `
                 DELETE
@@ -80,7 +83,8 @@ export default {
             console.log(err);
         }
         return null;
-    }, deleteByCourseId: async (courseId) => {
+    },
+    deleteByCourseId: async (courseId) => {
         try {
             const sql = `
                 SELECT section_id
@@ -98,7 +102,8 @@ export default {
             console.log(err);
         }
         return null;
-    }, update: async (sectionId, sectionOrder, sectionTitle) => {
+    },
+    update: async (sectionId, sectionOrder, sectionTitle) => {
         try {
             const sql = `
                 UPDATE sections
