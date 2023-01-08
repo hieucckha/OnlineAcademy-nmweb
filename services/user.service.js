@@ -5,12 +5,13 @@ import db from '../utils/db.js';
 import User from '../models/user.model.js';
 
 export default {
+  checkIsAuth: async (email) => {},
   getByEmail: async (email) => {
     try {
       const sql = `
-      SELECT user_id, email, password, avatar, first_name, last_name, caption, biography, role
-      FROM users
-      WHERE email = $1
+        SELECT user_id, email, password, avatar, first_name, last_name, caption, biography, role, status
+        FROM users
+        WHERE email = $1
     `;
 
       const salt = bcrypt.genSaltSync(10);
@@ -25,7 +26,8 @@ export default {
         result.last_name,
         result.caption,
         result.biography,
-        result.role
+        result.role,
+        result.status
       );
     } catch (err) {
       console.log(err);
@@ -36,7 +38,7 @@ export default {
   getById: async (id) => {
     try {
       const sql = `
-      SELECT user_id, email, password, avatar, first_name, last_name, caption, biography, role
+      SELECT user_id, email, password, avatar, first_name, last_name, caption, biography, role, status
       FROM users
       WHERE user_id = $1
     `;
@@ -126,6 +128,15 @@ export default {
     }
 
     return null;
+  },
+  updateEmail: async (userId, newEmail) => {
+    const checkEmail = `
+     SELECT exists (SELECT 1 FROM users WHERE email = $1)
+    `;
+
+    const result = await db.one(checkEmail, [newEmail]);
+
+    // if (result)
   },
   updatePassword: async (userId, newPassword) => {
     try {

@@ -1,28 +1,35 @@
 import userService from '../services/user.service.js';
 import categoryService from '../services/category.service.js';
+import { faker } from '@faker-js/faker';
 
 (async () => {
-  // console.log(
-  //   await userService.createStudent(
-  //     'conpasslaconheo@gmail.com',
-  //     '123456',
-  //     'Hieu',
-  //     'Nguyen'
-  //   )
-  // );
-  const user = await userService.getByEmail('conpasslaconheo@gmail.com');
-  console.log('user tu test###', user);
-  await userService.updateInfo(
-    user.userId,
-    null,
+  const stu1 = await userService.createStudent(
+    'conpasslaconheo@gmail.com',
+    '123456',
     'Hieu',
-    'Nguyen',
-    'Day la toi',
-    'Xin chao cac banj minh la Hieu'
+    'Nguyen'
+  );
+  const stu2 = await userService.createStudent(
+    'vothanhsuong123@gmail.com',
+    '123456',
+    'Suong',
+    'Vo'
   );
 
-  console.log(
-    'user sau update###',
-    await userService.getByEmail('conpasslaconheo@gmail.com')
-  );
+  for (let i = 0; i < 3; ++i) {
+    await userService.createTeacher(
+      faker.internet.email(),
+      '123456',
+      faker.name.firstName(faker.name.sex()),
+      faker.name.lastName()
+    );
+  }
+  for (let i = 0; i < 3; ++i) {
+    await userService.createTeacher(
+      faker.internet.email(),
+      '123456',
+      faker.name.firstName(faker.name.sex()),
+      faker.name.lastName()
+    );
+  }
 })();

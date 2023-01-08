@@ -8,7 +8,8 @@ export default class User {
     lastName,
     caption,
     biography,
-    role
+    role,
+    status
   ) {
     this.userId = userId;
     this.email = email;
@@ -19,6 +20,7 @@ export default class User {
     this.caption = caption;
     this.biography = biography;
     this.role = role;
+    this.status = status;
   }
   // getInfo() {
   //   const Info = {

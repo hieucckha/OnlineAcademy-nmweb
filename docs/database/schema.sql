@@ -1,11 +1,11 @@
 -- database: 'academy_db',
 -- user: 'root',
 -- password: '123456',
--- ### Drop shema ###
--- DROP SCHEMA public CASCADE;
--- CREATE SCHEMA public;
--- GRANT ALL ON SCHEMA public TO root;
--- GRANT ALL ON SCHEMA public TO public;
+-- ### Drop schema ###
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+GRANT ALL ON SCHEMA public TO root;
+GRANT ALL ON SCHEMA public TO public;
 -- ### This is for drop schema pubilc (or drop database) ### Because all schema only store in schema public so wannna drop database just drop public schema
 --
 SET check_function_bodies = false;
