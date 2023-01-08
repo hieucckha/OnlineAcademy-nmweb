@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import db from '../utils/db.js';
-import Lecture from '../models/lecture.model';
+import Lecture from '../models/lecture.model.js';
 
 export default {
   getInfoLecture: async (lectureId) => {
