@@ -5,7 +5,16 @@ import db from '../utils/db.js';
 import User from '../models/user.model.js';
 
 export default {
-  checkIsAuth: async (email) => {},
+  isAuth: async (email, password) => {},
+  isEmailExist: async (email) => {
+    const checkEmailSql = `
+      SELECT exists (SELECT 1 FROM users WHERE email = $1)
+   `;
+
+    const isEmailExists = await db.one(checkEmailSql, [email]);
+
+    return isEmailExists.exists;
+  },
   getByEmail: async (email) => {
     try {
       const sql = `
@@ -98,7 +107,7 @@ export default {
   createTeacher: async (email, password, firstName, lastName) => {
     try {
       const sql = `
-      INSERT INTO users (user_id, email, password, first_name, last_name, role)
+      INSERT INTO users (user_id, email, password, first_name, last_name, role, status)
       VALUES ($1, $2, $3, $4, $5, $6)
       RETURNING *
     `;
@@ -111,6 +120,7 @@ export default {
         hash,
         firstName,
         lastName,
+        1,
         1,
       ]);
 
@@ -129,14 +139,59 @@ export default {
 
     return null;
   },
-  updateEmail: async (userId, newEmail) => {
-    const checkEmail = `
-     SELECT exists (SELECT 1 FROM users WHERE email = $1)
+  updateStatus: async (userId, status) => {
+    try {
+      const sql = `
+        UPDATE users
+        SET status = $2
+        WHERE user_id = $1
+        RETURNING (user_id, status)
     `;
+      const result = await db.one(sql, [userId, status]);
 
-    const result = await db.one(checkEmail, [newEmail]);
+      const user = new User();
+      user.userId = result.user_id;
+      user.status = result.status;
 
-    // if (result)
+      return user;
+    } catch (err) {
+      console.log(err);
+    }
+
+    return null;
+  },
+  // #TODO: OTP In email
+  updateEmail: async (userId, newEmail) => {
+    try {
+      const checkEmailSql = `
+        SELECT exists (SELECT 1 FROM users WHERE email = $1)
+     `;
+
+      const { exists } = db.one(checkEmailSql, [newEmail]);
+      if (exists) {
+        const updateEmailSql = `
+          UPDATE users
+          SET email = $2
+          WHERE user_id = $1
+          RETURNING (user_id, email)
+     `;
+
+        const result = db.one(updateEmailSql, [userId, newEmail]);
+        const user = new User();
+        user.userId = result.user_id;
+        user.email = result.email;
+
+        return user;
+      }
+
+      // const result = await db.one(checkEmailSql, [userId, newEmail]);
+
+      // if (result)
+    } catch (err) {
+      console.log(err);
+    }
+
+    return null;
   },
   updatePassword: async (userId, newPassword) => {
     try {

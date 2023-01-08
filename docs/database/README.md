@@ -7,8 +7,9 @@
     - 1 cho giáo viên
     - 2 cho học sinh
 - status biểu thị trạng thái
-    - 0 là bình thường
-    - 1 là bị khoá
+    - 0 là chưa xác thực
+    - 1 là đã xác thực (bình thường)
+    - 2 là bị khoá
 
 ## Bảng `watch_status`
 
@@ -24,6 +25,3 @@
 ## Bảng `lectures`
 
 - length là độ dài của video tính theo giây
-
-
-
