@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import db from '../utils/db.js';
-import Course from '../models/course.model';
+import Course from '../models/course.model.js';
 import sectionService from './section.service.js';
 
 export default {
@@ -254,7 +254,7 @@ export default {
       const sql = `
         SELECT co.course_id, co.course_title, co.category_id, co.image, er.enroll_date, er.status
         FROM enrollments er JOIN courses co on er.course_id = co.course_id
-        WHERE wl.user_id = $1
+        WHERE er.user_id = $1
       `;
 
       const result = await db.manyOrNone(sql, [userId]);
@@ -299,7 +299,7 @@ export default {
   ) => {
     try {
       const sql = `
-      SELECT select fn_insert_course($1,$2, $3, $4, $5, $6, $7, $8, $9, $10) as courseId;
+      SELECT fn_insert_course($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) as courseId;
       `;
 
       const result = await db.one(sql, [
@@ -333,10 +333,11 @@ export default {
   ) => {
     try {
       const sql = `
-    UPDATE courses
-    SET course_title=$2, category_id=$3, image=$4, b_description=$5, description=$6, price=$7, discount=$9, update_at=current_timestamp
-    WHERE course_id=$1
-    RETURNING course_id`;
+        UPDATE courses
+        SET course_title=$2, category_id=$3, image=$4, b_description=$5, description=$6, price=$7, discount=$9, update_at=current_timestamp
+        WHERE course_id=$1
+        RETURNING course_id
+      `;
 
       const result = await db.one(sql, [
         courseId,
@@ -411,7 +412,7 @@ export default {
       SELECT course_id, course_title, image, b_description, create_by, rating, num_rating, price, discount
       FROM courses
       WHERE textsearchable_index_col @@ to_tsquery($1)
-      ORDER num_enroll desc
+      ORDER BY num_enroll desc
       LIMIT $3 OFFSET $2`;
 
       const key = keyWord.split(' ').join(' & ');
@@ -452,7 +453,7 @@ export default {
       SELECT course_id, course_title, image, b_description, create_by, rating, num_rating, price, discount
       FROM courses
       WHERE textsearchable_index_col @@ to_tsquery($1)
-      ORDER rating desc
+      ORDER BY rating desc
       LIMIT $3 OFFSET $2`;
 
       const key = keyWord.split(' ').join(' & ');
@@ -493,7 +494,7 @@ export default {
       SELECT course_id, course_title, image, b_description, create_by, rating, num_rating, price, discount
       FROM courses
       WHERE textsearchable_index_col @@ to_tsquery($1)
-      ORDER price asc
+      ORDER BY price asc
       LIMIT $3 OFFSET $2`;
 
       const key = keyWord.split(' ').join(' & ');
