@@ -3,6 +3,6 @@ db.session.sql
 testFTS.js
 yarn*
 
-
 .vscode/
+**/.idea/
 node_modules/
