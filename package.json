@@ -11,7 +11,6 @@
     "dev": "nodemon --watch . ./app.js"
   },
   "dependencies": {
-    "@faker-js/faker": "^7.6.0",
     "bcryptjs": "^2.4.3",
     "bootstrap-icons": "^1.10.2",
     "connect-pg-simple": "^8.0.0",
@@ -19,6 +18,7 @@
     "express-handlebars": "^6.0.6",
     "express-handlebars-sections": "^1.0.1",
     "express-session": "^1.17.3",
+    "moment": "^2.29.4",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "moment": "^2.29.4",
@@ -27,6 +27,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
     "nodemon": "^2.0.20",
     "prettier": "^2.8.1",
     "video.js": "^7.20.3"
