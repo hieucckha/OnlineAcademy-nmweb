@@ -388,15 +388,7 @@ export default {
     getWatchList: async (userId) => {
         try {
             const sql = `
-                SELECT co.course_id,
-                       co.course_title,
-                       co.category_id,
-                       co.image,
-                       co.b_description,
-                       co.status,
-                       co.rating,
-                       co.num_enroll,
-                       co.num_rating
+                SELECT co.*
                 FROM watch_list wl
                          JOIN courses co on wl.course_id = co.course_id
                 WHERE wl.user_id = $1
@@ -419,6 +411,8 @@ export default {
                     tmp.rating = course.rating;
                     tmp.numEnroll = course.num_enroll;
                     tmp.numRating = course.num_rating;
+                    tmp.price = course.price;
+                    tmp.discount = course.discount;
 
                     courses.push(tmp);
                 }
@@ -434,7 +428,7 @@ export default {
     getEnrollList: async (userId) => {
         try {
             const sql = `
-                SELECT co.course_id, co.course_title, co.category_id, co.image, er.enroll_date, er.status
+                SELECT co.*, er.enroll_date, er.status
                 FROM enrollments er
                          JOIN courses co on er.course_id = co.course_id
                 WHERE er.user_id = $1
@@ -457,6 +451,48 @@ export default {
                     tmp.rating = course.rating;
                     tmp.numEnroll = course.num_enroll;
                     tmp.numRating = course.num_rating;
+                    tmp.price = course.price;
+                    tmp.discount = course.discount;
+
+                    courses.push(tmp);
+                }
+
+                return courses;
+            }
+        } catch (err) {
+            console.log(err);
+        }
+
+        return null;
+    },
+    getCourseById: async (courseId) => {
+        try {
+            const sql = `
+                SELECT *
+                FROM courses
+                WHERE course_id = $1
+            `;
+
+            const result = await db.manyOrNone(sql, [courseId]);
+
+            if (result.length != 0) {
+                const courses = [];
+
+                for (let course of result) {
+                    const tmp = new Course();
+
+                    tmp.courseId = course.course_id;
+                    tmp.title = course.course_title;
+                    tmp.categoryId = course.category_id;
+                    tmp.image = course.image;
+                    tmp.bDescription = course.b_description;
+                    tmp.description = course.description;
+                    tmp.status = course.status;
+                    tmp.rating = course.rating;
+                    tmp.numEnroll = course.num_enroll;
+                    tmp.numRating = course.num_rating;
+                    tmp.price = course.price;
+                    tmp.discount = course.discount;
 
                     courses.push(tmp);
                 }
@@ -813,4 +849,5 @@ export default {
         }
         return null;
     }
+
 }

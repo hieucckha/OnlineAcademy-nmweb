@@ -9,7 +9,6 @@ import activate_error_handlers from './middlewares/error.mdw.js';
 const app = express();
 app.use(morgan('dev'));
 app.use(express.static('public'));
-app.use('/public', express.static('public'));
 app.use(express.json());
 app.use(
   express.urlencoded({
