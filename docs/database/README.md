@@ -1,5 +1,7 @@
 # Note về database
 
+- Chạy `schema.sql` -> `data.sql` -> `genData.data.js`
+
 ## Bảng `users`
 
 - role gồm 3 role:

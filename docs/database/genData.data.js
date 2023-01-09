@@ -1,12 +1,17 @@
+import {faker} from '@faker-js/faker';
+import moment from "moment";
+import db from '../../utils/db.js';
+
 import userService from '../../services/user.service.js';
 import categoryService from '../../services/category.service.js';
-import {faker} from '@faker-js/faker';
-import db from '../../utils/db.js';
 import sectionService from "../../services/section.service.js";
 import lectureService from "../../services/lecture.service.js";
 import coursesService from "../../services/courses.service.js";
+import watchListService from "../../services/watch_list.service.js";
+import enrollmentsService from "../../services/enrollments.service.js";
 
 (async () => {
+    // Insert list section and lecture
     const listCourse = await db.many('select course_id from courses', []);
     for (let i = 0; i < listCourse.length; i++) {
         console.log(listCourse[i].course_id);
@@ -105,4 +110,56 @@ import coursesService from "../../services/courses.service.js";
 
         }
     }
+
+    const listStudent = await userService.getListStudent();
+    const listCourseInFirstPage = await coursesService.getAllCourses(1)
+
+    // Insert Watchlist
+    for (let student of listStudent) {
+        for (let course of listCourseInFirstPage) {
+            if (Math.round(Math.random()) > 0.5)
+                await watchListService.insert(student.userId, course.courseId);
+        }
+    }
+
+    // Insert EnrollmentList
+    for (let student of listStudent) {
+        for (let course of listCourseInFirstPage) {
+            if (Math.round(Math.random()) > 0.5)
+                await enrollmentsService.insert(student.userId, course.courseId);
+        }
+    }
+
+    // Insert Rating and Feedback
+    for (let student of listStudent) {
+        const listEnroll = await coursesService.getEnrollList(student.userId)
+
+        for (let course of listEnroll) {
+            const result = await enrollmentsService.ratingAndComment(student.userId, course.courseId, Math.floor(Math.random() * (5 - 1 + 1) + 1), faker.lorem.paragraph(1));
+        }
+    }
+
+    // Insert view number
+    for (let i = 1; i < 10; ++i) {
+        const listCourse = await coursesService.getAllCourses(i);
+        if (listCourse === undefined)
+            continue;
+
+        let daysAgo = []
+        for (let i = 0; i <= 15; i++) {
+            daysAgo.push(moment().subtract(i, 'days').format("YYYY MM DD"))
+        }
+
+        for (let course of listCourse) {
+            for (let date of daysAgo) {
+                await coursesService.insertDateNumView(course.courseId, date)
+                const view = Math.random() * (50 - 20 + 1) + 20
+                for (let i = 0; i < view; ++i) {
+                    await coursesService.updateNumView(course.courseId, date);
+                }
+            }
+        }
+    }
+
+    console.log("done")
 })();

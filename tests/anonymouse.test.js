@@ -19,7 +19,7 @@ import userService from "../services/user.service.js";
     // const result = await coursesService.searchCoursePriceAsc('develop', 1);
 
     // 4
-    // const result = await coursesService.getFullCourse('7c04135f-1ac4-4536-a3a2-ee5d9739d2b8')
+    // const result = await coursesService.getFullCourse('9a3fe19c-eec1-4a02-b19e-55115b3a3c67')
 
     // 5
     // const result = await userService.isAuth('conpasslaconheo@gmail.com', '123456');
@@ -30,4 +30,6 @@ import userService from "../services/user.service.js";
     //     const result = await userService.createStudent('daylaemailtest@gmail.com', '123456', 'Hieu', 'Nguyen')
     //     console.log(result);
     // }
+
+    // console.log(result)
 })();

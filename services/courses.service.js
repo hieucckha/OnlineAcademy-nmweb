@@ -515,11 +515,12 @@ export default {
                 UPDATE courses
                 set num_enroll = num_enroll + 1
                 WHERE course_id = $1
-                RETURNING course_id`;
+                RETURNING course_id, num_enroll
+            `;
 
             const result = await db.one(sql, [courseId]);
 
-            return result.course_id;
+            return result;
         } catch (err) {
             console.log(err);
         }
@@ -777,4 +778,39 @@ export default {
 
         return null;
     },
-};
+    insertDateNumView: async (courseId, date) => {
+        try {
+            const sql = `
+                INSERT INTO view_number (course_id, date, num_view)
+                VALUES ($1, $2, 0)
+                RETURNING course_id, date
+            `;
+
+            const result = await db.one(sql, [courseId, date]);
+
+            return result;
+        } catch (err) {
+            console.log(err);
+        }
+
+        return null;
+    },
+    updateNumView: async (courseId, date) => {
+        try {
+            const sql = `
+                UPDATE view_number
+                SET num_view = num_view + 1
+                WHERE course_id = $1
+                  AND date = $2
+                RETURNING course_id, num_view
+            `;
+
+            const result = await db.one(sql, [courseId, date]);
+
+            return result;
+        } catch (err) {
+            console.log(err);
+        }
+        return null;
+    }
+}

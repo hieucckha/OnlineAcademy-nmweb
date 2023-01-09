@@ -21,7 +21,7 @@ import coursesService from "../services/courses.service.js";
     // const result = await watchListService.delete('1ed4ef15-1512-48d6-be79-3793867fcea4', 'a20f47ba-62e3-44e8-89e9-43a5e95d56ec')
 
     // 5
-    // const result = await coursesService.getEnrollList('1ed4ef15-1512-48d6-be79-3793867fcea4')
+    const result = await coursesService.getEnrollList('eb751f9b-1c8f-41f3-a93b-0c284005dde1')
 
     // 6
     // Check ở trên router
@@ -30,5 +30,6 @@ import coursesService from "../services/courses.service.js";
     // 7
     // const result = await enrollmentsService.isFeedback('5c47534d-75f4-4866-ba43-6aaee3a65aa5', 'a20f47ba-62e3-44e8-89e9-43a5e95d56ec')
     // const result = await enrollmentsService.ratingAndComment('5c47534d-75f4-4866-ba43-6aaee3a65aa5', 'a20f47ba-62e3-44e8-89e9-43a5e95d56ec', 3, 'Khoá học không thật sự hay lắm')
-    // console.log(result);
+
+    console.log(result);
 })();

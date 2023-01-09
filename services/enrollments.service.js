@@ -14,7 +14,7 @@ export default {
 
             const result = await db.one(sql, [userId, courseId]);
 
-            await coursesService.updateNumEnroll(result.course_id);
+            console.log(await coursesService.updateNumEnroll(result.course_id));
 
             return result;
         } catch (err) {
@@ -125,6 +125,4 @@ export default {
 
         return null;
     },
-
-
 };
