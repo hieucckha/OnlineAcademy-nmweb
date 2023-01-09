@@ -1,34 +1,41 @@
 import express from 'express';
-
 import morgan from 'morgan';
-import { engine } from 'express-handlebars';
-import teacherRoutes from './routes/teachers.route.js';
+
+import activate_session from './middlewares/session.mdw.js';
+import activate_view from './middlewares/view.mdw.js';
+import activate_routes from './middlewares/routes.mdw.js';
+import activate_error_handlers from './middlewares/error.mdw.js';
 
 const app = express();
-const port = 3000;
-
 app.use(morgan('dev'));
 app.use(express.static('public'));
-app.use(express.urlencoded({
-    extended: true
-}));
-app.engine('hbs', engine({
-    defaultLayout: 'main.hbs'
-}));
-app.set('view engine', 'hbs');
-app.set('views', './views');
+app.use('/public', express.static('public'));
+app.use(express.json());
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
 
-    
-app.get('/', function(req, res){
-    res.render('home.hbs');
-});
+activate_session(app);
+activate_view(app);
+activate_routes(app);
+activate_error_handlers(app);
 
-app.get('/test', function(req, res){
-    res.render('home.hbs');
-});
+// app.engine(
+//   'hbs',
+//   engine({
+//     defaultLayout: 'main.hbs',
+//   })
+// );
+// app.set('view engine', 'hbs');
+// app.set('views', './views');
 
-app.use('/teacher', teacherRoutes);
+// app.get('/', function (req, res) {
+//   res.render('home.hbs');
+// });
 
-app.listen(port, function(){
-    console.log(`App listening at http://localhost:${port}`);
+const PORT = 3000;
+app.listen(PORT, function () {
+  console.log(`App listening at http://localhost:${PORT}`);
 });
