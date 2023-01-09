@@ -1,0 +1,14 @@
+{
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "academy_db@locahost",
+      "database": "academy_db",
+      "username": "root",
+      "password": "123456"
+    }
+  ]
+}

@@ -1,13 +1,14 @@
-import knexObj from 'knex';
+import pgPromise from 'pg-promise';
 
-export default knexObj({
-    client: 'pg',
-    version: '15.1',
-    connection: {
-        host : '127.0.0.1',
-        port : 3306,
-        user : 'your_database_user',
-        password : '1234',
-        database : 'academy'
-    }
+const pgp = pgPromise({});
+
+const db = pgp({
+  host: 'localhost',
+  port: 5432,
+  database: 'academy_db',
+  user: 'root',
+  password: '123456',
+  max: 30,
 });
+
+export default db;
