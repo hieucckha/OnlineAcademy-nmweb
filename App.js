@@ -21,21 +21,9 @@ activate_session(app);
 activate_view(app);
 activate_routes(app);
 activate_error_handlers(app);
-
-// app.engine(
-//   'hbs',
-//   engine({
-//     defaultLayout: 'main.hbs',
-//   })
-// );
-// app.set('view engine', 'hbs');
-// app.set('views', './views');
-
-// app.get('/', function (req, res) {
-//   res.render('home.hbs');
-// });
-
 const PORT = 3000;
+
+
 app.listen(PORT, function () {
   console.log(`App listening at http://localhost:${PORT}`);
 });

@@ -1,8 +1,7 @@
-import { Console } from 'console';
 import express, { Router } from 'express';
 import fs from 'fs';
 import accountModel from '../models/user.model.js';
-import courseModel from '../models/Course.model.js';
+import courseModel from '../models/course.model.js';
 
 const router = express.Router();
 
