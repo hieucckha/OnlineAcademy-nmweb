@@ -399,7 +399,7 @@ export default {
 
       const result = await db.one(sql, [courseId]);
 
-      return result.;
+      return result;
     } catch (err) {
       console.log(err);
     }
