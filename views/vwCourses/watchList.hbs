@@ -1,468 +1,57 @@
 <section id="courses-view">
+    <h1 class="list-container-title">My Watch List:</h1>
     <div class="container">
-        <h1 class="list-container-title">IT - Web Programming:</h1>
-        <div class="list-container">
-            <div class="course-list">
-                <a href="/courses/watchVideos"><img src="img/courses-avt/2.png" class="thumbnail"></a>
-                <div class="course-info">
-                        <a href="/courses/watchVideos" class="course-name">Name of course</a>
-                        <p class="teacher-name">Name of teacher</p>
-                </div>
-                <div class="flex-div">
-                    <p class="avg-rating">4.0</p>
-                    <div id="rating">
-                        <div class="star-rating">
-                            <input type="radio" name="rate" id="rate-5">
-                            <label for="rate-5" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-4">
-                            <label for="rate-4" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-3">
-                            <label for="rate-3" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-2">
-                            <label for="rate-2" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-1">
-                            <label for="rate-1" class="fa fa-star"></label>        
+        {{#if this.empty}}
+            <h2 class="message">You watch list is empty</h2>
+        {{else}} 
+            <div class="list-container">
+                {{#each this.myCourses}}
+                    <div class="course-list">
+                        <div class="course-img">
+                            <a href="/courses/courseDetails?courseId={{courseId}}"><img src="{{image}}" class="thumbnail"></a>
+                            <button class="watchList-btn"><i class="fa fa-heart"></i></button>
+                        </div>    
+                        <div class="course-info">
+                                <a href="/courses/courseDetails?courseId={{courseId}}" class="course-name">{{title}}</a>
+                                <p class="teacher-name">Teacher name</p>
+                        </div>
+                        <div class="flex-div">
+                            <p class="avg-rating">{{rating}}</p>
+                            <div id="rating">
+                                <div class="star-rating">
+                                    <input type="radio" name="rate" id="rate-5">
+                                    <label for="rate-5" class="fa fa-star"></label>
+                                    <input type="radio" name="rate" id="rate-4">
+                                    <label for="rate-4" class="fa fa-star"></label>
+                                    <input type="radio" name="rate" id="rate-3">
+                                    <label for="rate-3" class="fa fa-star"></label>
+                                    <input type="radio" name="rate" id="rate-2">
+                                    <label for="rate-2" class="fa fa-star"></label>
+                                    <input type="radio" name="rate" id="rate-1">
+                                    <label for="rate-1" class="fa fa-star"></label>        
+                                </div>
+                            </div>
+                            <span class="num-of-ratings">({{numRating}})</span>
+                        </div>
+                        <div class="price-of-course">
+                            <div class="promotional-price">{{format_number discount}}đ &nbsp;</div>
+                            <del class="price">{{format_number price}}đ</del>
                         </div>
                     </div>
-                    <span class="num-of-ratings">(1867)</span>
-                </div>
-                <div class="price-of-course">
-                    <div class="promotional-price">199,000đ &nbsp;</div>
-                    <del class="price">1,200,000đ</del>
-                </div>
-            </div>
-
-            <div class="course-list">
-                <a href="/courses/watchVideos"><img src="img/courses-avt/2.png" class="thumbnail"></a>
-                <div class="course-info">
-                        <a href="/courses/watchVideos" class="course-name">Name of course</a>
-                        <p class="teacher-name">Name of teacher</p>
-                </div>
-                <div class="flex-div">
-                    <p class="avg-rating">4.0</p>
-                    <div id="rating">
-                        <div class="star-rating">
-                            <input type="radio" name="rate" id="rate-5">
-                            <label for="rate-5" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-4">
-                            <label for="rate-4" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-3">
-                            <label for="rate-3" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-2">
-                            <label for="rate-2" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-1">
-                            <label for="rate-1" class="fa fa-star"></label>        
-                        </div>
-                    </div>
-                    <span class="num-of-ratings">(1867)</span>
-                </div>
-                <div class="price-of-course">
-                    <div class="promotional-price">199,000đ &nbsp;</div>
-                    <del class="price">1,200,000đ</del>
-                </div>
-            </div>
-
-            <div class="course-list">
-                <a href="/courses/watchVideos"><img src="img/courses-avt/2.png" class="thumbnail"></a>
-                <div class="course-info">
-                        <a href="/courses/watchVideos" class="course-name">Name of course</a>
-                        <p class="teacher-name">Name of teacher</p>
-                </div>
-                <div class="flex-div">
-                    <p class="avg-rating">4.0</p>
-                    <div id="rating">
-                        <div class="star-rating">
-                            <input type="radio" name="rate" id="rate-5">
-                            <label for="rate-5" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-4">
-                            <label for="rate-4" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-3">
-                            <label for="rate-3" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-2">
-                            <label for="rate-2" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-1">
-                            <label for="rate-1" class="fa fa-star"></label>        
-                        </div>
-                    </div>
-                    <span class="num-of-ratings">(1867)</span>
-                </div>
-                <div class="price-of-course">
-                    <div class="promotional-price">199,000đ &nbsp;</div>
-                    <del class="price">1,200,000đ</del>
-                </div>
-            </div>
-
-            <div class="course-list">
-                <a href="/courses/watchVideos"><img src="img/courses-avt/2.png" class="thumbnail"></a>
-                <div class="course-info">
-                        <a href="/courses/watchVideos" class="course-name">Name of course</a>
-                        <p class="teacher-name">Name of teacher</p>
-                </div>
-                <div class="flex-div">
-                    <p class="avg-rating">4.0</p>
-                    <div id="rating">
-                        <div class="star-rating">
-                            <input type="radio" name="rate" id="rate-5">
-                            <label for="rate-5" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-4">
-                            <label for="rate-4" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-3">
-                            <label for="rate-3" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-2">
-                            <label for="rate-2" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-1">
-                            <label for="rate-1" class="fa fa-star"></label>        
-                        </div>
-                    </div>
-                    <span class="num-of-ratings">(1867)</span>
-                </div>
-                <div class="price-of-course">
-                    <div class="promotional-price">199,000đ &nbsp;</div>
-                    <del class="price">1,200,000đ</del>
-                </div>
-            </div>
-
-            <div class="course-list">
-                <a href="/courses/watchVideos"><img src="img/courses-avt/2.png" class="thumbnail"></a>
-                <div class="course-info">
-                        <a href="/courses/watchVideos" class="course-name">Name of course</a>
-                        <p class="teacher-name">Name of teacher</p>
-                </div>
-                <div class="flex-div">
-                    <p class="avg-rating">4.0</p>
-                    <div id="rating">
-                        <div class="star-rating">
-                            <input type="radio" name="rate" id="rate-5">
-                            <label for="rate-5" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-4">
-                            <label for="rate-4" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-3">
-                            <label for="rate-3" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-2">
-                            <label for="rate-2" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-1">
-                            <label for="rate-1" class="fa fa-star"></label>        
-                        </div>
-                    </div>
-                    <span class="num-of-ratings">(1867)</span>
-                </div>
-                <div class="price-of-course">
-                    <div class="promotional-price">199,000đ &nbsp;</div>
-                    <del class="price">1,200,000đ</del>
-                </div>
-            </div>
-
-            <div class="course-list">
-                <a href="/courses/watchVideos"><img src="img/courses-avt/2.png" class="thumbnail"></a>
-                <div class="course-info">
-                        <a href="/courses/watchVideos" class="course-name">Name of course</a>
-                        <p class="teacher-name">Name of teacher</p>
-                </div>
-                <div class="flex-div">
-                    <p class="avg-rating">4.0</p>
-                    <div id="rating">
-                        <div class="star-rating">
-                            <input type="radio" name="rate" id="rate-5">
-                            <label for="rate-5" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-4">
-                            <label for="rate-4" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-3">
-                            <label for="rate-3" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-2">
-                            <label for="rate-2" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-1">
-                            <label for="rate-1" class="fa fa-star"></label>        
-                        </div>
-                    </div>
-                    <span class="num-of-ratings">(1867)</span>
-                </div>
-                <div class="price-of-course">
-                    <div class="promotional-price">199,000đ &nbsp;</div>
-                    <del class="price">1,200,000đ</del>
-                </div>
-            </div>
-
-            <div class="course-list">
-                <a href="/courses/watchVideos"><img src="img/courses-avt/2.png" class="thumbnail"></a>
-                <div class="course-info">
-                        <a href="/courses/watchVideos" class="course-name">Name of course</a>
-                        <p class="teacher-name">Name of teacher</p>
-                </div>
-                <div class="flex-div">
-                    <p class="avg-rating">4.0</p>
-                    <div id="rating">
-                        <div class="star-rating">
-                            <input type="radio" name="rate" id="rate-5">
-                            <label for="rate-5" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-4">
-                            <label for="rate-4" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-3">
-                            <label for="rate-3" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-2">
-                            <label for="rate-2" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-1">
-                            <label for="rate-1" class="fa fa-star"></label>        
-                        </div>
-                    </div>
-                    <span class="num-of-ratings">(1867)</span>
-                </div>
-                <div class="price-of-course">
-                    <div class="promotional-price">199,000đ &nbsp;</div>
-                    <del class="price">1,200,000đ</del>
-                </div>
-            </div>
-        </div>
-
-        <h1 class="list-container-title">IT - Mobile Programming:</h1>
-        <div class="list-container">
-            <div class="course-list">
-                <a href="/courses/watchVideos"><img src="img/courses-avt/2.png" class="thumbnail"></a>
-                <div class="course-info">
-                        <a href="/courses/watchVideos" class="course-name">Name of course</a>
-                        <p class="teacher-name">Name of teacher</p>
-                </div>
-                <div class="flex-div">
-                    <p class="avg-rating">4.0</p>
-                    <div id="rating">
-                        <div class="star-rating">
-                            <input type="radio" name="rate" id="rate-5">
-                            <label for="rate-5" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-4">
-                            <label for="rate-4" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-3">
-                            <label for="rate-3" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-2">
-                            <label for="rate-2" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-1">
-                            <label for="rate-1" class="fa fa-star"></label>        
-                        </div>
-                    </div>
-                    <span class="num-of-ratings">(1867)</span>
-                </div>
-                <div class="price-of-course">
-                    <div class="promotional-price">199,000đ &nbsp;</div>
-                    <del class="price">1,200,000đ</del>
-                </div>
-            </div>
-
-            <div class="course-list">
-                <a href="/courses/watchVideos"><img src="img/courses-avt/2.png" class="thumbnail"></a>
-                <div class="course-info">
-                        <a href="/courses/watchVideos" class="course-name">Name of course</a>
-                        <p class="teacher-name">Name of teacher</p>
-                </div>
-                <div class="flex-div">
-                    <p class="avg-rating">4.0</p>
-                    <div id="rating">
-                        <div class="star-rating">
-                            <input type="radio" name="rate" id="rate-5">
-                            <label for="rate-5" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-4">
-                            <label for="rate-4" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-3">
-                            <label for="rate-3" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-2">
-                            <label for="rate-2" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-1">
-                            <label for="rate-1" class="fa fa-star"></label>        
-                        </div>
-                    </div>
-                    <span class="num-of-ratings">(1867)</span>
-                </div>
-                <div class="price-of-course">
-                    <div class="promotional-price">199,000đ &nbsp;</div>
-                    <del class="price">1,200,000đ</del>
-                </div>
-            </div>
-
-             <div class="course-list">
-                <a href="/courses/watchVideos"><img src="img/courses-avt/2.png" class="thumbnail"></a>
-                <div class="course-info">
-                        <a href="/courses/watchVideos" class="course-name">Name of course</a>
-                        <p class="teacher-name">Name of teacher</p>
-                </div>
-                <div class="flex-div">
-                    <p class="avg-rating">4.0</p>
-                    <div id="rating">
-                        <div class="star-rating">
-                            <input type="radio" name="rate" id="rate-5">
-                            <label for="rate-5" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-4">
-                            <label for="rate-4" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-3">
-                            <label for="rate-3" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-2">
-                            <label for="rate-2" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-1">
-                            <label for="rate-1" class="fa fa-star"></label>        
-                        </div>
-                    </div>
-                    <span class="num-of-ratings">(1867)</span>
-                </div>
-                <div class="price-of-course">
-                    <div class="promotional-price">199,000đ &nbsp;</div>
-                    <del class="price">1,200,000đ</del>
-                </div>
-            </div>
-
-             <div class="course-list">
-                <a href="/courses/watchVideos"><img src="img/courses-avt/2.png" class="thumbnail"></a>
-                <div class="course-info">
-                        <a href="/courses/watchVideos" class="course-name">Name of course</a>
-                        <p class="teacher-name">Name of teacher</p>
-                </div>
-                <div class="flex-div">
-                    <p class="avg-rating">4.0</p>
-                    <div id="rating">
-                        <div class="star-rating">
-                            <input type="radio" name="rate" id="rate-5">
-                            <label for="rate-5" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-4">
-                            <label for="rate-4" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-3">
-                            <label for="rate-3" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-2">
-                            <label for="rate-2" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-1">
-                            <label for="rate-1" class="fa fa-star"></label>        
-                        </div>
-                    </div>
-                    <span class="num-of-ratings">(1867)</span>
-                </div>
-                <div class="price-of-course">
-                    <div class="promotional-price">199,000đ &nbsp;</div>
-                    <del class="price">1,200,000đ</del>
-                </div>
-            </div>
-        </div>
-
-        <h1 class="list-container-title">Other field:</h1>
-        <div class="list-container">
-             <div class="course-list">
-                <a href="/courses/watchVideos"><img src="img/courses-avt/2.png" class="thumbnail"></a>
-                <div class="course-info">
-                        <a href="/courses/watchVideos" class="course-name">Name of course</a>
-                        <p class="teacher-name">Name of teacher</p>
-                </div>
-                <div class="flex-div">
-                    <p class="avg-rating">4.0</p>
-                    <div id="rating">
-                        <div class="star-rating">
-                            <input type="radio" name="rate" id="rate-5">
-                            <label for="rate-5" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-4">
-                            <label for="rate-4" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-3">
-                            <label for="rate-3" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-2">
-                            <label for="rate-2" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-1">
-                            <label for="rate-1" class="fa fa-star"></label>        
-                        </div>
-                    </div>
-                    <span class="num-of-ratings">(1867)</span>
-                </div>
-                <div class="price-of-course">
-                    <div class="promotional-price">199,000đ &nbsp;</div>
-                    <del class="price">1,200,000đ</del>
-                </div>
-            </div>
-
-             <div class="course-list">
-                <a href="/courses/watchVideos"><img src="img/courses-avt/2.png" class="thumbnail"></a>
-                <div class="course-info">
-                        <a href="/courses/watchVideos" class="course-name">Name of course</a>
-                        <p class="teacher-name">Name of teacher</p>
-                </div>
-                <div class="flex-div">
-                    <p class="avg-rating">4.0</p>
-                    <div id="rating">
-                        <div class="star-rating">
-                            <input type="radio" name="rate" id="rate-5">
-                            <label for="rate-5" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-4">
-                            <label for="rate-4" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-3">
-                            <label for="rate-3" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-2">
-                            <label for="rate-2" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-1">
-                            <label for="rate-1" class="fa fa-star"></label>        
-                        </div>
-                    </div>
-                    <span class="num-of-ratings">(1867)</span>
-                </div>
-                <div class="price-of-course">
-                    <div class="promotional-price">199,000đ &nbsp;</div>
-                    <del class="price">1,200,000đ</del>
-                </div>
-            </div>
-
-             <div class="course-list">
-                <a href="/courses/watchVideos"><img src="img/courses-avt/2.png" class="thumbnail"></a>
-                <div class="course-info">
-                        <a href="/courses/watchVideos" class="course-name">Name of course</a>
-                        <p class="teacher-name">Name of teacher</p>
-                </div>
-                <div class="flex-div">
-                    <p class="avg-rating">4.0</p>
-                    <div id="rating">
-                        <div class="star-rating">
-                            <input type="radio" name="rate" id="rate-5">
-                            <label for="rate-5" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-4">
-                            <label for="rate-4" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-3">
-                            <label for="rate-3" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-2">
-                            <label for="rate-2" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-1">
-                            <label for="rate-1" class="fa fa-star"></label>        
-                        </div>
-                    </div>
-                    <span class="num-of-ratings">(1867)</span>
-                </div>
-                <div class="price-of-course">
-                    <div class="promotional-price">199,000đ &nbsp;</div>
-                    <del class="price">1,200,000đ</del>
-                </div>
-            </div>
-
-             <div class="course-list">
-                <a href="/courses/watchVideos"><img src="img/courses-avt/2.png" class="thumbnail"></a>
-                <div class="course-info">
-                        <a href="/courses/watchVideos" class="course-name">Name of course</a>
-                        <p class="teacher-name">Name of teacher</p>
-                </div>
-                <div class="flex-div">
-                    <p class="avg-rating">4.0</p>
-                    <div id="rating">
-                        <div class="star-rating">
-                            <input type="radio" name="rate" id="rate-5">
-                            <label for="rate-5" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-4">
-                            <label for="rate-4" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-3">
-                            <label for="rate-3" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-2">
-                            <label for="rate-2" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-1">
-                            <label for="rate-1" class="fa fa-star"></label>        
-                        </div>
-                    </div>
-                    <span class="num-of-ratings">(1867)</span>
-                </div>
-                <div class="price-of-course">
-                    <div class="promotional-price">199,000đ &nbsp;</div>
-                    <del class="price">1,200,000đ</del>
-                </div>
-            </div>
+                {{/each}}
+            {{/if}}
         </div>
     </div>
 </section>
 
 {{#section 'js'}}
     <script>
-       
+    let Btn = document.querySelectorAll('.watchList-btn');
+
+    Btn.forEach(btn => {
+        btn.onclick = () => {
+            btn.classList.add('clicked');
+        }
+    });
     </script>
 {{/section}}

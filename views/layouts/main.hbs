@@ -29,31 +29,47 @@
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <!-- Template Main CSS File -->
   <link rel="stylesheet" href="/css/style.css">
-   <link rel="stylesheet" href="/css/teacherHome.css">
+  <link rel="stylesheet" href="/css/teacherHome.css">
+  <link rel="stylesheet" href="/css/courseDetails.css">
 </head>
 
 <body>
   <!-- ======= Header ======= -->
   <header id="header" class="fixed-top d-flex align-items-center justify-content-between">
     <div class="container d-flex align-items-center">
-      <button style="border: none; outline: none" onclick="change()"><h1 class="logo me-auto">Academy</h1></button>
+      <h1 class="logo me-auto"><a href="/">Academy</a></h1>
       <nav class="navbar order-last order-lg-0">
         <ul>
           <li class="dropdown"><a href="#"><span>Categories</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
-              <li><a href="#">Drop Down 1</a></li>
-              <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
+              <li class="dropdown"><a href="#"><span>Development</span> <i class="bi bi-chevron-right"></i></a>
                 <ul>
-                  <li><a href="#">Deep Drop Down 1</a></li>
-                  <li><a href="#">Deep Drop Down 2</a></li>
-                  <li><a href="#">Deep Drop Down 3</a></li>
-                  <li><a href="#">Deep Drop Down 4</a></li>
-                  <li><a href="#">Deep Drop Down 5</a></li>
+                  <li><a href="#">Web Development</a></li>
+                  <li><a href="#">Mobile Development</a></li>
+                  <li><a href="#">Data Science</a></li>
                 </ul>
               </li>
-              <li><a href="#">Drop Down 2</a></li>
-              <li><a href="#">Drop Down 3</a></li>
-              <li><a href="#">Drop Down 4</a></li>
+              <li class="dropdown"><a href="#"><span>Business</span> <i class="bi bi-chevron-right"></i></a>
+                <ul>
+                  <li><a href="#">Communication</a></li>
+                  <li><a href="#">Management</a></li>
+                  <li><a href="#">Sales</a></li>
+                </ul>
+              </li>
+              <li class="dropdown"><a href="#"><span>Marketing</span> <i class="bi bi-chevron-right"></i></a>
+                <ul>
+                  <li><a href="#">Digital Marketing</a></li>
+                  <li><a href="#">Product Marketing</a></li>
+                  <li><a href="#">Other Marketing</a></li>
+                </ul>
+              </li>
+              <li class="dropdown"><a href="#"><span>Design</span> <i class="bi bi-chevron-right"></i></a>
+                <ul>
+                  <li><a href="#">Web Design</a></li>
+                  <li><a href="#">Game Design</a></li>
+                  <li><a href="#">Architectural Design</a></li>
+                </ul>
+              </li>
             </ul>
           </li>
         </ul>
@@ -70,7 +86,6 @@
         <ul>
           <li><a class="nav-link scrollto" href="/">Home</a></li>
           <li><a class="nav-link scrollto" href="#">My learning</a></li>
-          <li><a class="nav-link scrollto" href="#">Learning history</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
@@ -111,7 +126,7 @@
           <ul class="nav flex-column" style="position: relative;">
               <li class="nav-item sideBar-item">
                   <a class="nav-link" href="/teacher/edit">
-                  <i class="bi bi-person-circle"></i> Edit acount
+                  <i class="bi bi-person-circle"></i> Edit account
                   </a>
               </li>
               <li class="nav-item sideBar-item">
@@ -200,30 +215,12 @@
   <script src="/js/main.js"></script>
 
   <script>
-  let subMenu = document.getElementById("subMenu");
+    let subMenu = document.getElementById("subMenu");
 
-  function toggleMenu() {
-    subMenu.classList.toggle("open-menu");
-  }
+    function toggleMenu() {
+      subMenu.classList.toggle("open-menu");
+    }
   </script>
-  <script>
-    let open = false;
-    
-    function change(){
-        open = !open;
-        if (open) sb_open();
-        else sb_close();
-    }
-
-    function sb_open() {
-        document.getElementById("main").style.marginLeft = "18%";
-        document.getElementById("sideBar").style.display = "block";
-    }
-    function sb_close() {
-        document.getElementById("main").style.marginLeft = "0%";
-        document.getElementById("sideBar").style.display = "none";
-    }
-  </script>   
 
   {{{_sections.js}}}
 </body>

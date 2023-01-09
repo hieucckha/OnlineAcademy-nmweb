@@ -1,113 +1,48 @@
 <section id="courses-view">
-    <div class="container">
-        <h1 class="list-container-title">IT - Web Programming:</h1>
-        <div class="list-container">
-        
-        </div>
-
-        <h1 class="list-container-title">IT - Mobile Programming:</h1>
-        <div class="list-container">
-            
-        </div>
-
-        <h1 class="list-container-title">Other field:</h1>
-        <div class="list-container">
-             
+    <h1 class="list-container-title">My Enrolled Courses:</h1>
+    <div class="container">    
+        {{#if this.empty}}
+            <h2 class="message">You are not currently enrolled in any courses</h2>
+        {{else}}
+            <div class="list-container">
+                {{#each this.myCourses}}
+                    <div class="course-list">
+                            <a href="/courses/courseDetails?courseId={{courseId}}"><img src="{{image}}" class="thumbnail"></a>
+                            <div class="course-info">
+                                    <a href="/courses/courseDetails?courseId={{courseId}}" class="course-name">{{title}}</a>
+                                    <p class="teacher-name">Teacher name</p>
+                            </div>
+                            <div class="flex-div">
+                                <p class="avg-rating">{{rating}}</p>
+                                <div id="rating">
+                                    <div class="star-rating">
+                                        <input type="radio" name="rate" id="rate-5">
+                                        <label for="rate-5" class="fa fa-star"></label>
+                                        <input type="radio" name="rate" id="rate-4">
+                                        <label for="rate-4" class="fa fa-star"></label>
+                                        <input type="radio" name="rate" id="rate-3">
+                                        <label for="rate-3" class="fa fa-star"></label>
+                                        <input type="radio" name="rate" id="rate-2">
+                                        <label for="rate-2" class="fa fa-star"></label>
+                                        <input type="radio" name="rate" id="rate-1">
+                                        <label for="rate-1" class="fa fa-star"></label>        
+                                    </div>
+                                </div>
+                                <span class="num-of-ratings">({{numRating}})</span>
+                            </div>
+                            <div class="price-of-course">
+                                <div class="promotional-price">{{format_number discount}}đ &nbsp;</div>
+                                <del class="price">{{format_number price}}đ</del>
+                            </div>
+                        </div>
+                {{/each}}
+            {{/if}}
         </div>
     </div>
 </section>
 
 {{#section 'js'}}
     <script>
-        const course_list = document.querySelectorAll('.container .list-container');
-
-        let data = [
-            {
-                'course_id': 'a20f47ba-62e3-44e8-89e9-43a5e95d56ec',
-                'course_title': 'Javascript for Beginners',
-                'category_id': '2768ad04-9b70-4b0c-8cf3-9ef5763cf5d2',
-                'image': 'img/courses/a20f47ba-62e3-44e8-89e9-43a5e95d56ec.jpg',
-                'b_description': 'Learn javascript online and supercharge your web design with this Javascript for beginners training course.',
-                'price': '1799000',
-                'discount': '0',
-                'rating': '4.5',
-                'num_rating': '1234',
-                'teacher: John Cena',
-            },
-            {
-                'course_id': 'a20f47ba-62e3-44e8-89e9-43a5e95d56ec',
-                'course_title': 'Javascript for Beginners',
-                'category_id': '2768ad04-9b70-4b0c-8cf3-9ef5763cf5d2',
-                'image': 'img/courses/a20f47ba-62e3-44e8-89e9-43a5e95d56ec.jpg',
-                'b_description': 'Learn javascript online and supercharge your web design with this Javascript for beginners training course.',
-                'price': '1799000',
-                'discount': '0',
-                'rating': '4.5',
-                'num_rating': '1234',
-                'teacher: John Cena',
-            },
-            {
-                'course_id': 'a20f47ba-62e3-44e8-89e9-43a5e95d56ec',
-                'course_title': 'Javascript for Beginners',
-                'category_id': '2768ad04-9b70-4b0c-8cf3-9ef5763cf5d2',
-                'image': 'img/courses/a20f47ba-62e3-44e8-89e9-43a5e95d56ec.jpg',
-                'b_description': 'Learn javascript online and supercharge your web design with this Javascript for beginners training course.',
-                'price': '1799000',
-                'discount': '0',
-                'rating': '4.5',
-                'num_rating': '1234',
-                'teacher: John Cena',
-            },
-
-            {
-                'course_id': 'a20f47ba-62e3-44e8-89e9-43a5e95d56ec',
-                'course_title': 'Javascript for Beginners',
-                'category_id': '2768ad04-9b70-4b0c-8cf3-9ef5763cf5d2',
-                'image': 'img/courses/a20f47ba-62e3-44e8-89e9-43a5e95d56ec.jpg',
-                'b_description': 'Learn javascript online and supercharge your web design with this Javascript for beginners training course.',
-                'price': '1799000',
-                'discount': '0',
-                'rating': '4.5',
-                'num_rating': '1234',
-                'teacher: John Cena',
-            },
-        ];
-
-        data.forEach((course, i) => {
-            let course_element = `
-                        <div class="course-list" data-id="${course.course_id}">
-                        <a href="/courses/watchVideos"><img src="${course.image}" class="thumbnail"></a>
-                        <div class="course-info">
-                                <a href="/courses/watchVideos" class="course-name">Name of course</a>
-                                <p class="teacher-name">Name of teacher</p>
-                        </div>
-                        <div class="flex-div">
-                            <p class="avg-rating">${course.rating}</p>
-                            <div id="rating">
-                                <div class="star-rating">
-                                    <input type="radio" name="rate" id="rate-5">
-                                    <label for="rate-5" class="fa fa-star"></label>
-                                    <input type="radio" name="rate" id="rate-4">
-                                    <label for="rate-4" class="fa fa-star"></label>
-                                    <input type="radio" name="rate" id="rate-3">
-                                    <label for="rate-3" class="fa fa-star"></label>
-                                    <input type="radio" name="rate" id="rate-2">
-                                    <label for="rate-2" class="fa fa-star"></label>
-                                    <input type="radio" name="rate" id="rate-1">
-                                    <label for="rate-1" class="fa fa-star"></label>        
-                                </div>
-                            </div>
-                            <span class="num-of-ratings">(${course.num_rating})</span>
-                        </div>
-                        <div class="price-of-course">
-                            <div class="promotional-price">${course.discount}đ &nbsp;</div>
-                            <del class="price">${course.price}đ</del>
-                        </div>
-                    </div>
-            `;
-            course_list[0].innerHTML += course_element;
-            course_list[1].innerHTML += course_element;
-            course_list[2].innerHTML += course_element;
-        });
+        
     </script>
 {{/section}}

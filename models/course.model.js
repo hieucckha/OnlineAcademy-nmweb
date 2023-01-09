@@ -14,7 +14,7 @@ export default class Course {
     numRating,
     createBy,
     createAt,
-    updateAt
+    updateAt,
   ) {
     this.courseId = courseId;
     this.title = title;
