@@ -11,8 +11,8 @@
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="img/academy_favicon.png" rel="icon">
-  <link href="img/academy_apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="/img/academy_favicon.png" rel="icon">
+  <link href="/img/academy_apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
@@ -77,11 +77,11 @@
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
 
-      <img src="img/user.png" class="user-pic" onclick="toggleMenu()"></img>
+      <img src="/img/user.png" class="user-pic" onclick="toggleMenu()"></img>
       <div class="sub-menu-wrap" id="subMenu">
         <div class="sub-menu">
           <div class="user-info">
-            <img src="img/user.png">
+            <img src="/img/user.png">
             <h3>User Name</h3>
           </div>
           <hr>
@@ -90,14 +90,14 @@
             <p>Edit Profile</p>
           </a>
 
-          <a href="/courses/myCourses" class="sub-menu-link">
+          <a href="/teacher/new/course" class="sub-menu-link">
             <i class="bi bi-collection-play"></i>
-            <p>My Courses</p>
+            <p>Post a new course</p>
           </a>
 
-          <a href="/courses/watchList" class="sub-menu-link">
+          <a href="/teacher/edit/course" class="sub-menu-link">
             <i class="bi bi-postcard-heart"></i>
-            <p>Watch List</p>
+            <p>Edit my course</p>
           </a>
           <a href="#" class="sub-menu-link">
             <i class="bi bi-box-arrow-right"></i>
@@ -107,29 +107,6 @@
       </div>
     </div>
   </header><!-- End Header -->
-  <div id = "sideBar" class="w3-animate-left" style="display: none;">
-      <nav class="col-md-2 d-none d-md-block bg-light shadow-sm" style="height: 100%; position:absolute; display:block">
-          <ul class="nav flex-column" style="position: relative;">
-              <li class="nav-item sideBar-item">
-                  <a class="nav-link" href="/teacher/edit">
-                  <i class="bi bi-person-circle"></i> Edit acount
-                  </a>
-              </li>
-              <li class="nav-item sideBar-item">
-                  <a class="nav-link" href="/teacher/new/course">
-                  <i class="bi bi-book"></i> Post new course
-                  </a>
-              </li>
-              <li class="nav-item sideBar-item">
-                  <a class="nav-link" href="/teacher/edit/course">
-                  <i class="bi bi-bookmark-heart"></i> Edit course
-                  </a>
-              </li>
-              
-          </ul>
-      </nav>
-  </div>
-
   <div id ="main" style="margin-left: 0%;">
     {{{body}}}
   </div>
@@ -207,26 +184,6 @@
       subMenu.classList.toggle("open-menu");
     }
   </script>
-  <script>
-    let open = false;
-    
-    function change(){
-        open = !open;
-        if (open) sb_open();
-        else sb_close();
-    }
-
-    function sb_open() {
-        document.getElementById("main").style.marginLeft = "18%";
-        document.getElementById("sideBar").style.display = "block";
-    }
-    function sb_close() {
-        document.getElementById("main").style.marginLeft = "0%";
-        document.getElementById("sideBar").style.display = "none";
-    }
-  </script>
-  
-
   {{{_sections.js}}}
 </body>
 </html>
