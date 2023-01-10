@@ -199,7 +199,7 @@ export default {
 
         return null;
     },
-    searchCourse: async (keyWord, page) => {
+    searchCourseByname: async (keyWord, page) => {
         try {
             const sql = `
                 SELECT course_id,
@@ -224,7 +224,7 @@ export default {
 
             const result = await db.manyOrNone(sql, [key, offset, COURSE_PER_PAGE]);
 
-            if (result.length != 0) {
+            if (result.length !== 0) {
                 const listCourse = [];
 
                 for (let course of result) {
@@ -264,7 +264,7 @@ export default {
                 FROM courses
                 WHERE status != 2
                   AND textsearchable_index_col @@ to_tsquery($1)
-                ORDER BY rating desc
+                ORDER BY rating DESC
                 LIMIT $3 OFFSET $2`;
 
             const key = keyWord.split(' ').join(' & ');
@@ -275,6 +275,106 @@ export default {
             const result = await db.manyOrNone(sql, [key, offset, COURSE_PER_PAGE]);
 
             if (result.length != 0) {
+                const listCourse = [];
+
+                for (let course of result) {
+                    const tmp = new Course();
+
+                    tmp.courseId = course.course_id;
+                    tmp.title = course.course_title;
+                    tmp.image = course.image;
+                    tmp.bDescription = course.b_description;
+                    tmp.createBy = course.create_by;
+                    tmp.numRating = course.num_rating;
+                    tmp.price = course.price;
+                    tmp.discount = course.discount;
+
+                    listCourse.push(tmp);
+                }
+
+                return listCourse;
+            }
+        } catch (err) {
+            console.log(err);
+        }
+        return null;
+    },
+    searchCourseRatingAsc: async (keyWord, page) => {
+        try {
+            const sql = `
+                SELECT course_id,
+                       course_title,
+                       image,
+                       b_description,
+                       create_by,
+                       rating,
+                       num_rating,
+                       price,
+                       discount
+                FROM courses
+                WHERE status != 2
+                  AND textsearchable_index_col @@ to_tsquery($1)
+                ORDER BY rating ASC 
+                LIMIT $3 OFFSET $2`;
+
+            const key = keyWord.split(' ').join(' & ');
+
+            const COURSE_PER_PAGE = 10;
+            const offset = (page - 1) * COURSE_PER_PAGE;
+
+            const result = await db.manyOrNone(sql, [key, offset, COURSE_PER_PAGE]);
+
+            if (result.length !== 0) {
+                const listCourse = [];
+
+                for (let course of result) {
+                    const tmp = new Course();
+
+                    tmp.courseId = course.course_id;
+                    tmp.title = course.course_title;
+                    tmp.image = course.image;
+                    tmp.bDescription = course.b_description;
+                    tmp.createBy = course.create_by;
+                    tmp.numRating = course.num_rating;
+                    tmp.price = course.price;
+                    tmp.discount = course.discount;
+
+                    listCourse.push(tmp);
+                }
+
+                return listCourse;
+            }
+        } catch (err) {
+            console.log(err);
+        }
+        return null;
+    },
+    searchCoursePriceDesc: async (keyWord, page) => {
+        try {
+            const sql = `
+                SELECT course_id,
+                       course_title,
+                       image,
+                       b_description,
+                       create_by,
+                       rating,
+                       num_rating,
+                       price,
+                       discount
+                FROM courses
+                WHERE status != 2
+                  AND textsearchable_index_col @@ to_tsquery($1)
+                ORDER BY price DESC
+                LIMIT $3 OFFSET $2`;
+
+            const key = keyWord.split(' ').join(' & ');
+
+            const COURSE_PER_PAGE = 10;
+            const offset = (page - 1) * COURSE_PER_PAGE;
+
+            const result = await db.manyOrNone(sql, [key, offset, COURSE_PER_PAGE]);
+
+            if (result.length !== 0) {
                 const listCourse = [];
 
                 for (let course of result) {
@@ -324,7 +424,7 @@ export default {
 
             const result = await db.manyOrNone(sql, [key, offset, COURSE_PER_PAGE]);
 
-            if (result.length != 0) {
+            if (result.length !== 0) {
                 const listCourse = [];
 
                 for (let course of result) {
