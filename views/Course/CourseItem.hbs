@@ -1,0 +1,41 @@
+<div class="product-item">
+    <div class="product-image">
+        <a href="{{Course.Link}}">
+            <img src="{{Course.Image}}" alt="{{Course.Name}}">
+        </a>
+    </div>
+    <div class="product-title">
+        <a href="{{Course.Link}}" style="text-align: left
+        !important;">
+            <p class="text-white m-0" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                {{Course.Name}} </p>
+            <p class="text-white m-0">{{Course.Category}}</p>
+            <p class="text-white m-0">{{Course.Teacher}}</p>
+        </a>
+
+        <div style="text-align: left">
+            <span class="font-weight-bold text-white">{{Cource.Rating}}/5.0</span>
+            <span class="font-weight-bold">({{Course.NumberOfStudents}} students)</span>
+            {{#if isBestseller}}
+            <span style="border: solid 2px !important; font-size: 12px; font-family: 'Open Sans', sans-serif"
+                class="rounded border-warning text-warning p-1 mx-1">
+                Bestseller
+            </span>
+            {{/if}}
+        </div>
+    </div>
+    <div class="product-price">
+        {{#if isDiscount}}
+        <h3>
+            <p class="card-title text-danger">{{Cource.discountPrice}} VND</p>
+        </h3>
+        <h4>
+            <p class="card-text text-muted">{{Cource.Price}} VND</p>
+        </h4>
+        {{else}}
+        <h3>
+            <p class="card-text">{{Cource.Price}} VND</p>
+        </h3>
+        {{/if}}
+    </div>
+</div>
