@@ -22,6 +22,78 @@ export default {
             result.category_title
         );
     },
+    getListCateLevel1: async () => {
+        const sql = `
+            SELECT category_id, category_parent, category_title
+            FROM categories
+            WHERE category_parent IS NULL
+        `;
+
+        const result = await db.manyOrNone(sql, []);
+
+        if (result.length === 0) return null;
+        else {
+            const listCategory = [];
+
+            for (const category of result) {
+                listCategory.push(new Category(
+                    category.category_id,
+                    category.category_parent,
+                    category.category_title
+                ));
+            }
+
+            return listCategory
+        }
+    },
+    getListCateLevel2: async () => {
+        const sql = `
+            SELECT category_id, category_parent, category_title
+            FROM categories
+            WHERE category_parent IS NOT NULL
+        `;
+
+        const result = await db.manyOrNone(sql, []);
+
+        if (result === null) return null;
+        else {
+            const listCategory = [];
+
+            for (const category of result) {
+                listCategory.push(new Category(
+                    category.category_id,
+                    category.category_parent,
+                    category.category_title
+                ));
+            }
+
+            return listCategory
+        }
+    },
+    getListCateLevel2ByLevel1: async (id) => {
+        const sql = `
+            SELECT category_id, category_parent, category_title
+            FROM categories
+            WHERE category_parent = $1
+        `;
+
+        const result = await db.manyOrNone(sql, [id]);
+
+        if (result === null) return null;
+        else {
+            const listCategory = [];
+
+            for (const category of result) {
+                listCategory.push(new Category(
+                    category.category_id,
+                    category.category_parent,
+                    category.category_title
+                ));
+            }
+
+            return listCategory
+        }
+    },
     getList: async () => {
         const sql = `
             SELECT category_id, category_parent, category_title
