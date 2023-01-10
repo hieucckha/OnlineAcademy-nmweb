@@ -36,6 +36,15 @@ router.get('/edit/course/:id', (req, res) => {
     layout: 'teacher.hbs'
   });
 });
+router.get('/edit/profile/', (req, res)=>{
+  res.render('teacher/editAccount',
+      {
+        layout: 'teacher.hbs'
+      }
+      );
+})
+
+
 router.post('/new/course', async (req, res)=>{
   const teacherID = 'd172436b-5020-4b34-8827-6ebd041d5474';
   console.log(req.body);
