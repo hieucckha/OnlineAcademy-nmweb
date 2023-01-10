@@ -1,43 +1,106 @@
 <section id="course-details">
-    {{#each this.course}}
-        <div class="header">
-            <h1 class="course-title">Course Details:</h1>
-            <h3></h3>
+    <div class="header">
+        <div class="hContainer">
+            <h1 class="course-title">{{this.course.title}}</h1>
+            <h3 class="bDescription">{{this.course.bDescription}}</h3>
+            <div class="flex-div">
+                <p class="avg-rating">{{this.course.rating}}</p>
+                <div id="rating">
+                    <div class="star-rating">
+                        <input type="radio" name="rate" id="rate-5">
+                        <label for="rate-5" class="fa fa-star"></label>
+                        <input type="radio" name="rate" id="rate-4">
+                        <label for="rate-4" class="fa fa-star"></label>
+                        <input type="radio" name="rate" id="rate-3">
+                        <label for="rate-3" class="fa fa-star"></label>
+                        <input type="radio" name="rate" id="rate-2">
+                        <label for="rate-2" class="fa fa-star"></label>
+                        <input type="radio" name="rate" id="rate-1">
+                        <label for="rate-1" class="fa fa-star"></label>        
+                    </div>
+                </div>
+                <a href="#course-rating" class="num-of-ratings">({{this.course.numRating}})</a>
+                <p class="num-enroll">{{format_number this.course.numEnroll}} students</p>
+            </div>
+            <p class="created-by">Created by &nbsp;<a href="#instructor">{{this.instructor.firstName}} {{this.instructor.lastName}}</a></p>
         </div>
-        <div class="container">
-            <div class="list-container">
-                <div class="course-list">
-                    <a href="/courses/watchVideos"><img src="{{image}}" class="thumbnail"></a>
-                    <div class="course-info">
-                            <a href="/courses/watchVideos" class="course-name">{{title}}</a>
-                            <p class="teacher-name">Teacher name</p>
-                    </div>
-                    <div class="flex-div">
-                        <p class="avg-rating">{{rating}}</p>
-                        <div id="rating">
-                            <div class="star-rating">
-                                <input type="radio" name="rate" id="rate-5">
-                                <label for="rate-5" class="fa fa-star"></label>
-                                <input type="radio" name="rate" id="rate-4">
-                                <label for="rate-4" class="fa fa-star"></label>
-                                <input type="radio" name="rate" id="rate-3">
-                                <label for="rate-3" class="fa fa-star"></label>
-                                <input type="radio" name="rate" id="rate-2">
-                                <label for="rate-2" class="fa fa-star"></label>
-                                <input type="radio" name="rate" id="rate-1">
-                                <label for="rate-1" class="fa fa-star"></label>        
-                            </div>
+    </div>
+    <div class="container">
+        <div class="information">
+            <h2 class="content-title">Description:</h2>
+            <p>{{{this.course.description}}}</p>
+
+            <h2 class="content-title">Course content:</h2>
+            <p>{{this.course.sectionList.length}} sections &#8226; {{this.numLecture}} lectures</p>
+            <div class="section-list">
+                <div class="section">
+                    {{#each this.course.sectionList}}
+                        <div class="section-info">
+                            <p class="section-name"><i class="bi bi-chevron-down"></i>&nbsp;&nbsp; {{sectionTitle}}</p>
+                            
+                            <p class="num-lectures">{{listLecture.length}} lecture(s)</p>
                         </div>
-                        <span class="num-of-ratings">({{numRating}})</span>
+                        <div class="lecture-list">
+                            {{#each listLecture}}
+                                <div class="lecture">
+                                    <div>
+                                        <i class="bi bi-play-circle-fill"></i>
+                                        <a href="#" class="lecture-name">{{lectureTitle}}</a>
+                                    </div>
+                                    <p class="time">4:01</p>
+                                </div>
+                            {{/each}}
+                        </div>
+                    {{/each}}
+                </div>
+            </div>
+
+            <h2 id="instructor" class="content-title">Instructor:</h2>
+            <div class="instructor-info">
+                <p class="instructor-name">
+                    {{this.instructor.firstName}} {{this.instructor.lastName}}
+                </p>
+                <p class="instructor-email">Email: {{this.instructor.email}}</p>
+                <div class="instructor-flex-div">
+                    <img src="{{this.instructor.avatar}}">
+                    <div class="instructor-review">
+                        <p><i class="bi bi-star-fill"></i> 4.6 Instructor Rating</p>
+                        <p><i class="bi bi-award-fill"></i></i> 243,670 Reviews</p>
+                        <p><i class="bi bi-people-fill"></i>953,888 Students</p>
+                        <p><i class="bi bi-play-circle-fill"></i> 26 Courses</p>
                     </div>
-                    <div class="price-of-course">
-                        <div class="promotional-price">{{format_number discount}}đ &nbsp;</div>
-                        <del class="price">{{format_number price}}đ</del>
-                    </div>
+                </div>
+                <div class="about">
+                    <p class="instructor-caption">
+                        {{{this.instructor.caption}}}
+                    </p>
+                    <p class="instructor-bio">
+                        {{{this.instructor.biography}}}
+                    </p>
+                </div>
+            </div>
+
+            <h2 id="course-rating" class="content-title">Course Rating:</h2>
+
+
+        </div>
+        <div class="watch-video">
+            <div class="course-list">
+                <a href="/courses/watchVideos"><img src="{{this.course.image}}" class="thumbnail"></a>
+                <div class="course-info">
+                        <p class="course-name">{{this.course.title}}</p>
+                </div>
+                <div class="price-of-course">
+                    <div class="promotional-price">{{format_number this.course.discount}}đ &nbsp;</div>
+                    <del class="price">{{format_number this.course.price}}đ</del>
+                </div>
+                <div class="btn-div">
+                    <button type="button" class="btn-buy">Buy now</button>
+                    <button type="button" class="btn-add-to-wl"><i class="bi bi-heart"></i></button>
                 </div>
             </div>
         </div>
-    {{/each}}
+    </div>
 </section>
 
 {{#section 'js'}}

@@ -11,8 +11,8 @@
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="img/academy_favicon.png" rel="icon">
-  <link href="img/academy_apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="/img/academy_favicon.png" rel="icon">
+  <link href="/img/academy_apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
@@ -90,35 +90,40 @@
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
 
-      <img src="img/user.png" class="user-pic" onclick="toggleMenu()"></img>
-      <div class="sub-menu-wrap" id="subMenu">
-        <div class="sub-menu">
-          <div class="user-info">
-            <img src="img/user.png">
-            <h3>User Name</h3>
+      {{#if auth}}
+        <img src="/img/user.png" class="user-pic" onclick="toggleMenu()"></img>
+        <div class="sub-menu-wrap" id="subMenu">
+          <div class="sub-menu">
+            <div class="user-info">
+              <img src="/img/user.png">
+              <h3>User Name</h3>
+            </div>
+            <hr>
+            <a href="/account/profile" class="sub-menu-link">
+              <i class="bi bi-person-fill"></i> 
+              <p>Edit Profile</p>
+            </a>
+
+            <a href="/courses/myCourses" class="sub-menu-link">
+              <i class="bi bi-collection-play"></i>
+              <p>My Courses</p>
+            </a>
+
+            <a href="/courses/watchList" class="sub-menu-link">
+              <i class="bi bi-postcard-heart"></i>
+              <p>Watch List</p>
+            </a>
+            
+            <form id="formLogout" action="/account/logout" method="post"></form>
+            <a href="javascript: $('#formLogout').submit();" class="sub-menu-link">
+              <i class="bi bi-box-arrow-right"></i>
+              <p>Logout</p>
+            </a>
           </div>
-          <hr>
-          <a href="/account/profile" class="sub-menu-link">
-            <i class="bi bi-person-fill"></i> 
-            <p>Edit Profile</p>
-          </a>
-
-          <a href="/courses/myCourses" class="sub-menu-link">
-            <i class="bi bi-collection-play"></i>
-            <p>My Courses</p>
-          </a>
-
-          <a href="/courses/watchList" class="sub-menu-link">
-            <i class="bi bi-postcard-heart"></i>
-            <p>Watch List</p>
-          </a>
-          
-          <a href="#" class="sub-menu-link">
-            <i class="bi bi-box-arrow-right"></i>
-            <p>Logout</p>
-          </a>
         </div>
-      </div>
+      {{else}}
+        <a href="/account/login" class="login-btn scrollto">Login</a>
+      {{/if}}
     </div>
   </header><!-- End Header -->
   <div id = "sideBar" class="w3-animate-left" style="display: none;">
@@ -139,7 +144,6 @@
                   <i class="bi bi-bookmark-heart"></i> Edit course
                   </a>
               </li>
-              
           </ul>
       </nav>
   </div>

@@ -2,8 +2,8 @@ export default class Lecture {
   constructor(
     lectureId,
     sectionId,
-    lectureTitle,
     lectureOrder,
+    lectureTitle,
     description,
     source,
     length,
