@@ -465,46 +465,6 @@ export default {
 
         return null;
     },
-    getCourseById: async (courseId) => {
-        try {
-            const sql = `
-                SELECT *
-                FROM courses
-                WHERE course_id = $1
-            `;
-
-            const result = await db.manyOrNone(sql, [courseId]);
-
-            if (result.length != 0) {
-                const courses = [];
-
-                for (let course of result) {
-                    const tmp = new Course();
-
-                    tmp.courseId = course.course_id;
-                    tmp.title = course.course_title;
-                    tmp.categoryId = course.category_id;
-                    tmp.image = course.image;
-                    tmp.bDescription = course.b_description;
-                    tmp.description = course.description;
-                    tmp.status = course.status;
-                    tmp.rating = course.rating;
-                    tmp.numEnroll = course.num_enroll;
-                    tmp.numRating = course.num_rating;
-                    tmp.price = course.price;
-                    tmp.discount = course.discount;
-
-                    courses.push(tmp);
-                }
-
-                return courses;
-            }
-        } catch (err) {
-            console.log(err);
-        }
-
-        return null;
-    },
     insert: async (courseTitle, categoryId, image, bDescription, description, price, discount, status, createBy) => {
         try {
             const sql = `
