@@ -1,11 +1,12 @@
-import express, { Router } from 'express';
-import fs from 'fs';
+import express, {query, Router} from 'express';
 import userService from '../services/user.service.js';
-import courseModel from '../models/Course.model.js';
 import categoryService from "../services/category.service.js";
 import coursesService from "../services/courses.service.js";
-import sectionService from "../services/section.service.js";
 import lectureService from "../services/lecture.service.js";
+import fs from 'fs';
+import multer from "multer";
+import sharp from "sharp";
+import sectionService from "../services/section.service.js";
 
 const router = express.Router();
 
@@ -17,22 +18,30 @@ router.get('/', (req, res) => {
 });
 router.get('/new/course', async (req, res) => {
   const categoryList = await categoryService.getList();
-  res.render('teacher/newCourse', {
+  //const user = req.session.authUser;
+  const user = await userService.getById('d172436b-5020-4b34-8827-6ebd041d5474');
+  res.render('teacher/nCourse', {
     layout: 'teacher.hbs',
-    categoryList: categoryList
+    categoryList: categoryList,
+    user: user,
   });
 });
+
 router.get('/edit/course/', async (req, res) => {
-  const courseId = req.query.courseId;
+  const courseId = req.query.courseId
   const course = await coursesService.getFullCourse(courseId);
   const instructor = await userService.getById(course.createBy);
   let numLecture = 0;
-
-  for (let i = 0; i < course.sectionList.length; i++) {
-    if(course.sectionList[i].listLecture !== null)
-      for (let j = 0; j < course.sectionList[i].listLecture.length; j++) {
-        numLecture += 1;
-      }
+  if (course.sectionList) {
+    for (let i = 0; i < course.sectionList.length; i++) {
+      if (course.sectionList[i].listLecture !== null)
+        for (let j = 0; j < course.sectionList[i].listLecture.length; j++) {
+          numLecture += 1;
+        }
+    }
+  }
+  else {
+    course.sectionList = [];
   }
   if (course === null) {
     return res.redirect('/');
@@ -87,52 +96,222 @@ router.get('/course/mycourse', async (req,res)=>{
 });
 
 router.post('/new/course', async (req, res)=>{
-  const teacherID = 'd172436b-5020-4b34-8827-6ebd041d5474';
-  console.log(req.body);
-  if (req.body.categoryId === 'Choose...') return;
-  const Course = await coursesService.insert(
-      req.body.title,
-      req.body.categoryId,
-      req.body.image,
-      req.body.b_description,
-      req.body.description,
-      Number(req.body.Price),
-      Number(req.body.Discount),
-      0,
-      teacherID
-      );
-  let countSection = 0;
-  Object.keys(req.body).forEach(key=>{
-    if (key.includes('SectionName')) countSection = Math.max(countSection,Number(key.split('e')[2]));
+  const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, "./public/image");
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.originalname );
+    },
   });
-  for(let i=1;i<=countSection;i++) {
-    let countVideo = 0;
-    const sectionID = await sectionService.insert(i,req.body['SectionName'+i],Course.courseid);
-    Object.keys(req.body).forEach(key=>{
-      if (key.includes('videoName'+i.toString())) {
-        console.log(Number(key.split('e')[2]));
-        countVideo = Math.max(countVideo,Number(key.split('e')[2]));
-      }
-    });
-    countVideo = Number(countVideo.toString().slice(i.toString().length));
-    for (let j=0;j<=countVideo;j++) {
-      let isPreview = false;
-      if (req.body['isPreview' + i.toString() + j.toString()] !== undefined) isPreview = true;
-
-      const newLecture = {
-        sectionID: sectionID,
-        order: j,
-        nameVideo: req.body['videoName' + i.toString() + j.toString()],
-        desVideo: req.body['videoDes' + i.toString() + j.toString()],
-        inputFile: req.body['inputGroupFile' + i.toString() + j.toString()],
-        Length: 0,
-        isPreview: isPreview
-      };
-      await lectureService.insert(newLecture.sectionID, newLecture.order, newLecture.nameVideo, newLecture.desVideo,newLecture.inputFile,newLecture.length,newLecture.isPreview);
+  const upload = multer({ storage: storage });
+  upload.array("image", 1)(req, res, async function (err) {
+    if (err instanceof multer.MulterError) {
+      console.log(err);
+    } else if (err) {
+      console.error(err);
     }
-  }
-  res.render('teacher/newCourse',{
-    layout: 'teacher.hbs'
+    //const user = req.session.authUser;
+    const user = await userService.getById('d172436b-5020-4b34-8827-6ebd041d5474');
+    const newCourse = await coursesService.insert(req.body.title, req.body.categoryId, '', req.body.b_description, req.body.Description,0,0,0,user.userId);
+    res.redirect('/teacher/edit/course?courseId='+newCourse.courseid);
   });
 })
+
+router.post('/edit/course/newLecture', async (req, res, next) => {
+  const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, "./public/videos");
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.originalname);
+    },
+  });
+  const upload = multer({ storage: storage });
+  upload.single("imageFile")(req, res, async function (err) {
+    if (err instanceof multer.MulterError) {
+      console.log(err);
+    } else if (err) {
+      console.error(err);
+    }
+    //const user = req.session.authUser;
+    const courseId = req.body.courseId;
+    const file = req.file;
+    const oldPath = file.path.toString();
+    const newPath = oldPath.split(req.file.filename)[0] + req.body.courseId + '.mp4';
+    let lectureNum = (await lectureService.getAllFullLecture(req.body.sectionId)) || 0;
+    fs.rename(oldPath, newPath, function(err) {
+      if ( err ) console.log('ERROR: ' + err);
+    });
+    console.log(req.body.sectionId);
+    if (lectureNum !== 0) lectureNum = lectureNum.length;
+    const length = (req.file.size/(1248*1000/8))/3600;
+    await lectureService.insert(req.body.sectionId, lectureNum + 1, req.body.videoName, req.body.videoDes, newPath, length, req.body.isPreview || false);
+    res.redirect('/teacher/edit/course?courseId=' + courseId);
+  });
+});
+router.post('/edit/course/newSection', async (req, res)=>{
+  const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, "./public/image");
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.originalname );
+    },
+  });
+  const upload = multer({ storage: storage });
+  upload.array("image", 1)(req, res, async function (err) {
+    if (err instanceof multer.MulterError) {
+      console.log(err);
+    } else if (err) {
+      console.error(err);
+    }
+    //const user = req.session.authUser;
+    const user = await userService.getById('d172436b-5020-4b34-8827-6ebd041d5474');
+    let sectionNum = await sectionService.getAllFullSection(req.body.courseId) || 0;
+    if (sectionNum !== 0) sectionNum = sectionNum.length;
+    await sectionService.insert(sectionNum+1,req.body.sectionName,req.body.courseId);
+    res.redirect('/teacher/edit/course?courseId='+req.body.courseId);
+  });
+});
+router.post('/edit/course/name', async (req, res)=>{
+  const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, "./public/image");
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.originalname );
+    },
+  });
+  const upload = multer({ storage: storage });
+  upload.array("image", 1)(req, res, async function (err) {
+    if (err instanceof multer.MulterError) {
+      console.log(err);
+    } else if (err) {
+      console.error(err);
+    }
+    if (req.body.courseName <= 7) return;
+    //const user = req.session.authUser;
+    const user = await userService.getById('d172436b-5020-4b34-8827-6ebd041d5474');
+    const course = await coursesService.getFullCourse(req.body.courseId);
+    course.title = req.body.courseName;
+    await coursesService.update(req.body.courseId, course.title, course.image, course.bDescription, course.description, course.price, course.discount);
+
+    res.redirect('/teacher/edit/course?courseId='+req.body.courseId);
+  });
+});
+router.post('/edit/course/bDescription', async (req, res)=>{
+  const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, "./public/image");
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.originalname );
+    },
+  });
+  const upload = multer({ storage: storage });
+  upload.array("image", 1)(req, res, async function (err) {
+    if (err instanceof multer.MulterError) {
+      console.log(err);
+    } else if (err) {
+      console.error(err);
+    }
+    if (req.body.courseName <= 7) return;
+    //const user = req.session.authUser;
+    const user = await userService.getById('d172436b-5020-4b34-8827-6ebd041d5474');
+    const course = await coursesService.getFullCourse(req.body.courseId);
+    course.bDescription = req.body.bDescription;
+    await coursesService.update(req.body.courseId, course.title, course.image, course.bDescription, course.description, course.price, course.discount);
+
+    res.redirect('/teacher/edit/course?courseId='+req.body.courseId);
+  });
+});
+router.post('/edit/course/Description', async (req, res)=>{
+  const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, "./public/image");
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.originalname );
+    },
+  });
+  const upload = multer({ storage: storage });
+  upload.array("image", 1)(req, res, async function (err) {
+    if (err instanceof multer.MulterError) {
+      console.log(err);
+    } else if (err) {
+      console.error(err);
+    }
+    if (req.body.courseName <= 7) return;
+    //const user = req.session.authUser;
+    const user = await userService.getById('d172436b-5020-4b34-8827-6ebd041d5474');
+    const course = await coursesService.getFullCourse(req.body.courseId);
+    course.description = req.body.description;
+    await coursesService.update(req.body.courseId, course.title, course.image, course.bDescription, course.description, course.price, course.discount);
+
+    res.redirect('/teacher/edit/course?courseId='+req.body.courseId);
+  });
+});
+router.post('/edit/course/image', async (req, res)=>{
+  const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, "./public/img/courses");
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.originalname);
+    },
+  });
+  const upload = multer({ storage: storage });
+  upload.single("image")(req, res, async function (err) {
+    if (err instanceof multer.MulterError) {
+      console.log(err);
+    } else if (err) {
+      console.error(err);
+    }
+    //const user = req.session.authUser;
+    const courseId = req.body.courseId;
+    const file = req.file;
+    const oldPath = file.path.toString();
+    await sharp(file.path).resize(240, 135).toFile('./public/img/courses/' + req.body.courseId +'.jpg', function(err) {
+      if (err) {
+        console.error('sharp>>>', err)
+      }
+    });
+    const newPath = oldPath.split(req.file.filename)[0] + req.body.courseId + '.jpg';
+    const course = await coursesService.getFullCourse(req.body.courseId);
+    course.image = newPath.slice(7);
+    await coursesService.update(req.body.courseId, course.title, course.image, course.bDescription, course.description, course.price, course.discount);
+    res.redirect('/teacher/edit/course?courseId=' + courseId);
+  });
+});
+router.post('/edit/course/prices', async (req, res)=>{
+  const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, "./public/image");
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.originalname );
+    },
+  });
+  const upload = multer({ storage: storage });
+  upload.array("image", 1)(req, res, async function (err) {
+    if (err instanceof multer.MulterError) {
+      console.log(err);
+    } else if (err) {
+      console.error(err);
+    }
+    if (req.body.courseName <= 7) return;
+    //const user = req.session.authUser;
+    const user = await userService.getById('d172436b-5020-4b34-8827-6ebd041d5474');
+    const course = await coursesService.getFullCourse(req.body.courseId);
+    course.price = req.body.price;
+    course.discount = req.body.discount;
+    await coursesService.update(req.body.courseId, course.title, course.image, course.bDescription, course.description, course.price, course.discount);
+
+    res.redirect('/teacher/edit/course?courseId='+req.body.courseId);
+  });
+});
+
+
+
 export default router;

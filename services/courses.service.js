@@ -485,12 +485,11 @@ export default {
             const sql = `
                 UPDATE courses
                 SET course_title  = $2,
-                    category_id   = $3,
-                    image         = $4,
-                    b_description = $5,
-                    description   = $6,
-                    price         = $7,
-                    discount      = $9,
+                    image         = $3,
+                    b_description = $4,
+                    description   = $5,
+                    price         = $6,
+                    discount      = $7,
                     update_at     = current_timestamp
                 WHERE course_id = $1
                 RETURNING course_id

@@ -1,0 +1,37 @@
+<form style="margin-top: 100px; margin-bottom: calc(100vh - 40%);" method="post" enctype="multipart/form-data">
+    <div class="form-group" style="background-color: #636F7A;">
+        <label for="CourseName" style="padding: 30px; display: inline-block;">Course Name: </label>
+        <input type="text" class="form-control" name="title" id="CourseName" aria-describedby="helpId" style="width: 50%; margin-left: 10px; display: inline-block;">
+        <small id="helpId" class="form-text" style="color: white;">Lecturers: {{user.firstName}} {{user.lastName}}</small>
+    </div>
+    <div class = "shadow-sm" style="display: block; width:80%; margin-left: 10%;" id="Structure">
+        <hr>
+        <label for="Description">Description: </label>
+        <textarea class="form-control" name="Description" id="Description" style="width: 100%; height:200px;"></textarea>
+        <hr>
+        <label for="b_description" style="display: inline-block;">Short description</label>
+        <input type="text" name="b_description" id="b_description" class="form-control" placeholder="" aria-describedby="helpId" style="display: inline-block;">
+        <hr>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Course's type</label>
+            </div>
+            <select class="custom-select" id="inputGroupSelect01" name="categoryId">
+                <option selected>Choose...</option>
+                {{#each this.categoryList}}
+                    <option value="{{category_id}}">{{category_title}}</option>
+                {{/each}}
+            </select>
+        </div>
+    </div>
+    <div style="text-align: center"><button type="submit" class="btn btn-primary" style="display: inline-block; margin-right: 10px">Save</button></div>
+</form>
+{{#section 'js'}}
+    <script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script>
+    <script type="text/javascript">
+        bkLib.onDomLoaded(function() {
+            new nicEditor({maxHeight : 100}).panelInstance('Description');
+        });
+    </script>
+{{/section}}
+

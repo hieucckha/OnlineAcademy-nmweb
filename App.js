@@ -16,12 +16,12 @@ app.use(
     extended: true,
   })
 );
-
 activate_session(app);
 activate_view(app);
 activate_locals(app);
 activate_routes(app);
 activate_error_handlers(app);
+
 
 const PORT = 3000;
 app.listen(PORT, function () {
