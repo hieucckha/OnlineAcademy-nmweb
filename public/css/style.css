@@ -690,6 +690,7 @@ section {
 
 #courses-view .container {
   margin-top: 70px;
+  margin-bottom: 30px;
 }
 
 #courses-view .message {
@@ -759,6 +760,13 @@ section {
   display: block;
   margin-bottom: 7px ;
   margin-top: 5px;
+
+  display: block!important;
+  display: -webkit-box!important;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #courses-view .course-info .teacher-name {

@@ -26,9 +26,23 @@ router.post('/login', async function (req, res) {
   req.session.auth = true;
   req.session.authUser = user;
 
-  const url = req.session.retUrl || '/';
-  delete req.session.retUrl;
-  res.redirect(url);
+  if (user.role === '0') {
+    res.render('home', {
+      layout: 'admin.hbs'
+    });
+
+  } else if (user.role === '1') {
+    const url = req.session.retUrl || '/';
+    delete req.session.retUrl;
+    res.redirect(url, {
+      layout: 'teacher.hbs'
+    });
+    
+  } else {
+    const url = req.session.retUrl || '/';
+    delete req.session.retUrl;
+    res.redirect(url);
+  }
 });
 
 router.get('/signup', async function (req, res) {
@@ -39,7 +53,6 @@ router.get('/signup', async function (req, res) {
 
 router.post('/signup', async function (req, res) {
   
-
   if (req.body.role === '2') {
 
     await userService.createStudent(

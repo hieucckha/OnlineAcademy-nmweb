@@ -3,7 +3,6 @@ import watchListService from "../services/watch_list.service.js";
 import enrollmentsService from "../services/enrollments.service.js";
 import userService from "../services/user.service.js";
 import coursesService from "../services/courses.service.js";
-import categoryService from "../services/category.service.js";
 
 (async () => {
     // 1

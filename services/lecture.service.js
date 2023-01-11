@@ -47,7 +47,7 @@ export default {
 
             const result = await db.manyOrNone(sql, [sectionId]);
 
-            if (result.length !== 0) {
+            if (result.length != 0) {
                 const listLecture = [];
 
                 for (const lecture of result) {

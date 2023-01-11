@@ -8,14 +8,6 @@ import activate_routes from './middlewares/routes.mdw.js';
 import activate_error_handlers from './middlewares/error.mdw.js'
 
 const app = express();
-
-app.use(express.static('public'));
-app.use(express.urlencoded({
-    extended: true
-}));
-
-activate_routes(app);
-
 app.use(morgan('dev'));
 app.use(express.static('public'));
 app.use(express.json());

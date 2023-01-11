@@ -13,7 +13,6 @@
                         </div>    
                         <div class="course-info">
                                 <a href="/courses/courseDetails?courseId={{courseId}}" class="course-name">{{title}}</a>
-                                <p class="teacher-name">Teacher name</p>
                         </div>
                         <div class="flex-div">
                             <p class="avg-rating">{{rating}}</p>
@@ -46,12 +45,12 @@
 
 {{#section 'js'}}
     <script>
-        let Btn = document.querySelectorAll('.watchList-btn');
+    let Btn = document.querySelectorAll('.watchList-btn');
 
-        Btn.forEach(btn => {
-            btn.onclick = () => {
-                btn.classList.add('clicked');
-            }
-        });
+    Btn.forEach(btn => {
+        btn.onclick = () => {
+            btn.classList.add('clicked');
+        }
+    });
     </script>
 {{/section}}
