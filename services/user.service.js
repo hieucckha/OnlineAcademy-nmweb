@@ -233,7 +233,7 @@ export default {
     createTeacher: async (email, password, firstName, lastName) => {
         try {
             const sql = `
-                INSERT INTO users (user_id, email, password, first_name, last_name, role, status)
+                INSERT INTO users (user_id, email, password, first_name, last_name, role)
                 VALUES ($1, $2, $3, $4, $5, $6)
                 RETURNING *
             `;
@@ -246,7 +246,6 @@ export default {
                 hash,
                 firstName,
                 lastName,
-                1,
                 1,
             ]);
 
