@@ -19,7 +19,7 @@ import userService from "../services/user.service.js";
     // const result = await coursesService.searchCoursePriceAsc('develop', 1);
 
     // 4
-    // const result = await coursesService.getFullCourse('9a3fe19c-eec1-4a02-b19e-55115b3a3c67')
+    const result = await coursesService.getFullCourse('9a3fe19c-eec1-4a02-b19e-55115b3a3c67')
 
     // 5
     // const result = await userService.isAuth('conpasslaconheo@gmail.com', '123456');
@@ -31,5 +31,5 @@ import userService from "../services/user.service.js";
     //     console.log(result);
     // }
 
-    // console.log(result)
+    console.log(result)
 })();

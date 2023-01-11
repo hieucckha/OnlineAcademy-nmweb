@@ -1,0 +1,92 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Learning Platform</title>
+    <!-- include Bootstrap CSS file -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+    <!-- include custom CSS file -->
+    <link rel="stylesheet" href="style.css" />
+</head>
+<div style="margin-top:100px">
+<body>
+    <!-- ========================================================= navbar ========================================================= -->
+
+    <!-- ========================================================= navbar ========================================================= -->
+    <!-- header -->
+    <header class="header text-center">
+        <h1 class="display-4">List course of {{nameCategory}}</h1>
+    </header>
+
+    <!-- main content -->
+    <main class="container">
+        <!-- ======================================================== list courses ======================================================== -->
+        <div id="featured-courses" class="carousel slide" data-ride="carousel">
+            <!-- course items -->
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row">
+                        {{#each featuredCourses}}
+                        <div class="col-md-4">
+                            <div class="card mb-4 shadow-sm">
+                                <img src="{{Cource.Image}}" alt="{{Cource.Name}}" />
+                                <div class="card-body">
+                                    <h5 class="card-title">{{Cource.Name}}</h5>
+                                    <h6>
+                                        <p class="card-text">{{Cource.Category}}</p>
+                                        <p class="card-text">{{Cource.Teacher}}</p>
+                                        <p class="card-text">Rating : {{Cource.Rating}}/5</p>
+                                        <p class="card-text">Number of students : {{Cource.NumberOfStudents}}</p>
+                                    </h6>
+                                    {{#if isDiscount}}
+                                    <h5>
+                                        <p class="card-title text-danger">{{Cource.discountPrice}} VND</p>
+                                    </h5>
+                                    <h6>
+                                        <p class="card-text text-muted">{{Cource.Price}} VND</p>
+                                    </h6>
+                                    {{else}}
+                                    <h6>
+                                        <p class="card-text">{{Cource.Price}} VND</p>
+                                    </h6>
+                                    {{/if}}
+                                    <a href="{{Cource.Link}}" class="btn btn-primary">Learn More</a>
+                                </div>
+                            </div>
+                        </div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+            <!-- navigation buttons -->
+            <div class="col-md-12">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1">Previous</a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <!-- ========================================================= footer ========================================================= -->
+
+            <!-- include Bootstrap JavaScript file -->
+            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+                integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/Iy6YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.16.0/dist/umd/popper.min.js"
+                integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+                crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+                integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+                crossorigin="anonymous"></script>
+</body>
+</div>
+</html>
