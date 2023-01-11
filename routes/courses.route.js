@@ -1,7 +1,5 @@
 import express from 'express';
 import coursesService from '../services/courses.service.js';
-import lectureService from '../services/lecture.service.js';
-import sectionService from '../services/section.service.js';
 import userService from '../services/user.service.js'
 
 const router = express.Router();
@@ -55,6 +53,38 @@ router.get('/courseDetails', async function (req, res) {
         course: course,
         instructor: instructor,
         numLecture: numLecture
+    });
+})
+
+router.get('/category', async function (req, res) {
+    const category_id = req.query.category_id || '';
+    const page = Number(req.query.page) || 1;
+    const courses = await coursesService.getInfoByCategory(category_id, page) || [];
+
+    let maxPage = 1;
+    let countList = await coursesService.getInfoByCategory(category_id, maxPage);
+
+    while (countList !== null){
+        countList = await coursesService.getInfoByCategory(category_id, maxPage);;
+        maxPage++;
+    }
+    maxPage--;
+    console.log(maxPage);
+    let pageList;
+    pageList = [];
+    if (maxPage === 2) pageList.push({value: page, isActive: true});
+    else if (maxPage === 3 && page === 1) pageList.push({value: page, isActive: true},{value: page+1});
+    else if (maxPage === 3 && page === 2) pageList.push({value: page -1},{value: page, isActive: true});
+    else if (page === 1) pageList.push({value: page, isActive: true},{value: page+1},{value: page+2});
+    else if (courses.length === 0) pageList.push({value: page-2},{value: page-1},{value: page, isActive: true})
+    else pageList.push({value: page-1},{value: page, isActive: true},{value: page+1});
+
+
+    res.render('vwCourses/categoryView', {
+        courses: courses,
+        pageList: pageList,
+        maxPage: maxPage,
+        empty: courses === null
     });
 })
 

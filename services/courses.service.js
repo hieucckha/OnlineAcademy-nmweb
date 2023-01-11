@@ -19,7 +19,7 @@ export default {
                        course.price,
                        course.discount
                 FROM courses course
-                         JOIN (SELECT course_id, SUM(num_view) AS view
+                        JOIN (SELECT course_id, SUM(num_view) AS view
                                FROM view_number view
                                WHERE (current_date - view.date >= 0)
                                  and (current_date - view.date <= 7)

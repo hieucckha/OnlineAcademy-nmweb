@@ -13,7 +13,7 @@ export default function (app) {
       secret: 'cat dog cat dog and dog cat',
       resave: false,
       saveUninitialized: true,
-      store: store,
+      //store: store,
       cookie: {
         // secure: true
       },
