@@ -17,6 +17,7 @@ app.use(
   })
 );
 
+
 activate_session(app);
 activate_view(app);
 activate_locals(app);

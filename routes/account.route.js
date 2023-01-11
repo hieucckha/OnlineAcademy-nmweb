@@ -38,6 +38,8 @@ router.get('/signup', async function (req, res) {
 });
 
 router.post('/signup', async function (req, res) {
+  
+
   if (req.body.role === '2') {
 
     await userService.createStudent(
