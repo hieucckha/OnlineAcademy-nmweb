@@ -1,153 +1,92 @@
-<link rel="stylesheet" href="/css/teacherNewCourse.css">
-<form style="margin-top: 100px; margin-bottom: calc(100vh - 40%);">
-    <div class="form-group" style="background-color: #636F7A;">
-        <label for="CourseName" style="padding: 30px; display: inline-block;">Course Name: </label>
-        <input type="text" class="form-control" name="CourseName" id="CourseName" aria-describedby="helpId" placeholder="{{course.name}}" style="width: 50%; margin-left: 10px; display: inline-block;">
-        <div>
-            <label for="Description" style="display: inline-block; padding: 30px">Description: </label>
-            <input type="text" class="form-control" name="Description" id="Description" aria-describedby="helpId" placeholder="{{course.destription}}" style="width: 50%; margin-left: 22px; display: inline-block;">
-            <button type="submit" class="btn btn-primary float-right" style="display: inline-block; margin-right: 10px">Save</button>
-            <small id="helpId" class="form-text" style="color: white;">Lecturers: {{account.FirstName}} {{account.LastName}}</small>
-        </div>
-        
-    </div>
-    <div style="margin-left: 3%; width: 15%; display: inline-block; float: left;">
-        <div>Plan your course</div>
-        <ul style="list-style-type: none;">
-            <li class ="Plan-item"><i class="bi bi-circle"></i> Tagert student</li>
-            <li class ="Plan-item"><i class="bi bi-circle"></i> Course structure</li>
-        </ul>
 
-        <div>Create your content</div>
-        <ul style="list-style-type: none;">
-            <li class ="Plan-item"><i class="bi bi-circle"></i> Film &amp; edit</li>
-            <li class ="Plan-item"><i class="bi bi-circle"></i> Curriculum</li>
-            <li class ="Plan-item"><i class="bi bi-circle"></i> Caption (optional)</li>
-        </ul>
 
-        <div>Publish your course</div>
-        <ul style="list-style-type: none;">
-            <li class ="Plan-item"><i class="bi bi-circle"></i> Course landing page</li>
-            <li class ="Plan-item"><i class="bi bi-circle"></i> Price &amp; coupons</li>
-            <li class ="Plan-item"><i class="bi bi-circle"></i> Communications</li>
-        </ul>
-    </div>
-    <div class = "shadow-sm" style="display: inline-block; width:80%; marginRight: 2%">
-        <div>Curriculum</div>
-
-        <div style="border-top: 1px solid black;">
-            <div>Start putting together your course by creating sections, lectures and practice (quizzes and coding exercise) below</div>
-            <div id="SectionsList">
-                {{#each course.sectionList}}
-                    <div style="border: 1px solid black; border-radius: 10px">
-                        <form class="form-inline">
-                            <div class="form-group">
-                                <label for="SectionName" style="display: inline-block;">Section {{this.id}}</label>
-                                <input type="text" name="SectionName" id="SectionName" class="form-control" placeholder="{{this.name}}" aria-describedby="helpId" style="display: inline-block;">
-                                <label for="Result" style="display: inline-block;">What will student be able to do at the end of  this section?</label>
-                                <input type="text" name="Result" id="Result" class="form-control" placeholder="{{this.result}}" aria-describedby="helpId" style="display: inline-block;">
-
-                                {{#if this.video}}
-                                    <div id="videoGroup{{this.id}}" style="display: block;">
-                                {{else}}
-                                    <div id="videoGroup{{this.id}}" style="display: none;">
-                                {{/if}}
-                                    {{#each this.videoList}}
-                                        <div id="inputFile {{../this.id}} {{this.id}}">
-                                            <label for="videoName" style="display: inline-block;">Video name:</label>
-                                            <input type="text" name="videoName" id="videoName" class="form-control" placeholder="{{this.name}}" aria-describedby="helpId" style="display: inline-block;">
-
-                                            <div class="input-group mb-3">
-                                                <input type="file" class="form-control" id="inputGroupFile02">
-                                                <label class="input-group-text" for="inputGroupFile02"><button>Upload</button></label>
-                                            </div>
-                                        </div>
-                                    {{/each}}
-                                </div>
-                            <button type="submit" class="btn btn-primary" style="position:relative; float:right">Save Section</button>
-
-                            <div class="d-flex justify-content-center" style="margin-top: 60px;">
-                                <table>
-                                    <tr>
-                                        <td><button id = "aLecture {{this.id}}" type="button" class="btn btn-secondary buttonAdd" onclick="addNewLecture(this.id)">Add Lecture</button></td>
-                                        <td><button type="button" class="btn btn-secondary buttonAdd disabled">Add Quiz</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td><button type="button" class="btn btn-secondary buttonAdd disabled">Add Code Exercise</button></td>
-                                        <td><button type="button" class="btn btn-secondary buttonAdd disabled">Add Assignment</button></td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </form>
+<section id="course-details">
+    <div class="header">
+        <div class="hContainer">
+            <h1 class="course-title">{{this.course.title}}</h1>
+            <h3 class="bDescription">{{this.course.bDescription}}</h3>
+            <div class="flex-div">
+                <p class="avg-rating">{{this.course.rating}}</p>
+                <div id="rating">
+                    <div class="star-rating">
+                        <input type="radio" name="rate" id="rate-5">
+                        <label for="rate-5" class="fa fa-star"></label>
+                        <input type="radio" name="rate" id="rate-4">
+                        <label for="rate-4" class="fa fa-star"></label>
+                        <input type="radio" name="rate" id="rate-3">
+                        <label for="rate-3" class="fa fa-star"></label>
+                        <input type="radio" name="rate" id="rate-2">
+                        <label for="rate-2" class="fa fa-star"></label>
+                        <input type="radio" name="rate" id="rate-1">
+                        <label for="rate-1" class="fa fa-star"></label>
                     </div>
                 </div>
-                {{/each}} 
-
+                <a href="#course-rating" class="num-of-ratings">({{this.course.numRating}})</a>
+                <p class="num-enroll">{{format_number this.course.numEnroll}} students</p>
             </div>
+            <p class="created-by">Created by &nbsp;<a href="#instructor">{{this.instructor.firstName}} {{this.instructor.lastName}}</a></p>
         </div>
-
-        <div class="d-flex justify-content-center">
-            <button type="button" class="btn btn-secondary" style="width: 350px;" onclick="addNewSection()">Add Section</button>
-        </div>
-        
     </div>
-</form>
-<script>
-    let SectionId = 0;
-    {{#each course.sectionList}}
-           SectionId += 1;
-    {{/each}}
-    function addNewLecture(id){
-        const SliptID = id.split(' ');
-        const sectionId = SliptID[1];
-        document.getElementById('videoGroup' + sectionId).style.display = "block";
-        document.getElementById('videoGroup' + sectionId).innerHTML += 
-        `
-            <div id="inputFile ${sectionId}">
-                <label for="videoName" style="display: inline-block;">Video name {{this.id}}:</label>
-                <input type="text" name="videoName" id="videoName" class="form-control" placeholder="{{this.name}}" aria-describedby="helpId" style="display: inline-block;">
+    <div class="container">
+        <div class="information">
+            <h2 class="content-title">Description:</h2>
+            <p>{{{this.course.description}}}</p>
 
-                <div class="input-group mb-3">
-                    <input type="file" class="form-control" id="inputGroupFile02">
-                    <label class="input-group-text" for="inputGroupFile02"><button>Upload</button></label>
+            <h2 class="content-title">Course content:</h2>
+            <p>{{this.course.sectionList.length}} sections &#8226; {{this.numLecture}} lectures</p>
+            <div class="section-list">
+                <div class="section">
+                    {{#each this.course.sectionList}}
+                        <div class="section-info">
+                            <p class="section-name"><i class="bi bi-chevron-down"></i>&nbsp;&nbsp; {{sectionTitle}}</p>
+
+                            <button type="button" style="color: #5624d0" onclick="showAddLecture()"><u>Edit</u></button>
+                        </div>
+                        <div class="lecture-list">
+                            {{#each listLecture}}
+                                <div class="lecture">
+                                    <div>
+                                        <i class="bi bi-play-circle-fill"></i>
+                                        <a href="#" class="lecture-name">{{lectureTitle}}</a>
+                                    </div>
+                                    <p class="time">4:01</p>
+                                </div>
+                            {{/each}}
+                        </div>
+                    {{/each}}
                 </div>
             </div>
-        `;
-    }
+        </div>
 
-    function addNewSection(){
-        SectionId+=1;
-        document.getElementById('SectionsList').innerHTML += 
-            `<div style="border: 1px solid black; border-radius: 10px">
-                        <form class="form-inline">
-                            <div class="form-group">
-                                <label for="SectionName" style="display: inline-block;">Section ${SectionId}</label>
-                                <input type="text" name="SectionName" id="SectionName" class="form-control" placeholder="" aria-describedby="helpId" style="display: inline-block;">
-                                <label for="Result" style="display: inline-block;">What will student be able to do at the end of  this section?</label>
-                                <input type="text" name="Result" id="Result" class="form-control" placeholder="" aria-describedby="helpId" style="display: inline-block;">
 
-                                
-                                <div id="videoGroup${SectionId}" style="display: none;">
-                                    
-                                </div>
-                                
-                            <button type="submit" class="btn btn-primary" style="position:relative; float:right">Save Section</button>
+        <div id="addLectures" class="position-fixed shadow rounded addLectureWindow" style="display: none">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        </div>
 
-                            <div class="d-flex justify-content-center" style="margin-top: 60px;">
-                                <table>
-                                    <tr>
-                                        <td><button id = "aLecture ${SectionId}" type="button" class="btn btn-secondary buttonAdd" onclick="addNewLecture(this.id)">Add Lecture</button></td>
-                                        <td><button type="button" class="btn btn-secondary buttonAdd disabled">Add Quiz</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td><button type="button" class="btn btn-secondary buttonAdd disabled">Add Code Exercise</button></td>
-                                        <td><button type="button" class="btn btn-secondary buttonAdd disabled">Add Assignment</button></td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </form>
-                    </div>
-                </div>`
-        ;   
-    }
-</script>
+        <div class="watch-video">
+            <div class="course-list">
+                <a href="/courses/watchVideos"><img src="{{this.course.image}}" class="thumbnail"></a>
+                <div class="course-info">
+                    <p class="course-name">{{this.course.title}}</p>
+                </div>
+                <div class="price-of-course">
+                    <div class="promotional-price">{{format_number this.course.discount}}đ &nbsp;</div>
+                    <del class="price">{{format_number this.course.price}}đ</del>
+                </div>
+                <div class="btn-div">
+                    <button type="button" class="btn-buy">Buy now</button>
+                    <button type="button" class="btn-add-to-wl"><i class="bi bi-heart"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+{{#section 'js'}}
+    <script>
+        function showAddLecture(){
+            document.getElementById('addLectures').style.display ='block';
+        }
+    </script>
+{{/section}}
