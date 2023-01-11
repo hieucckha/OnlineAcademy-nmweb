@@ -11,10 +11,10 @@ import sectionService from "../services/section.service.js";
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  const Info = userService.getById('d172436b-5020-4b34-8827-6ebd041d5474');
-  res.render('teacher/home', {
-    layout: 'teacher.hbs'
-  });
+    const Info = userService.getById('d172436b-5020-4b34-8827-6ebd041d5474');
+    res.render('teacher/home', {
+        layout: 'teacher.hbs'
+    });
 });
 router.get('/new/course', async (req, res) => {
   const categoryList = await categoryService.getList();
@@ -26,7 +26,6 @@ router.get('/new/course', async (req, res) => {
     user: user,
   });
 });
-
 router.get('/edit/course/', async (req, res) => {
   const courseId = req.query.courseId
   const course = await coursesService.getFullCourse(courseId);
@@ -61,38 +60,39 @@ router.get('/edit/profile/', (req, res)=>{
       }
       );
 })
-router.get('/course/mycourse', async (req,res)=>{
-  const teacherID = 'd172436b-5020-4b34-8827-6ebd041d5474';
-  const page = Number(req.query.page) || 1;
-  const list = await coursesService.getAllCourseTeacher(teacherID, page) || [];
-  let maxPage = 1;
-  let countList = await coursesService.getAllCourseTeacher(teacherID, maxPage);
+router.get('/course/mycourse', async (req, res) => {
+    const teacherID = 'd172436b-5020-4b34-8827-6ebd041d5474';
+    const page = Number(req.query.page) || 1;
+    const list = await coursesService.getAllCourseTeacher(teacherID, page) || [];
+    let maxPage = 1;
+    let countList = await coursesService.getAllCourseTeacher(teacherID, maxPage);
 
-  while (countList !== null){
-    countList = await coursesService.getAllCourseTeacher(teacherID, maxPage);;
-    maxPage++;
-  }
-  maxPage--;
-  console.log(maxPage);
-  let pageList;
-  pageList = [];
-  if (maxPage === 2) pageList.push({value: page, isActive: true});
-  else if (maxPage === 3 && page === 1) pageList.push({value: page, isActive: true},{value: page+1});
-  else if (maxPage === 3 && page === 2) pageList.push({value: page -1},{value: page, isActive: true});
-  else if (page === 1) pageList.push({value: page, isActive: true},{value: page+1},{value: page+2});
-  else if (list.length === 0) pageList.push({value: page-2},{value: page-1},{value: page, isActive: true})
-  else pageList.push({value: page-1},{value: page, isActive: true},{value: page+1});
+    while (countList !== null) {
+        countList = await coursesService.getAllCourseTeacher(teacherID, maxPage);
+        ;
+        maxPage++;
+    }
+    maxPage--;
+    console.log(maxPage);
+    let pageList;
+    pageList = [];
+    if (maxPage === 2) pageList.push({value: page, isActive: true});
+    else if (maxPage === 3 && page === 1) pageList.push({value: page, isActive: true}, {value: page + 1});
+    else if (maxPage === 3 && page === 2) pageList.push({value: page - 1}, {value: page, isActive: true});
+    else if (page === 1) pageList.push({value: page, isActive: true}, {value: page + 1}, {value: page + 2});
+    else if (list.length === 0) pageList.push({value: page - 2}, {value: page - 1}, {value: page, isActive: true})
+    else pageList.push({value: page - 1}, {value: page, isActive: true}, {value: page + 1});
 
-  list.forEach(member=>{
-    member.image = '/' + member.image;
-  })
-  res.render('teacher/showAllCourse', {
-    myCourses: list,
-    pageList: pageList,
-    maxPage: maxPage,
-    empty: list === null,
-    layout: 'teacher.hbs'
-  });
+    list.forEach(member => {
+        member.image = '/' + member.image;
+    })
+    res.render('teacher/showAllCourse', {
+        myCourses: list,
+        pageList: pageList,
+        maxPage: maxPage,
+        empty: list === null,
+        layout: 'teacher.hbs'
+    });
 });
 
 router.post('/new/course', async (req, res)=>{
@@ -117,7 +117,6 @@ router.post('/new/course', async (req, res)=>{
     res.redirect('/teacher/edit/course?courseId='+newCourse.courseid);
   });
 })
-
 router.post('/edit/course/newLecture', async (req, res, next) => {
   const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -311,7 +310,4 @@ router.post('/edit/course/prices', async (req, res)=>{
     res.redirect('/teacher/edit/course?courseId='+req.body.courseId);
   });
 });
-
-
-
 export default router;

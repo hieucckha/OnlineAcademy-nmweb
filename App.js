@@ -12,9 +12,9 @@ app.use(morgan('dev'));
 app.use(express.static('public'));
 app.use(express.json());
 app.use(
-  express.urlencoded({
-    extended: true,
-  })
+    express.urlencoded({
+        extended: true,
+    })
 );
 activate_session(app);
 activate_view(app);
@@ -25,5 +25,5 @@ activate_error_handlers(app);
 
 const PORT = 3000;
 app.listen(PORT, function () {
-  console.log(`App listening at http://localhost:${PORT}`);
+    console.log(`App listening at http://localhost:${PORT}`);
 });
