@@ -10,16 +10,43 @@ import sectionService from "../services/section.service.js";
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    const Info = userService.getById('d172436b-5020-4b34-8827-6ebd041d5474');
-    res.render('teacher/home', {
-        layout: 'teacher.hbs'
-    });
+router.get('/', async (req, res) => {
+    const user = req.session.authUser;
+    if (user === undefined) return res.redirect('/');
+    else if (user.role !== 1) return res.redirect('/');
+
+  const hotCourses = await coursesService.getInfoHot();
+  const mostView = await coursesService.getInfoMostWatch();
+  const newest = await coursesService.getInfoNewest();
+  const temp = await categoryService.getList();
+  const categories = [];
+
+  for (let i = 0; i < 5; i++) {
+    categories.push(temp[i]);
+  }
+
+  //console.log(list);
+  res.render('teacher/home', {
+    hotCourses: hotCourses,
+    hot_empty: hotCourses === null,
+
+    mostView: mostView,
+    mW_empty: mostView === null,
+
+    newest: newest,
+    n_empty: newest === null,
+
+    categories: categories,
+    ct_empty: categories === null,
+    layout: 'teacher.hbs'
+  });
 });
 router.get('/new/course', async (req, res) => {
+  const user = req.session.authUser;
+  if (user === undefined) return res.redirect('/');
+  else if (user.role !== 1) return res.redirect('/');
   const categoryList = await categoryService.getList();
-  //const user = req.session.authUser;
-  const user = await userService.getById('d172436b-5020-4b34-8827-6ebd041d5474');
+  //const user = await userService.getById('d172436b-5020-4b34-8827-6ebd041d5474');
   res.render('teacher/nCourse', {
     layout: 'teacher.hbs',
     categoryList: categoryList,
@@ -27,6 +54,10 @@ router.get('/new/course', async (req, res) => {
   });
 });
 router.get('/edit/course/', async (req, res) => {
+  const user = req.session.authUser;
+  if (user === undefined) return res.redirect('/');
+  else if (user.role !== 1) return res.redirect('/');
+
   const courseId = req.query.courseId
   const course = await coursesService.getFullCourse(courseId);
   const instructor = await userService.getById(course.createBy);
@@ -54,6 +85,10 @@ router.get('/edit/course/', async (req, res) => {
   });
 });
 router.get('/edit/profile/', (req, res)=>{
+  const user = req.session.authUser;
+  if (user === undefined) return res.redirect('/');
+  else if (user.role !== 1) return res.redirect('/');
+
   res.render('teacher/editAccount',
       {
         layout: 'teacher.hbs'
@@ -61,7 +96,11 @@ router.get('/edit/profile/', (req, res)=>{
       );
 })
 router.get('/course/mycourse', async (req, res) => {
-    const teacherID = 'd172436b-5020-4b34-8827-6ebd041d5474';
+    const user = req.session.authUser;
+    if (user === undefined) return res.redirect('/');
+    else if (user.role !== 1) return res.redirect('/');
+
+    const teacherID = user.userId;
     const page = Number(req.query.page) || 1;
     const list = await coursesService.getAllCourseTeacher(teacherID, page) || [];
     let maxPage = 1;
@@ -190,8 +229,8 @@ router.post('/edit/course/name', async (req, res)=>{
       console.error(err);
     }
     if (req.body.courseName <= 7) return;
-    //const user = req.session.authUser;
-    const user = await userService.getById('d172436b-5020-4b34-8827-6ebd041d5474');
+    const user = req.session.authUser;
+    //const user = await userService.getById('d172436b-5020-4b34-8827-6ebd041d5474');
     const course = await coursesService.getFullCourse(req.body.courseId);
     course.title = req.body.courseName;
     await coursesService.update(req.body.courseId, course.title, course.image, course.bDescription, course.description, course.price, course.discount);

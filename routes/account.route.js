@@ -22,22 +22,16 @@ router.post('/login', async function (req, res) {
       err_message: 'Invalid username or password'
     });
   }
-
   req.session.auth = true;
   req.session.authUser = user;
 
-  if (user.role === '0') {
+  if (user.role === 0) {
     res.render('home', {
       layout: 'admin.hbs'
     });
 
-  } else if (user.role === '1') {
-    const url = req.session.retUrl || '/';
-    delete req.session.retUrl;
-    res.redirect(url, {
-      layout: 'teacher.hbs'
-    });
-    
+  } else if (user.role === 1) {
+    return res.redirect('/teacher');
   } else {
     const url = req.session.retUrl || '/';
     delete req.session.retUrl;

@@ -16,8 +16,7 @@ export default {
                        last_name,
                        caption,
                        biography,
-                       role,
-                       status
+                       role
                 FROM users
                 WHERE email = $1
             `;
