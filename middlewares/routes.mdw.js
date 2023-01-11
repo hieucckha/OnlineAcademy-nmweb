@@ -6,12 +6,9 @@ import coursesService from '../services/courses.service.js';
 
 export default function (app) {
   app.get('/', async function (req, res) {
-    const list = await coursesService.getInfoHot('1ed4ef15-1512-48d6-be79-3793867fcea4');
+    // const list = await coursesService.getInfoHot('1ed4ef15-1512-48d6-be79-3793867fcea4');
     //console.log(list);
-    res.render('home', {
-        myCourses: list,
-        empty: list === null
-    });
+    res.render('home');
   })
 
   app.use('/account', accountRoute, express.static('public'));
