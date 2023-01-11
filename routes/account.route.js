@@ -95,17 +95,16 @@ router.post('/logout', function (req, res) {
 });
 
 router.post('/editProfile', async function (req, res) {
-  const user = await userService.isAuth(req.body.email, req.body.pass);
+  const user = await userService.isAuth(req.session.authUser.email, req.body.pass);
 
   if (user === null) {
-    return res.render('vwAccount/login', {
-      layout: false,
+    return res.render('vwAccount/profile', {
       err_message: 'Invalid password'
     });
   }
 
-  req.session.auth = true;
-  req.session.authUser = user;
+  userService.updateEmail(user.userId, req.body.email);
+  userService.updateName(user.userId, req.body.firstname, req.body.lastname);
 
   const url = req.session.retUrl || '/';
   delete req.session.retUrl;

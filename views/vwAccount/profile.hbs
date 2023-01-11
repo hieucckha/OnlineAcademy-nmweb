@@ -19,7 +19,7 @@
             <div class="rightbox">
                 <form class="profile tabShow" method="post" action="/account/editProfile">
                     <br>
-                    <h1>Personal Info</h1>
+                    <h1 class="info">Personal Info</h1>
                     {{#if err_message}}
                         <div class="alert alert-danger" role="alert">
                             {{err_message}}
@@ -28,8 +28,11 @@
                     <h2>Email</h2>
                     <input type="text" name="email" class="input" value="{{authUser.email}}">
 
-                    <h2>Full name</h2>
-                    <input type="text" name="fullName" class="input" value="{{authUser.firstName}} {{authUser.lastName}}">
+                    <h2>First name</h2>
+                    <input type="text" name="firstName" class="input" value="{{authUser.firstName}}">
+
+                    <h2>Last name</h2>
+                    <input type="text" name="lastName" class="input" value="{{authUser.lastName}}">
 
                     <h2>Password</h2>
                     <input type="password" name="pass" class="input"><br>

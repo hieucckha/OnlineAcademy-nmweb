@@ -360,6 +360,39 @@ export default {
 
         return null;
     },
+    updateName: async (
+        userId,
+        firstName,
+        lastName
+    ) => {
+        try {
+            const sql = `
+                UPDATE users
+                SET first_name = $2,
+                    last_name  = $3,
+                WHERE user_id = $1
+                RETURNING *
+            `;
+
+            const result = await db.one(sql, [
+                userId,
+                firstName,
+                lastName
+            ]);
+
+            const user = new User();
+            user.userId = result.user_id;
+            user.firstName = result.first_name;
+            user.lastName = result.last_name;
+            user.role = result.role;
+
+            return user;
+        } catch (err) {
+            console.log(err);
+        }
+
+        return null;
+    },
     updatePassword: async (userId, oldPassword, newPassword) => {
         try {
             const isRightPasswordSql = `
