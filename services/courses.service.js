@@ -1,15 +1,15 @@
-import {v4 as uuidv4} from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 import db from '../utils/db.js';
 import Course from '../models/course.model.js';
 import sectionService from './section.service.js';
-import enrollmentsService from "./enrollments.service.js";
+import enrollmentsService from './enrollments.service.js';
 
 export default {
-    // 3-4
-    getInfoHot: async () => {
-        try {
-            const sql = `
+  // 3-4
+  getInfoHot: async () => {
+    try {
+      const sql = `
                 SELECT course.course_id,
                        course.course_title,
                        course.image,
@@ -30,17 +30,17 @@ export default {
                 LIMIT 4
             `;
 
-            const result = await db.many(sql);
+      const result = await db.many(sql);
 
-            return result;
-        } catch (err) {
-            console.log(err);
-        }
-        return null;
-    }, // 10
-    getInfoMostWatch: async () => {
-        try {
-            const sql = `
+      return result;
+    } catch (err) {
+      console.log(err);
+    }
+    return null;
+  }, // 10
+  getInfoMostWatch: async () => {
+    try {
+      const sql = `
                 SELECT course.course_id,
                        course.course_title,
                        course.image,
@@ -58,18 +58,18 @@ export default {
                 LIMIT 10
             `;
 
-            const result = await db.many(sql);
+      const result = await db.many(sql);
 
-            return result;
-        } catch (err) {
-            console.log(err);
-        }
+      return result;
+    } catch (err) {
+      console.log(err);
+    }
 
-        return null;
-    }, // 10
-    getInfoNewest: async () => {
-        try {
-            const sql = `
+    return null;
+  }, // 10
+  getInfoNewest: async () => {
+    try {
+      const sql = `
                 SELECT course.course_id,
                        course.course_title,
                        course.image,
@@ -84,18 +84,18 @@ export default {
                 LIMIT 10
             `;
 
-            const result = await db.many(sql);
+      const result = await db.many(sql);
 
-            return result;
-        } catch (err) {
-            console.log(err);
-        }
+      return result;
+    } catch (err) {
+      console.log(err);
+    }
 
-        return null;
-    }, // 10
-    getInfoMostEnroll: async () => {
-        try {
-            const sql = `
+    return null;
+  }, // 10
+  getInfoMostEnroll: async () => {
+    try {
+      const sql = `
                 SELECT course_id,
                        course_title,
                        image,
@@ -110,31 +110,31 @@ export default {
                 LIMIT 10
             `;
 
-            const result = await db.many(sql);
+      const result = await db.many(sql);
 
-            return result;
-        } catch (err) {
-            console.log(err);
-        }
+      return result;
+    } catch (err) {
+      console.log(err);
+    }
 
-        return null;
-    },
-    // 10 course per page
-    // page begin in 1
-    getInfoByCategory: async (categoryId, page) => {
-        try {
-            const checkIfParentSql = `
+    return null;
+  },
+  // 10 course per page
+  // page begin in 1
+  getInfoByCategory: async (categoryId, page) => {
+    try {
+      const checkIfParentSql = `
                 SELECT category_id
                 FROM categories
                 WHERE category_parent = $1
             `;
 
-            const children = await db.manyOrNone(checkIfParentSql, [categoryId]);
+      const children = await db.manyOrNone(checkIfParentSql, [categoryId]);
 
-            let sql = '';
+      let sql = '';
 
-            if (children.length === 0) {
-                sql = `
+      if (children.length === 0) {
+        sql = `
                     SELECT course_id,
                            course_title,
                            image,
@@ -149,8 +149,8 @@ export default {
                       AND status != 2
                     LIMIT $3 OFFSET $2
                 `;
-            } else {
-                sql = `
+      } else {
+        sql = `
                     SELECT course_id,
                            course_title,
                            image,
@@ -167,42 +167,46 @@ export default {
                                           WHERE category_parent = $1)
                     LIMIT $3 OFFSET $2
                 `;
-            }
-            const COURSE_PER_PAGE = 10;
-            const offset = (page - 1) * COURSE_PER_PAGE;
+      }
+      const COURSE_PER_PAGE = 10;
+      const offset = (page - 1) * COURSE_PER_PAGE;
 
-            const result = await db.manyOrNone(sql, [categoryId, offset, COURSE_PER_PAGE,]);
+      const result = await db.manyOrNone(sql, [
+        categoryId,
+        offset,
+        COURSE_PER_PAGE,
+      ]);
 
-            if (result.length !== 0) {
-                const listCourse = [];
+      if (result.length !== 0) {
+        const listCourse = [];
 
-                result.forEach((course) => {
-                    const tmp = new Course();
+        result.forEach((course) => {
+          const tmp = new Course();
 
-                    tmp.courseId = course.course_id;
-                    tmp.title = course.course_title;
-                    tmp.image = course.image;
-                    tmp.bDescription = course.b_description;
-                    tmp.createBy = course.create_by;
-                    tmp.numRating = course.num_rating;
-                    tmp.price = course.price;
-                    tmp.discount = course.discount;
+          tmp.courseId = course.course_id;
+          tmp.title = course.course_title;
+          tmp.image = course.image;
+          tmp.bDescription = course.b_description;
+          tmp.createBy = course.create_by;
+          tmp.numRating = course.num_rating;
+          tmp.price = course.price;
+          tmp.discount = course.discount;
 
-                    listCourse.push(tmp);
-                });
+          listCourse.push(tmp);
+        });
 
-                return listCourse;
-            }
-        } catch (err) {
-            console.log(err);
-        }
+        return listCourse;
+      }
+    } catch (err) {
+      console.log(err);
+    }
 
-        return null;
-    },
+    return null;
+  },
 
-    searchCourseByname: async (keyWord, page) => {
-        try {
-            const sql = `
+  searchCourseByname: async (keyWord, page) => {
+    try {
+      const sql = `
                 SELECT course_id,
                        course_title,
                        image,
@@ -218,41 +222,41 @@ export default {
                 ORDER BY num_enroll desc
                 LIMIT $3 OFFSET $2`;
 
-            const key = keyWord.split(' ').join(' & ');
+      const key = keyWord.split(' ').join(' & ');
 
-            const COURSE_PER_PAGE = 10;
-            const offset = (page - 1) * COURSE_PER_PAGE;
+      const COURSE_PER_PAGE = 10;
+      const offset = (page - 1) * COURSE_PER_PAGE;
 
-            const result = await db.manyOrNone(sql, [key, offset, COURSE_PER_PAGE]);
+      const result = await db.manyOrNone(sql, [key, offset, COURSE_PER_PAGE]);
 
-            if (result.length !== 0) {
-                const listCourse = [];
+      if (result.length !== 0) {
+        const listCourse = [];
 
-                for (let course of result) {
-                    const tmp = new Course();
+        for (let course of result) {
+          const tmp = new Course();
 
-                    tmp.courseId = course.course_id;
-                    tmp.title = course.course_title;
-                    tmp.image = course.image;
-                    tmp.bDescription = course.b_description;
-                    tmp.createBy = course.create_by;
-                    tmp.numRating = course.num_rating;
-                    tmp.price = course.price;
-                    tmp.discount = course.discount;
+          tmp.courseId = course.course_id;
+          tmp.title = course.course_title;
+          tmp.image = course.image;
+          tmp.bDescription = course.b_description;
+          tmp.createBy = course.create_by;
+          tmp.numRating = course.num_rating;
+          tmp.price = course.price;
+          tmp.discount = course.discount;
 
-                    listCourse.push(tmp);
-                }
-
-                return listCourse;
-            }
-        } catch (err) {
-            console.log(err);
+          listCourse.push(tmp);
         }
-        return null;
-    },
-    searchCourseRatingDesc: async (keyWord, page) => {
-        try {
-            const sql = `
+
+        return listCourse;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    return null;
+  },
+  searchCourseRatingDesc: async (keyWord, page) => {
+    try {
+      const sql = `
                 SELECT course_id,
                        course_title,
                        image,
@@ -268,41 +272,41 @@ export default {
                 ORDER BY rating DESC
                 LIMIT $3 OFFSET $2`;
 
-            const key = keyWord.split(' ').join(' & ');
+      const key = keyWord.split(' ').join(' & ');
 
-            const COURSE_PER_PAGE = 10;
-            const offset = (page - 1) * COURSE_PER_PAGE;
+      const COURSE_PER_PAGE = 10;
+      const offset = (page - 1) * COURSE_PER_PAGE;
 
-            const result = await db.manyOrNone(sql, [key, offset, COURSE_PER_PAGE]);
+      const result = await db.manyOrNone(sql, [key, offset, COURSE_PER_PAGE]);
 
-            if (result.length !== 0) {
-                const listCourse = [];
+      if (result.length !== 0) {
+        const listCourse = [];
 
-                for (let course of result) {
-                    const tmp = new Course();
+        for (let course of result) {
+          const tmp = new Course();
 
-                    tmp.courseId = course.course_id;
-                    tmp.title = course.course_title;
-                    tmp.image = course.image;
-                    tmp.bDescription = course.b_description;
-                    tmp.createBy = course.create_by;
-                    tmp.numRating = course.num_rating;
-                    tmp.price = course.price;
-                    tmp.discount = course.discount;
+          tmp.courseId = course.course_id;
+          tmp.title = course.course_title;
+          tmp.image = course.image;
+          tmp.bDescription = course.b_description;
+          tmp.createBy = course.create_by;
+          tmp.numRating = course.num_rating;
+          tmp.price = course.price;
+          tmp.discount = course.discount;
 
-                    listCourse.push(tmp);
-                }
-
-                return listCourse;
-            }
-        } catch (err) {
-            console.log(err);
+          listCourse.push(tmp);
         }
-        return null;
-    },
-    searchCourseRatingAsc: async (keyWord, page) => {
-        try {
-            const sql = `
+
+        return listCourse;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    return null;
+  },
+  searchCourseRatingAsc: async (keyWord, page) => {
+    try {
+      const sql = `
                 SELECT course_id,
                        course_title,
                        image,
@@ -318,41 +322,41 @@ export default {
                 ORDER BY rating ASC
                 LIMIT $3 OFFSET $2`;
 
-            const key = keyWord.split(' ').join(' & ');
+      const key = keyWord.split(' ').join(' & ');
 
-            const COURSE_PER_PAGE = 10;
-            const offset = (page - 1) * COURSE_PER_PAGE;
+      const COURSE_PER_PAGE = 10;
+      const offset = (page - 1) * COURSE_PER_PAGE;
 
-            const result = await db.manyOrNone(sql, [key, offset, COURSE_PER_PAGE]);
+      const result = await db.manyOrNone(sql, [key, offset, COURSE_PER_PAGE]);
 
-            if (result.length !== 0) {
-                const listCourse = [];
+      if (result.length !== 0) {
+        const listCourse = [];
 
-                for (let course of result) {
-                    const tmp = new Course();
+        for (let course of result) {
+          const tmp = new Course();
 
-                    tmp.courseId = course.course_id;
-                    tmp.title = course.course_title;
-                    tmp.image = course.image;
-                    tmp.bDescription = course.b_description;
-                    tmp.createBy = course.create_by;
-                    tmp.numRating = course.num_rating;
-                    tmp.price = course.price;
-                    tmp.discount = course.discount;
+          tmp.courseId = course.course_id;
+          tmp.title = course.course_title;
+          tmp.image = course.image;
+          tmp.bDescription = course.b_description;
+          tmp.createBy = course.create_by;
+          tmp.numRating = course.num_rating;
+          tmp.price = course.price;
+          tmp.discount = course.discount;
 
-                    listCourse.push(tmp);
-                }
-
-                return listCourse;
-            }
-        } catch (err) {
-            console.log(err);
+          listCourse.push(tmp);
         }
-        return null;
-    },
-    searchCoursePriceDesc: async (keyWord, page) => {
-        try {
-            const sql = `
+
+        return listCourse;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    return null;
+  },
+  searchCoursePriceDesc: async (keyWord, page) => {
+    try {
+      const sql = `
                 SELECT course_id,
                        course_title,
                        image,
@@ -368,41 +372,41 @@ export default {
                 ORDER BY price DESC
                 LIMIT $3 OFFSET $2`;
 
-            const key = keyWord.split(' ').join(' & ');
+      const key = keyWord.split(' ').join(' & ');
 
-            const COURSE_PER_PAGE = 10;
-            const offset = (page - 1) * COURSE_PER_PAGE;
+      const COURSE_PER_PAGE = 10;
+      const offset = (page - 1) * COURSE_PER_PAGE;
 
-            const result = await db.manyOrNone(sql, [key, offset, COURSE_PER_PAGE]);
+      const result = await db.manyOrNone(sql, [key, offset, COURSE_PER_PAGE]);
 
-            if (result.length !== 0) {
-                const listCourse = [];
+      if (result.length !== 0) {
+        const listCourse = [];
 
-                for (let course of result) {
-                    const tmp = new Course();
+        for (let course of result) {
+          const tmp = new Course();
 
-                    tmp.courseId = course.course_id;
-                    tmp.title = course.course_title;
-                    tmp.image = course.image;
-                    tmp.bDescription = course.b_description;
-                    tmp.createBy = course.create_by;
-                    tmp.numRating = course.num_rating;
-                    tmp.price = course.price;
-                    tmp.discount = course.discount;
+          tmp.courseId = course.course_id;
+          tmp.title = course.course_title;
+          tmp.image = course.image;
+          tmp.bDescription = course.b_description;
+          tmp.createBy = course.create_by;
+          tmp.numRating = course.num_rating;
+          tmp.price = course.price;
+          tmp.discount = course.discount;
 
-                    listCourse.push(tmp);
-                }
-
-                return listCourse;
-            }
-        } catch (err) {
-            console.log(err);
+          listCourse.push(tmp);
         }
-        return null;
-    },
-    searchCoursePriceAsc: async (keyWord, page) => {
-        try {
-            const sql = `
+
+        return listCourse;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    return null;
+  },
+  searchCoursePriceAsc: async (keyWord, page) => {
+    try {
+      const sql = `
                 SELECT course_id,
                        course_title,
                        image,
@@ -418,42 +422,42 @@ export default {
                 ORDER BY price ASC
                 LIMIT $3 OFFSET $2`;
 
-            const key = keyWord.split(' ').join(' & ');
+      const key = keyWord.split(' ').join(' & ');
 
-            const COURSE_PER_PAGE = 10;
-            const offset = (page - 1) * COURSE_PER_PAGE;
+      const COURSE_PER_PAGE = 10;
+      const offset = (page - 1) * COURSE_PER_PAGE;
 
-            const result = await db.manyOrNone(sql, [key, offset, COURSE_PER_PAGE]);
+      const result = await db.manyOrNone(sql, [key, offset, COURSE_PER_PAGE]);
 
-            if (result.length !== 0) {
-                const listCourse = [];
+      if (result.length !== 0) {
+        const listCourse = [];
 
-                for (let course of result) {
-                    const tmp = new Course();
+        for (let course of result) {
+          const tmp = new Course();
 
-                    tmp.courseId = course.course_id;
-                    tmp.title = course.course_title;
-                    tmp.image = course.image;
-                    tmp.bDescription = course.b_description;
-                    tmp.createBy = course.create_by;
-                    tmp.numRating = course.num_rating;
-                    tmp.price = course.price;
-                    tmp.discount = course.discount;
+          tmp.courseId = course.course_id;
+          tmp.title = course.course_title;
+          tmp.image = course.image;
+          tmp.bDescription = course.b_description;
+          tmp.createBy = course.create_by;
+          tmp.numRating = course.num_rating;
+          tmp.price = course.price;
+          tmp.discount = course.discount;
 
-                    listCourse.push(tmp);
-                }
-
-                return listCourse;
-            }
-        } catch (err) {
-            console.log(err);
+          listCourse.push(tmp);
         }
-        return null;
-    },
 
-    searchCourseByNameInCate: async (keyWord, categoryId, page) => {
-        try {
-            const sql = `
+        return listCourse;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    return null;
+  },
+
+  searchCourseByNameInCate: async (keyWord, categoryId, page) => {
+    try {
+      const sql = `
                 SELECT course_id,
                        course_title,
                        image,
@@ -470,41 +474,46 @@ export default {
                 ORDER BY num_enroll desc
                 LIMIT $4 OFFSET $3`;
 
-            const key = keyWord.split(' ').join(' & ');
+      const key = keyWord.split(' ').join(' & ');
 
-            const COURSE_PER_PAGE = 10;
-            const offset = (page - 1) * COURSE_PER_PAGE;
+      const COURSE_PER_PAGE = 10;
+      const offset = (page - 1) * COURSE_PER_PAGE;
 
-            const result = await db.manyOrNone(sql, [key, categoryId, offset, COURSE_PER_PAGE]);
+      const result = await db.manyOrNone(sql, [
+        key,
+        categoryId,
+        offset,
+        COURSE_PER_PAGE,
+      ]);
 
-            if (result.length !== 0) {
-                const listCourse = [];
+      if (result.length !== 0) {
+        const listCourse = [];
 
-                for (let course of result) {
-                    const tmp = new Course();
+        for (let course of result) {
+          const tmp = new Course();
 
-                    tmp.courseId = course.course_id;
-                    tmp.title = course.course_title;
-                    tmp.image = course.image;
-                    tmp.bDescription = course.b_description;
-                    tmp.createBy = course.create_by;
-                    tmp.numRating = course.num_rating;
-                    tmp.price = course.price;
-                    tmp.discount = course.discount;
+          tmp.courseId = course.course_id;
+          tmp.title = course.course_title;
+          tmp.image = course.image;
+          tmp.bDescription = course.b_description;
+          tmp.createBy = course.create_by;
+          tmp.numRating = course.num_rating;
+          tmp.price = course.price;
+          tmp.discount = course.discount;
 
-                    listCourse.push(tmp);
-                }
-
-                return listCourse;
-            }
-        } catch (err) {
-            console.log(err);
+          listCourse.push(tmp);
         }
-        return null;
-    },
-    searchCourseByNameInCateRatingDesc: async (keyWord, categoryId, page) => {
-        try {
-            const sql = `
+
+        return listCourse;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    return null;
+  },
+  searchCourseByNameInCateRatingDesc: async (keyWord, categoryId, page) => {
+    try {
+      const sql = `
                 SELECT course_id,
                        course_title,
                        image,
@@ -521,41 +530,46 @@ export default {
                 ORDER BY rating DESC
                 LIMIT $4 OFFSET $3`;
 
-            const key = keyWord.split(' ').join(' & ');
+      const key = keyWord.split(' ').join(' & ');
 
-            const COURSE_PER_PAGE = 10;
-            const offset = (page - 1) * COURSE_PER_PAGE;
+      const COURSE_PER_PAGE = 10;
+      const offset = (page - 1) * COURSE_PER_PAGE;
 
-            const result = await db.manyOrNone(sql, [key, categoryId, offset, COURSE_PER_PAGE]);
+      const result = await db.manyOrNone(sql, [
+        key,
+        categoryId,
+        offset,
+        COURSE_PER_PAGE,
+      ]);
 
-            if (result.length !== 0) {
-                const listCourse = [];
+      if (result.length !== 0) {
+        const listCourse = [];
 
-                for (let course of result) {
-                    const tmp = new Course();
+        for (let course of result) {
+          const tmp = new Course();
 
-                    tmp.courseId = course.course_id;
-                    tmp.title = course.course_title;
-                    tmp.image = course.image;
-                    tmp.bDescription = course.b_description;
-                    tmp.createBy = course.create_by;
-                    tmp.numRating = course.num_rating;
-                    tmp.price = course.price;
-                    tmp.discount = course.discount;
+          tmp.courseId = course.course_id;
+          tmp.title = course.course_title;
+          tmp.image = course.image;
+          tmp.bDescription = course.b_description;
+          tmp.createBy = course.create_by;
+          tmp.numRating = course.num_rating;
+          tmp.price = course.price;
+          tmp.discount = course.discount;
 
-                    listCourse.push(tmp);
-                }
-
-                return listCourse;
-            }
-        } catch (err) {
-            console.log(err);
+          listCourse.push(tmp);
         }
-        return null;
-    },
-    searchCourseByNameInCateRatingAsc: async (keyWord, categoryId, page) => {
-        try {
-            const sql = `
+
+        return listCourse;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    return null;
+  },
+  searchCourseByNameInCateRatingAsc: async (keyWord, categoryId, page) => {
+    try {
+      const sql = `
                 SELECT course_id,
                        course_title,
                        image,
@@ -572,41 +586,46 @@ export default {
                 ORDER BY rating ASC
                 LIMIT $4 OFFSET $3`;
 
-            const key = keyWord.split(' ').join(' & ');
+      const key = keyWord.split(' ').join(' & ');
 
-            const COURSE_PER_PAGE = 10;
-            const offset = (page - 1) * COURSE_PER_PAGE;
+      const COURSE_PER_PAGE = 10;
+      const offset = (page - 1) * COURSE_PER_PAGE;
 
-            const result = await db.manyOrNone(sql, [key, categoryId, offset, COURSE_PER_PAGE]);
+      const result = await db.manyOrNone(sql, [
+        key,
+        categoryId,
+        offset,
+        COURSE_PER_PAGE,
+      ]);
 
-            if (result.length !== 0) {
-                const listCourse = [];
+      if (result.length !== 0) {
+        const listCourse = [];
 
-                for (let course of result) {
-                    const tmp = new Course();
+        for (let course of result) {
+          const tmp = new Course();
 
-                    tmp.courseId = course.course_id;
-                    tmp.title = course.course_title;
-                    tmp.image = course.image;
-                    tmp.bDescription = course.b_description;
-                    tmp.createBy = course.create_by;
-                    tmp.numRating = course.num_rating;
-                    tmp.price = course.price;
-                    tmp.discount = course.discount;
+          tmp.courseId = course.course_id;
+          tmp.title = course.course_title;
+          tmp.image = course.image;
+          tmp.bDescription = course.b_description;
+          tmp.createBy = course.create_by;
+          tmp.numRating = course.num_rating;
+          tmp.price = course.price;
+          tmp.discount = course.discount;
 
-                    listCourse.push(tmp);
-                }
-
-                return listCourse;
-            }
-        } catch (err) {
-            console.log(err);
+          listCourse.push(tmp);
         }
-        return null;
-    },
-    searchCourseInCatePriceDesc: async (keyWord, categoryId, page) => {
-        try {
-            const sql = `
+
+        return listCourse;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    return null;
+  },
+  searchCourseInCatePriceDesc: async (keyWord, categoryId, page) => {
+    try {
+      const sql = `
                 SELECT course_id,
                        course_title,
                        image,
@@ -623,41 +642,46 @@ export default {
                 ORDER BY price DESC
                 LIMIT $4 OFFSET $3`;
 
-            const key = keyWord.split(' ').join(' & ');
+      const key = keyWord.split(' ').join(' & ');
 
-            const COURSE_PER_PAGE = 10;
-            const offset = (page - 1) * COURSE_PER_PAGE;
+      const COURSE_PER_PAGE = 10;
+      const offset = (page - 1) * COURSE_PER_PAGE;
 
-            const result = await db.manyOrNone(sql, [key, categoryId, offset, COURSE_PER_PAGE]);
+      const result = await db.manyOrNone(sql, [
+        key,
+        categoryId,
+        offset,
+        COURSE_PER_PAGE,
+      ]);
 
-            if (result.length !== 0) {
-                const listCourse = [];
+      if (result.length !== 0) {
+        const listCourse = [];
 
-                for (let course of result) {
-                    const tmp = new Course();
+        for (let course of result) {
+          const tmp = new Course();
 
-                    tmp.courseId = course.course_id;
-                    tmp.title = course.course_title;
-                    tmp.image = course.image;
-                    tmp.bDescription = course.b_description;
-                    tmp.createBy = course.create_by;
-                    tmp.numRating = course.num_rating;
-                    tmp.price = course.price;
-                    tmp.discount = course.discount;
+          tmp.courseId = course.course_id;
+          tmp.title = course.course_title;
+          tmp.image = course.image;
+          tmp.bDescription = course.b_description;
+          tmp.createBy = course.create_by;
+          tmp.numRating = course.num_rating;
+          tmp.price = course.price;
+          tmp.discount = course.discount;
 
-                    listCourse.push(tmp);
-                }
-
-                return listCourse;
-            }
-        } catch (err) {
-            console.log(err);
+          listCourse.push(tmp);
         }
-        return null;
-    },
-    searchCourseInCatePriceAsc: async (keyWord, categoryId, page) => {
-        try {
-            const sql = `
+
+        return listCourse;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    return null;
+  },
+  searchCourseInCatePriceAsc: async (keyWord, categoryId, page) => {
+    try {
+      const sql = `
                 SELECT course_id,
                        course_title,
                        image,
@@ -674,42 +698,47 @@ export default {
                 ORDER BY price ASC
                 LIMIT $4 OFFSET $3`;
 
-            const key = keyWord.split(' ').join(' & ');
+      const key = keyWord.split(' ').join(' & ');
 
-            const COURSE_PER_PAGE = 10;
-            const offset = (page - 1) * COURSE_PER_PAGE;
+      const COURSE_PER_PAGE = 10;
+      const offset = (page - 1) * COURSE_PER_PAGE;
 
-            const result = await db.manyOrNone(sql, [key, categoryId, offset, COURSE_PER_PAGE]);
+      const result = await db.manyOrNone(sql, [
+        key,
+        categoryId,
+        offset,
+        COURSE_PER_PAGE,
+      ]);
 
-            if (result.length !== 0) {
-                const listCourse = [];
+      if (result.length !== 0) {
+        const listCourse = [];
 
-                for (let course of result) {
-                    const tmp = new Course();
+        for (let course of result) {
+          const tmp = new Course();
 
-                    tmp.courseId = course.course_id;
-                    tmp.title = course.course_title;
-                    tmp.image = course.image;
-                    tmp.bDescription = course.b_description;
-                    tmp.createBy = course.create_by;
-                    tmp.numRating = course.num_rating;
-                    tmp.price = course.price;
-                    tmp.discount = course.discount;
+          tmp.courseId = course.course_id;
+          tmp.title = course.course_title;
+          tmp.image = course.image;
+          tmp.bDescription = course.b_description;
+          tmp.createBy = course.create_by;
+          tmp.numRating = course.num_rating;
+          tmp.price = course.price;
+          tmp.discount = course.discount;
 
-                    listCourse.push(tmp);
-                }
-
-                return listCourse;
-            }
-        } catch (err) {
-            console.log(err);
+          listCourse.push(tmp);
         }
-        return null;
-    },
 
-    getFullCourse: async (courseId) => {
-        try {
-            const sql = `
+        return listCourse;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    return null;
+  },
+
+  getFullCourse: async (courseId) => {
+    try {
+      const sql = `
                 SELECT course_id,
                        course_title,
                        category_id,
@@ -729,23 +758,39 @@ export default {
                 WHERE course_id = $1
             `;
 
-            const result = await db.one(sql, [courseId]);
+      const result = await db.one(sql, [courseId]);
 
-            const course = new Course(result.course_id, result.course_title, result.category_id, result.image, result.b_description, result.description, result.price, result.discount, result.status, result.rating, result.num_enroll, result.num_rating, result.create_by, result.create_at, result.update_at);
+      const course = new Course(
+        result.course_id,
+        result.course_title,
+        result.category_id,
+        result.image,
+        result.b_description,
+        result.description,
+        result.price,
+        result.discount,
+        result.status,
+        result.rating,
+        result.num_enroll,
+        result.num_rating,
+        result.create_by,
+        result.create_at,
+        result.update_at
+      );
 
-            course.sectionList = await sectionService.getAllFullSection(courseId);
-            course.feedbackList = await enrollmentsService.getListFeedback(courseId);
+      course.sectionList = await sectionService.getAllFullSection(courseId);
+      course.feedbackList = await enrollmentsService.getListFeedback(courseId);
 
-            return course;
-        } catch (err) {
-            console.log(err);
-        }
+      return course;
+    } catch (err) {
+      console.log(err);
+    }
 
-        return null;
-    },
-    getWatchList: async (userId) => {
-        try {
-            const sql = `
+    return null;
+  },
+  getWatchList: async (userId) => {
+    try {
+      const sql = `
                 SELECT co.course_id,
                        co.course_title,
                        co.category_id,
@@ -760,91 +805,120 @@ export default {
                 WHERE wl.user_id = $1
             `;
 
-            const result = await db.manyOrNone(sql, [userId]);
+      const result = await db.manyOrNone(sql, [userId]);
 
-            if (result.length != 0) {
-                const courses = [];
+      if (result.length != 0) {
+        const courses = [];
 
-                for (let course of result) {
-                    const tmp = new Course();
+        for (let course of result) {
+          const tmp = new Course();
 
-                    tmp.courseId = course.course_id;
-                    tmp.title = course.course_title;
-                    tmp.categoryId = course.category_id;
-                    tmp.image = course.image;
-                    tmp.bDescription = course.b_description;
-                    tmp.status = course.status;
-                    tmp.rating = course.rating;
-                    tmp.numEnroll = course.num_enroll;
-                    tmp.numRating = course.num_rating;
+          tmp.courseId = course.course_id;
+          tmp.title = course.course_title;
+          tmp.categoryId = course.category_id;
+          tmp.image = course.image;
+          tmp.bDescription = course.b_description;
+          tmp.status = course.status;
+          tmp.rating = course.rating;
+          tmp.numEnroll = course.num_enroll;
+          tmp.numRating = course.num_rating;
 
-                    courses.push(tmp);
-                }
-
-                return courses;
-            }
-        } catch (err) {
-            console.log(err);
+          courses.push(tmp);
         }
 
-        return null;
-    },
-    getEnrollList: async (userId) => {
-        try {
-            const sql = `
+        return courses;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+    return null;
+  },
+  getEnrollList: async (userId) => {
+    try {
+      const sql = `
                 SELECT co.course_id, co.course_title, co.category_id, co.image, er.enroll_date, er.status
                 FROM enrollments er
                          JOIN courses co on er.course_id = co.course_id
                 WHERE er.user_id = $1
             `;
 
-            const result = await db.manyOrNone(sql, [userId]);
+      const result = await db.manyOrNone(sql, [userId]);
 
-            if (result.length !== 0) {
-                const courses = [];
+      if (result.length !== 0) {
+        const courses = [];
 
-                for (let course of result) {
-                    const tmp = new Course();
+        for (let course of result) {
+          const tmp = new Course();
 
-                    tmp.courseId = course.course_id;
-                    tmp.title = course.course_title;
-                    tmp.categoryId = course.category_id;
-                    tmp.image = course.image;
-                    tmp.bDescription = course.b_description;
-                    tmp.status = course.status;
-                    tmp.rating = course.rating;
-                    tmp.numEnroll = course.num_enroll;
-                    tmp.numRating = course.num_rating;
+          tmp.courseId = course.course_id;
+          tmp.title = course.course_title;
+          tmp.categoryId = course.category_id;
+          tmp.image = course.image;
+          tmp.bDescription = course.b_description;
+          tmp.status = course.status;
+          tmp.rating = course.rating;
+          tmp.numEnroll = course.num_enroll;
+          tmp.numRating = course.num_rating;
 
-                    courses.push(tmp);
-                }
-
-                return courses;
-            }
-        } catch (err) {
-            console.log(err);
+          courses.push(tmp);
         }
 
-        return null;
-    },
-    insert: async (courseTitle, categoryId, image, bDescription, description, price, discount, status, createBy) => {
-        try {
-            const sql = `
+        return courses;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+    return null;
+  },
+  insert: async (
+    courseTitle,
+    categoryId,
+    image,
+    bDescription,
+    description,
+    price,
+    discount,
+    status,
+    createBy
+  ) => {
+    try {
+      const sql = `
                 SELECT fn_insert_course($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) as courseId;
             `;
 
-            const result = await db.one(sql, [uuidv4(), courseTitle, categoryId, image, bDescription, description, price, discount, status, createBy,]);
+      const result = await db.one(sql, [
+        uuidv4(),
+        courseTitle,
+        categoryId,
+        image,
+        bDescription,
+        description,
+        price,
+        discount,
+        status,
+        createBy,
+      ]);
 
-            return result;
-        } catch (err) {
-            console.log(err);
-        }
+      return result;
+    } catch (err) {
+      console.log(err);
+    }
 
-        return null;
-    },
-    update: async (courseId, courseTitle, image, bDescription, description, price, discount) => {
-        try {
-            const sql = `
+    return null;
+  },
+  update: async (
+    courseId,
+    courseTitle,
+    image,
+    bDescription,
+    description,
+    price,
+    discount
+  ) => {
+    try {
+      const sql = `
                 UPDATE courses
                 SET course_title  = $2,
                     category_id   = $3,
@@ -858,51 +932,59 @@ export default {
                 RETURNING course_id
             `;
 
-            const result = await db.one(sql, [courseId, courseTitle, image, bDescription, description, price, discount]);
+      const result = await db.one(sql, [
+        courseId,
+        courseTitle,
+        image,
+        bDescription,
+        description,
+        price,
+        discount,
+      ]);
 
-            return result.course_id;
-        } catch (err) {
-            console.log(err);
-        }
+      return result.course_id;
+    } catch (err) {
+      console.log(err);
+    }
 
-        return null;
-    },
-    updateNumEnroll: async (courseId) => {
-        try {
-            const sql = `
+    return null;
+  },
+  updateNumEnroll: async (courseId) => {
+    try {
+      const sql = `
                 UPDATE courses
                 set num_enroll = num_enroll + 1
                 WHERE course_id = $1
                 RETURNING course_id, num_enroll
             `;
 
-            const result = await db.one(sql, [courseId]);
+      const result = await db.one(sql, [courseId]);
 
-            return result;
-        } catch (err) {
-            console.log(err);
-        }
-        return null;
-    },
-    updateNumRating: async (courseId) => {
-        try {
-            const sql = `
+      return result;
+    } catch (err) {
+      console.log(err);
+    }
+    return null;
+  },
+  updateNumRating: async (courseId) => {
+    try {
+      const sql = `
                 UPDATE courses
                 set num_rating = num_rating + 1
                 WHERE course_id = $1
                 RETURNING course_id`;
 
-            const result = await db.one(sql, [courseId]);
+      const result = await db.one(sql, [courseId]);
 
-            return result.course_id;
-        } catch (err) {
-            console.log(err);
-        }
-        return null;
-    },
-    updateRating: async (courseId) => {
-        try {
-            const sql = `
+      return result.course_id;
+    } catch (err) {
+      console.log(err);
+    }
+    return null;
+  },
+  updateRating: async (courseId) => {
+    try {
+      const sql = `
                 UPDATE courses
                 SET rating = (SELECT AVG(enroll.rating)
                               FROM enrollments as enroll
@@ -910,17 +992,17 @@ export default {
                 WHERE course_id = $1
                 RETURNING course_id`;
 
-            const result = await db.one(sql, [courseId]);
+      const result = await db.one(sql, [courseId]);
 
-            return result.course_id;
-        } catch (err) {
-            console.log(err);
-        }
-        return null;
-    },
-    getByCreateBy: async (createBy) => {
-        try {
-            const sql = `
+      return result.course_id;
+    } catch (err) {
+      console.log(err);
+    }
+    return null;
+  },
+  getByCreateBy: async (createBy) => {
+    try {
+      const sql = `
                 SELECT course_id,
                        course_title,
                        category_id,
@@ -935,37 +1017,37 @@ export default {
                 ORDER BY create_at desc
             `;
 
-            const result = await db.manyOrNone(sql, [createBy]);
+      const result = await db.manyOrNone(sql, [createBy]);
 
-            if (result.length !== 0) {
-                const courses = [];
+      if (result.length !== 0) {
+        const courses = [];
 
-                for (let course of result) {
-                    const tmp = new Course();
+        for (let course of result) {
+          const tmp = new Course();
 
-                    tmp.courseId = course.course_id;
-                    tmp.title = course.course_title;
-                    tmp.categoryId = course.category_id;
-                    tmp.image = course.image;
-                    tmp.bDescription = course.b_description;
-                    tmp.status = course.status;
-                    tmp.rating = course.rating;
-                    tmp.numEnroll = course.num_enroll;
-                    tmp.numRating = course.num_rating;
+          tmp.courseId = course.course_id;
+          tmp.title = course.course_title;
+          tmp.categoryId = course.category_id;
+          tmp.image = course.image;
+          tmp.bDescription = course.b_description;
+          tmp.status = course.status;
+          tmp.rating = course.rating;
+          tmp.numEnroll = course.num_enroll;
+          tmp.numRating = course.num_rating;
 
-                    courses.push(tmp);
-                }
-
-                return courses;
-            }
-        } catch (err) {
-            console.log(err);
+          courses.push(tmp);
         }
 
-        return null;
-    },
-    getAllCourses: async (page) => {
-        const sql = `
+        return courses;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+    return null;
+  },
+  getAllCourses: async (page) => {
+    const sql = `
             SELECT course_id,
                    course_title,
                    category_id,
@@ -983,23 +1065,41 @@ export default {
                    update_at
             FROM courses
             LIMIT $2 OFFSET $1
-        `
-        const COURSE_PER_PAGE = 10;
-        const offset = (page - 1) * COURSE_PER_PAGE;
+        `;
+    const COURSE_PER_PAGE = 10;
+    const offset = (page - 1) * COURSE_PER_PAGE;
 
-        const result = await db.manyOrNone(sql, [offset, COURSE_PER_PAGE]);
-        if (result.length !== 0) {
-            const listCourse = [];
+    const result = await db.manyOrNone(sql, [offset, COURSE_PER_PAGE]);
+    if (result.length !== 0) {
+      const listCourse = [];
 
-            for (let course of result)
-                listCourse.push(new Course(course.course_id, course.course_title, course.category_id, course.image, course.b_description, course.description, course.price, course.discount, course.status, course.rating, course.num_enroll, course.num_rating, course.create_by, course.create_at, course.update_at));
+      for (let course of result)
+        listCourse.push(
+          new Course(
+            course.course_id,
+            course.course_title,
+            course.category_id,
+            course.image,
+            course.b_description,
+            course.description,
+            course.price,
+            course.discount,
+            course.status,
+            course.rating,
+            course.num_enroll,
+            course.num_rating,
+            course.create_by,
+            course.create_at,
+            course.update_at
+          )
+        );
 
-            return listCourse;
-        }
-    },
-    getAllCourseTeacher: async (createBy, page) => {
-        try {
-            const sql = `
+      return listCourse;
+    }
+  },
+  getAllCourseTeacher: async (createBy, page) => {
+    try {
+      const sql = `
                 SELECT course_id,
                        course_title,
                        category_id,
@@ -1021,40 +1121,62 @@ export default {
                 LIMIT $3 OFFSET $2
             `;
 
-            const COURSE_PER_PAGE = 10;
-            const offset = (page - 1) * COURSE_PER_PAGE;
+      const COURSE_PER_PAGE = 10;
+      const offset = (page - 1) * COURSE_PER_PAGE;
 
-            const result = await db.manyOrNone(sql, [createBy, offset, COURSE_PER_PAGE]);
+      const result = await db.manyOrNone(sql, [
+        createBy,
+        offset,
+        COURSE_PER_PAGE,
+      ]);
 
-            if (result.length !== 0) {
-                const courses = [];
+      if (result.length !== 0) {
+        const courses = [];
 
-                for (let course of result) {
-                    courses.push(new Course(course.course_id, course.course_title, course.category_id, course.image, course.b_description, course.description, course.price, course.discount, course.status, course.rating, course.num_enroll, course.num_rating, course.create_by, course.create_at, course.update_at));
-                }
-
-                return courses;
-            }
-        } catch (err) {
-            console.log(err);
+        for (let course of result) {
+          courses.push(
+            new Course(
+              course.course_id,
+              course.course_title,
+              course.category_id,
+              course.image,
+              course.b_description,
+              course.description,
+              course.price,
+              course.discount,
+              course.status,
+              course.rating,
+              course.num_enroll,
+              course.num_rating,
+              course.create_by,
+              course.create_at,
+              course.update_at
+            )
+          );
         }
 
-        return null;
-    },
-    getAllCourseCategory: async (categoryId, page) => {
-        try {
-            const checkIfParentSql = `
+        return courses;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+    return null;
+  },
+  getAllCourseCategory: async (categoryId, page) => {
+    try {
+      const checkIfParentSql = `
                 SELECT category_id
                 FROM categories
                 WHERE category_parent = $1
             `;
 
-            const children = await db.manyOrNone(checkIfParentSql, [categoryId]);
+      const children = await db.manyOrNone(checkIfParentSql, [categoryId]);
 
-            let sql = '';
+      let sql = '';
 
-            if (children.length === 0) {
-                sql = `
+      if (children.length === 0) {
+        sql = `
                     SELECT course_id,
                            course_title,
                            category_id,
@@ -1074,8 +1196,8 @@ export default {
                     WHERE category_id = $1
                     LIMIT $2 OFFSET $1
                 `;
-            } else {
-                sql = `
+      } else {
+        sql = `
                     SELECT course_id,
                            course_title,
                            category_id,
@@ -1097,65 +1219,87 @@ export default {
                                           WHERE category_parent = $1)
                     LIMIT $3 OFFSET $2
                 `;
-            }
+      }
 
-            const COURSE_PER_PAGE = 10;
-            const offset = (page - 1) * COURSE_PER_PAGE;
+      const COURSE_PER_PAGE = 10;
+      const offset = (page - 1) * COURSE_PER_PAGE;
 
-            const result = await db.manyOrNone(sql, [categoryId, offset, COURSE_PER_PAGE]);
+      const result = await db.manyOrNone(sql, [
+        categoryId,
+        offset,
+        COURSE_PER_PAGE,
+      ]);
 
-            if (result.length !== 0) {
-                const courses = [];
+      if (result.length !== 0) {
+        const courses = [];
 
-                for (let course of result) {
-                    courses.push(new Course(course.course_id, course.course_title, course.category_id, course.image, course.b_description, course.description, course.price, course.discount, course.status, course.rating, course.num_enroll, course.num_rating, course.create_by, course.create_at, course.update_at));
-                }
-
-                return courses;
-            }
-        } catch (err) {
-            console.log(err);
+        for (let course of result) {
+          courses.push(
+            new Course(
+              course.course_id,
+              course.course_title,
+              course.category_id,
+              course.image,
+              course.b_description,
+              course.description,
+              course.price,
+              course.discount,
+              course.status,
+              course.rating,
+              course.num_enroll,
+              course.num_rating,
+              course.create_by,
+              course.create_at,
+              course.update_at
+            )
+          );
         }
 
-        return null;
-    },
-    updateStatus: async (courseId, status) => {
-        try {
-            const sql = `
+        return courses;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+    return null;
+  },
+  updateStatus: async (courseId, status) => {
+    try {
+      const sql = `
                 UPDATE courses
                 SET status = $2
                 WHERE course_id = $1
                 RETURNING course_id`;
 
-            const result = await db.one(sql, [courseId, status]);
+      const result = await db.one(sql, [courseId, status]);
 
-            return result.course_id;
-        } catch (err) {
-            console.log(err);
-        }
+      return result.course_id;
+    } catch (err) {
+      console.log(err);
+    }
 
-        return null;
-    },
-    insertDateNumView: async (courseId, date) => {
-        try {
-            const sql = `
+    return null;
+  },
+  insertDateNumView: async (courseId, date) => {
+    try {
+      const sql = `
                 INSERT INTO view_number (course_id, date, num_view)
                 VALUES ($1, $2, 0)
                 RETURNING course_id, date
             `;
 
-            const result = await db.one(sql, [courseId, date]);
+      const result = await db.one(sql, [courseId, date]);
 
-            return result;
-        } catch (err) {
-            console.log(err);
-        }
+      return result;
+    } catch (err) {
+      console.log(err);
+    }
 
-        return null;
-    },
-    updateNumView: async (courseId, date) => {
-        try {
-            const sql = `
+    return null;
+  },
+  updateNumView: async (courseId, date) => {
+    try {
+      const sql = `
                 UPDATE view_number
                 SET num_view = num_view + 1
                 WHERE course_id = $1
@@ -1163,12 +1307,32 @@ export default {
                 RETURNING course_id, num_view
             `;
 
-            const result = await db.one(sql, [courseId, date]);
+      const result = await db.one(sql, [courseId, date]);
 
-            return result;
-        } catch (err) {
-            console.log(err);
-        }
-        return null;
+      return result;
+    } catch (err) {
+      console.log(err);
     }
-}
+    return null;
+  },
+  checkEnrolledCourse: async (userId, courseId) => {
+    try {
+      const sql = `SELECT EXISTS (SELECT * FROM enrollments WHERE user_id = $1 and course_id = $2) as check`;
+      const result = await db.one(sql, [userId, courseId]);
+
+      return result.check;
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  checkExistsWatchList: async (userId, courseId) => {
+    try {
+      const sql = `SELECT EXISTS (SELECT * FROM watch_list WHERE user_id = $1 and course_id = $2) as check`;
+      const result = await db.one(sql, [userId, courseId]);
+
+      return result.check;
+    } catch (err) {
+      console.log(err);
+    }
+  },
+};
