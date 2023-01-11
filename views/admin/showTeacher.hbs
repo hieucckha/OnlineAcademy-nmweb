@@ -1,0 +1,107 @@
+{{#section 'css'}}
+    <style>
+        .btn-circle {
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            padding: 6px 0;
+            font-size: 12px;
+            line-height: 1.428571429;
+            border-radius: 15px;
+            background: rgb(255, 255, 255);
+        }
+
+        .text-black {
+            color: black;
+        }
+    </style>
+
+{{/section}}
+
+<section class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <div class="row">
+                            <div class="col-xl-12 ml-3">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3>Teacher Table</h3>
+                                        <a name="" id="" class="btn btn-outline-primary float-right"
+                                           href="/admin/addTeacher" role="button"><i class="fa fa-plus"
+                                                                                     aria-hidden="true"></i> Add
+                                            more</a>
+                                        <span class="d-block m-t-5">Danh sách các <code>Giảng viên</code> của hệ thống
+                                        </span>
+                                    </div>
+                                    <div class="card-body table-border-style">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped">
+                                                <thead>
+                                                <tr>
+                                                    <th>Teacher ID</th>
+                                                    <th>Name</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                    <th></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody class="">
+                                                {{#each this.teacher}}
+                                                    <form method="post" action="">
+                                                        <tr>
+                                                            <td>{{userId}}</td>
+                                                            <input type="hidden" value={{userId}} name="userId">
+                                                            <td>{{firstName}} {{lastName}}</td>
+                                                            {{#isActive status}}
+                                                                <td class="text-c-green">Enable</td>
+                                                            {{else}}
+                                                                <td class="text-c-red">Disable</td>
+                                                            {{/isActive}}
+                                                            <input type="hidden" value={{userId}} name="userId">
+                                                            <td>
+                                                                <div class="dropdown">
+                                                                    <button class="btn btn-light btn-circle pl-2 border-0"
+                                                                            type="button" data-toggle="dropdown">
+                                                                        <i class="fa fa-ellipsis-v text-black ml-1"
+                                                                           aria-hidden="true"></i>
+                                                                    </button>
+                                                                    <div class="dropdown-menu">
+                                                                        {{#isActive status}}
+                                                                            <button type="submit"
+                                                                                    class="view text-c-green dropdown-item"
+                                                                                    name="lockAccount" value="lock">
+                                                                                <i class="fa fa-lock"
+                                                                                   aria-hidden="true"></i> <span
+                                                                                    class="f-16 m-2">Lock</span>
+                                                                            </button>
+                                                                        {{else}}
+                                                                            <button type="submit"
+                                                                                    class="view text-c-green dropdown-item"
+                                                                                    name="unlockAccount" value="unlock">
+                                                                                <i class="fa fa-unlock"
+                                                                                   aria-hidden="true"></i> <span
+                                                                                    class="f-16 m-2">Unlock</span>
+                                                                            </button>
+                                                                        {{/isActive}}
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </form>
+                                                {{/each}}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
