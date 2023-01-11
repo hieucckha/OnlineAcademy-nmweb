@@ -674,6 +674,12 @@ section {
   font-size: 11px;
 }
 
+#profile .alert-and-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 @media (max-width: 991px) {
   #profile .leftbox {
     width: 90px;

@@ -17,46 +17,50 @@
                 </nav>
             </div>
             <div class="rightbox">
-                <form class="profile tabShow" method="post" action="/account/editProfile">
+                <form id="edit-form" class="profile tabShow" method="post" action="/account/editProfile">
                     <br>
                     <h1 class="info">Personal Info</h1>
-                    {{#if err_message}}
-                        <div class="alert alert-danger" role="alert">
-                            {{err_message}}
-                        </div>
-                    {{/if}}
+                    
                     <h2>Email</h2>
-                    <input type="text" name="email" class="input" value="{{authUser.email}}">
+                    <input id="txtEmail" type="text" name="email" class="input" value="{{authUser.email}}">
 
                     <h2>First name</h2>
-                    <input type="text" name="firstName" class="input" value="{{authUser.firstName}}">
+                    <input id="txtFirstName" type="text" name="firstName" class="input" value="{{authUser.firstName}}">
 
                     <h2>Last name</h2>
-                    <input type="text" name="lastName" class="input" value="{{authUser.lastName}}">
+                    <input id="txtLastName" type="text" name="lastName" class="input" value="{{authUser.lastName}}">
 
                     <h2>Password</h2>
                     <input type="password" name="pass" class="input"><br>
                     <i class="notification">* Enter password to confirm the change</i>
 
-                    <br>
-                    <button class="btn-update" type="submit">Update</button>
+                    <div class="alert-and-btn">
+                        {{#if err_message}}
+                            <div class="alert alert-danger" role="alert" style="width: 200px; margin-top: 15px;">
+                                {{err_message}}
+                            </div>
+                        {{/if}}
+
+                        <br>
+                        <button class="btn-update" type="submit">Update</button>
+                    </div>
                 </form>
-                <div class="change-password tabShow">
+                <form id="changePass-form" class="profile tabShow" method="post" action="/account/changePass">
                     <br>
                     <h1>Change Password</h1>
 
                     <h2>Password</h2>
-                    <input type="password" class="input" value="">
+                    <input id="txtPass" type="password" class="input" name="pass">
 
                     <h2> New Password</h2>
-                    <input type="password" class="input" value="">
+                    <input id="txtNewPass" type="password" class="input" name="newPass">
 
                     <h2>Confirm Password</h2>
-                    <input type="password" class="input" value="">
+                    <input id="txtConfirmPass" type="password" class="input">
 
                     <br>
                     <button class="btn-update" type="submit">Update</button>
-                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -79,5 +83,59 @@
         $(".tab").click(function() {
             $(this).addClass("active").siblings().removeClass("active"); 
         })
+    </script>
+
+    <script>
+        $('#changePass-form').on('submit', function(e) {
+            e.preventDefault();
+
+            const pass = $('#txtPass').val();
+            if(pass.length === 0) {
+                alert('Invalid data!');
+                return;
+            }
+
+            const newPass = $('#txtNewPass').val();
+            if(newPass.length === 0) {
+                alert('Invalid data!');
+                return;
+            }
+
+            const confirmPass = $('#txtConfirmPass').val();
+            if(confirmPass.length === 0) {
+                alert('Invalid data!');
+                return;
+            }
+
+            if(newPass !== confirmPass) {
+                alert('Password does not match!');
+                return;
+            }
+
+            $('#changePass-form').off('submit').submit();
+        });
+
+        $('#edit-form').on('submit', function(e) {
+            e.preventDefault();
+
+            const firstName = $('#txtFirstName').val();
+            if(firstName.length === 0) {
+                alert('Invalid data!');
+                return;
+            }
+
+            const lastName = $('#txtLastName').val();
+            if(lastName.length === 0) {
+                alert('Invalid data!');
+                return;
+            }
+
+            const email = $('#txtEmail').val();
+            if(email.length === 0) {
+                alert('Invalid data!');
+                return;
+            }
+            $('#changePass-form').off('submit').submit();
+        });
     </script>
 {{/section}}

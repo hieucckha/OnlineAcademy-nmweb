@@ -1,14 +1,14 @@
 $('.sign-up-form').on('submit', function(e) {
     e.preventDefault();
 
-    const name = $('#txtFirstName').val();
-    if(name.length === 0) {
+    const firstName = $('#txtFirstName').val();
+    if(firstName.length === 0) {
         alert('Invalid data!');
         return;
     }
 
-    const username = $('#txtLastName').val();
-    if(username.length === 0) {
+    const lastName = $('#txtLastName').val();
+    if(lastName.length === 0) {
         alert('Invalid data!');
         return;
     }
