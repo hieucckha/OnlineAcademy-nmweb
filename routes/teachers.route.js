@@ -15,36 +15,38 @@ router.get('/', async (req, res) => {
     if (user === undefined) return res.redirect('/');
     else if (user.role !== 1) return res.redirect('/');
 
-  const hotCourses = await coursesService.getInfoHot();
-  const mostView = await coursesService.getInfoMostWatch();
-  const newest = await coursesService.getInfoNewest();
-  const temp = await categoryService.getList();
-  const categories = [];
+    const hotCourses = await coursesService.getInfoHot();
+    const mostView = await coursesService.getInfoMostWatch();
+    const newest = await coursesService.getInfoNewest();
+    const temp = await categoryService.getList();
+    const categories = [];
 
-  for (let i = 0; i < 5; i++) {
-    categories.push(temp[i]);
-  }
+    for (let i = 0; i < 5; i++) {
+      categories.push(temp[i]);
+    }
 
-  //console.log(list);
-  res.render('teacher/home', {
-    hotCourses: hotCourses,
-    hot_empty: hotCourses === null,
+    //console.log(list);
+    res.render('teacher/home', {
+      hotCourses: hotCourses,
+      hot_empty: hotCourses === null,
 
-    mostView: mostView,
-    mW_empty: mostView === null,
+      mostView: mostView,
+      mW_empty: mostView === null,
 
-    newest: newest,
-    n_empty: newest === null,
+      newest: newest,
+      n_empty: newest === null,
 
-    categories: categories,
-    ct_empty: categories === null,
-    layout: 'teacher.hbs'
-  });
+      categories: categories,
+      ct_empty: categories === null,
+      user: user,
+      layout: 'teacher.hbs'
+    });
 });
 router.get('/new/course', async (req, res) => {
   const user = req.session.authUser;
   if (user === undefined) return res.redirect('/');
   else if (user.role !== 1) return res.redirect('/');
+
   const categoryList = await categoryService.getList();
   //const user = await userService.getById('d172436b-5020-4b34-8827-6ebd041d5474');
   res.render('teacher/nCourse', {
@@ -81,6 +83,7 @@ router.get('/edit/course/', async (req, res) => {
     course: course,
     instructor: instructor,
     numLecture: numLecture,
+    user: user,
     layout: 'teacher.hbs'
   });
 });
@@ -91,7 +94,8 @@ router.get('/edit/profile/', (req, res)=>{
 
   res.render('teacher/editAccount',
       {
-        layout: 'teacher.hbs'
+        layout: 'teacher.hbs',
+        user: user
       }
       );
 })
@@ -130,6 +134,7 @@ router.get('/course/mycourse', async (req, res) => {
         pageList: pageList,
         maxPage: maxPage,
         empty: list === null,
+        user: user,
         layout: 'teacher.hbs'
     });
 });

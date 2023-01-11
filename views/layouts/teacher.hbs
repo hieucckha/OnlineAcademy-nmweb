@@ -92,12 +92,12 @@
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
 
-      <img src="/img/user.png" class="user-pic" onclick="toggleMenu()"></img>
+      <img src="/{{user.avatar}}" class="user-pic" onclick="toggleMenu()"></img>
       <div class="sub-menu-wrap" id="subMenu">
         <div class="sub-menu">
           <div class="user-info">
-            <img src="/img/user.png">
-            <h3>User Name</h3>
+            <img src="/{{user.avatar}}">
+            <h3>{{user.firstName}} {{user.lastName}}</h3>
           </div>
           <hr>
           <a href="/teacher/edit/profile/" class="sub-menu-link">

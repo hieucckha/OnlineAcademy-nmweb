@@ -83,8 +83,7 @@ router.post('/logout', function (req, res) {
   req.session.auth = false;
   req.session.authUser = null;
 
-  const url = req.headers.referer || '/';
-  res.redirect(url);
+  res.redirect('/');
 });
 
 router.post('/editProfile', async function (req, res) {

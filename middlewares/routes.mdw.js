@@ -4,6 +4,7 @@ import coursesRoute from '../routes/courses.route.js';
 import teacherRoutes from '../routes/teachers.route.js';
 import coursesService from '../services/courses.service.js';
 import categoryService from '../services/category.service.js';
+import adminRoute from "../routes/admin.route.js";
 
 export default function (app) {
   app.get('/', async function (req, res) {
@@ -36,4 +37,5 @@ export default function (app) {
   app.use('/account', accountRoute, express.static('public'));
   app.use('/courses', coursesRoute, express.static('public'));
   app.use('/teacher', teacherRoutes, express.static('public'));
+  app.use('/admin', adminRoute, express.static('public'));
 }

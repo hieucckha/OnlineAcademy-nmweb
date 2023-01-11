@@ -1,11 +1,35 @@
 import express from 'express';
 import userService from "../services/user.service.js";
+import coursesService from "../services/courses.service.js";
+import categoryService from "../services/category.service.js";
 
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-    // const Info = userService.getById('d172436b-5020-4b34-8827-6ebd041d5474');
+    const hotCourses = await coursesService.getInfoHot();
+    const mostView = await coursesService.getInfoMostWatch();
+    const newest = await coursesService.getInfoNewest();
+    const temp = await categoryService.getList();
+    const categories = [];
+
+    for (let i = 0; i < 5; i++) {
+        categories.push(temp[i]);
+    }
+
+    //console.log(list);
     res.render('teacher/home', {
+        hotCourses: hotCourses,
+        hot_empty: hotCourses === null,
+
+        mostView: mostView,
+        mW_empty: mostView === null,
+
+        newest: newest,
+        n_empty: newest === null,
+
+        categories: categories,
+        ct_empty: categories === null,
+        //user: user,
         layout: 'admin.hbs'
     });
 });
