@@ -111,20 +111,64 @@ router.get('/category', async function (req, res) {
     });
 })
 
-router.post('/courseDetails', function (req, res) {
-    const courseId = req.query.courseId || '';
-    const userId = req.session.authUser.userId;
+router.post('/enrollCourse', async function (req, res) {
+    const courseId = req.body.courseId || '';
+    if (typeof(req.session.authUser) !== 'undefined') {
+        const userId = req.session.authUser.userId;
 
-    if (enrollmentsService.isExist(userId, courseId)) {
+        const isExist = await coursesService.checkEnrolledCourse(userId, courseId);
 
-        const url = req.headers.referer || '/';
-        res.redirect(url);
+        if (isExist) {
+            const url = req.headers.referer || '/';
+            res.redirect(url);
+        } else {
+            enrollmentsService.insert(userId, courseId);
+            const url = req.headers.referer || '/';
+            res.redirect(url);
+        }   
     } else {
-        enrollmentsService.insert(userId, courseId);
-  
-        const url = req.headers.referer || '/';
-        res.redirect(url);
-    }   
-  });
+        res.redirect('/');
+    }
+});
+
+router.post('/AddToWatchList', async function (req, res) {
+    const courseId = req.body.courseId || '';
+    if (typeof(req.session.authUser) !== 'undefined') {
+        const userId = req.session.authUser.userId;
+
+        const isExist = await coursesService.checkExistsWatchList(userId, courseId);
+
+        if (isExist) {
+            const url = req.headers.referer || '/';
+            res.redirect(url);
+        } else {
+            watchListService.insert(userId, courseId);
+            const url = req.headers.referer || '/';
+            res.redirect(url);
+        }   
+    } else {
+        res.redirect('/');
+    }
+});
+
+router.post('/watchList/delete', async function (req, res) {
+    const courseId = req.body.courseId || '';
+    if (typeof(req.session.authUser) !== 'undefined') {
+        const userId = req.session.authUser.userId;
+
+        const isExist = await coursesService.checkExistsWatchList(userId, courseId);
+
+        if (isExist) {
+            watchListService.delete(userId, courseId);
+            const url = req.headers.referer || '/';
+            res.redirect(url);
+        } else {
+            const url = req.headers.referer || '/';
+            res.redirect(url);
+        }   
+    } else {
+        res.redirect('/');
+    }
+});
 
 export default router;

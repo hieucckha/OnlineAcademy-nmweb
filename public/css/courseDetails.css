@@ -258,11 +258,13 @@
 }
 
 #course-details .btn-div {
-    margin-top: 20px;
+    margin-top: 30px;
+    display: flex;
 }
 
 #course-details .btn-buy {
     padding: 15px 85px;
+    margin-right: 10px;
     background: #5624d0;
     color: #fff;
     border: 1px solid black;

@@ -9,7 +9,11 @@
                     <div class="course-list">
                         <div class="course-img">
                             <a href="/courses/courseDetails?courseId={{courseId}}"><img src="{{image}}" class="thumbnail"></a>
-                            <button class="watchList-btn"><i class="fa fa-heart"></i></button>
+                            <form id="formDeleteFromWL" method="post" action="/courses/watchList/delete" style="display: none;">
+                                <input type="text" name="courseId" value={{courseId}}></form>
+                            <a href="javascript: $('#formDeleteFromWL').submit();">
+                                <button class="watchList-btn"><i class="fa fa-heart"></i></button>
+                            </a>
                         </div>    
                         <div class="course-info">
                                 <a href="/courses/courseDetails?courseId={{courseId}}" class="course-name">{{title}}</a>

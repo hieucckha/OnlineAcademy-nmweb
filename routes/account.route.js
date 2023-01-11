@@ -86,7 +86,7 @@ router.get('/is-available', async function (req, res) {
   res.json(false);
 });
 
-router.post('/logout', function (req, res) {
+router.post('/logout', async function (req, res) {
   req.session.auth = false;
   req.session.authUser = null;
 
