@@ -19,7 +19,7 @@ router.post('/login', async function (req, res) {
   if (user === null) {
     return res.render('vwAccount/login', {
       layout: false,
-      err_message: 'Invalid username or password'
+      err_message: 'Invalid email or password'
     });
   }
   req.session.auth = true;
@@ -29,7 +29,6 @@ router.post('/login', async function (req, res) {
     res.render('home', {
       layout: 'admin.hbs'
     });
-
   } else if (user.role === 1) {
     return res.redirect('/teacher');
   } else {
@@ -56,7 +55,6 @@ router.post('/signup', async function (req, res) {
       req.body.lastname
     )
   } else {
-
     await userService.createTeacher(
       req.body.email, 
       req.body.pass, 
@@ -87,6 +85,24 @@ router.post('/logout', function (req, res) {
 
   const url = req.headers.referer || '/';
   res.redirect(url);
+});
+
+router.post('/editProfile', async function (req, res) {
+  const user = await userService.isAuth(req.session.authUser.email, req.body.pass);
+
+  if (user === null) {
+    return res.render('vwAccount/profile', {
+      err_message: 'Invalid password'
+    });
+  }
+
+  userService.updateEmail(user.userId, req.body.email);
+  userService.updateName(user.userId, req.body.firstname, req.body.lastname);
+
+  const url = req.session.retUrl || '/';
+  delete req.session.retUrl;
+  res.redirect(url);
+
 });
 
 export default router;

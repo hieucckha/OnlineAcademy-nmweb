@@ -95,7 +95,10 @@
                     <del class="price">{{format_number this.course.price}}đ</del>
                 </div>
                 <div class="btn-div">
-                    <button type="button" class="btn-buy">Buy now</button>
+                    <form id="formEnroll" method="post"></form>
+                    <a href="javascript: $('#formEnroll').submit();">
+                        <button type="submit" class="btn-buy" name="courseId" value="{{this.course.courseId}}">Buy now</button>
+                    </a>
                     <button type="button" class="btn-add-to-wl"><i class="bi bi-heart"></i></button>
                 </div>
             </div>

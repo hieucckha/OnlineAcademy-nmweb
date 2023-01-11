@@ -619,6 +619,13 @@ section {
   margin-top: 45px;
 }
 
+#profile .info {
+  color: #5200cc;
+  font-size: 1.6rem;
+  margin-bottom: 35px;
+  margin-top: 10px;
+}
+
 #profile h2 {
   color: rgb(90, 89, 89);
   text-transform: uppercase;

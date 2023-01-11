@@ -3,7 +3,7 @@
         <div class="left-container">
             <img src="img/user.png" class="profile-img"><br>
             <button class="btn-change-img">Change Image &nbsp;&nbsp;<i class="bi bi-pencil"></i></button>
-            <h1 class="username">User name</h1>
+            <h1 class="username">{{authUser.firstName}} {{authUser.lastName}}</h1>
         </div>
         <div class="right-container">
             <div class="leftbox">
@@ -17,23 +17,30 @@
                 </nav>
             </div>
             <div class="rightbox">
-                <div class="profile tabShow">
+                <form class="profile tabShow" method="post" action="/account/editProfile">
                     <br>
-                    <h1>Personal Info</h1>
-
+                    <h1 class="info">Personal Info</h1>
+                    {{#if err_message}}
+                        <div class="alert alert-danger" role="alert">
+                            {{err_message}}
+                        </div>
+                    {{/if}}
                     <h2>Email</h2>
-                    <input type="text" class="input" value="truongtrongkhanhcm@gmail.com">
+                    <input type="text" name="email" class="input" value="{{authUser.email}}">
 
-                    <h2>Full name</h2>
-                    <input type="text" class="input" value="Truong Trong Khanh">
+                    <h2>First name</h2>
+                    <input type="text" name="firstName" class="input" value="{{authUser.firstName}}">
+
+                    <h2>Last name</h2>
+                    <input type="text" name="lastName" class="input" value="{{authUser.lastName}}">
 
                     <h2>Password</h2>
-                    <input type="password" class="input"><br>
+                    <input type="password" name="pass" class="input"><br>
                     <i class="notification">* Enter password to confirm the change</i>
 
                     <br>
-                    <button class="btn-update">Update</button>
-                </div>
+                    <button class="btn-update" type="submit">Update</button>
+                </form>
                 <div class="change-password tabShow">
                     <br>
                     <h1>Change Password</h1>

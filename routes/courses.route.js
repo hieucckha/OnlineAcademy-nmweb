@@ -1,25 +1,47 @@
 import express from 'express';
 import coursesService from '../services/courses.service.js';
-import userService from '../services/user.service.js'
+import userService from '../services/user.service.js';
+import enrollmentsService from '../services/enrollments.service.js';
+import watchListService from '../services/watch_list.service.js'
 
 const router = express.Router();
 
 router.get('/watchList', async function (req, res) {
-    const list = await coursesService.getWatchList('1ed4ef15-1512-48d6-be79-3793867fcea4');
-    //console.log(list);
-    res.render('vwCourses/watchList', {
-        myCourses: list,
-        empty: list === null
-    });
+    if (typeof(req.session.authUser) === 'undefined') {
+        const list = await coursesService.getWatchList('');
+        //console.log(list);
+        res.render('vwCourses/watchList', {
+            myCourses: list,
+            empty: list === null
+        });
+    } else {
+        const list = await coursesService.getWatchList(req.session.authUser.userId);
+        //console.log(list);
+        res.render('vwCourses/watchList', {
+            myCourses: list,
+            empty: list === null
+        });
+    }
 })
 
 router.get('/myCourses', async function (req, res) {
-    const list = await coursesService.getEnrollList('1ed4ef15-1512-48d6-be79-3793867fcea4');
-    //console.log(list);
-    res.render('vwCourses/myCourses', {
-        myCourses: list,
-        empty: list === null
-    });
+    //console.log(req.session.authUser);
+    if (typeof(req.session.authUser) === 'undefined') {
+        const list = await coursesService.getEnrollList('');
+        //console.log(list);
+        res.render('vwCourses/myCourses', {
+            myCourses: list,
+            empty: list === null
+        });
+    } else {
+        const list = await coursesService.getEnrollList(req.session.authUser.userId);
+        //console.log(list);
+        res.render('vwCourses/myCourses', {
+            myCourses: list,
+            empty: list === null
+        });
+    }
+    
 })
 
 router.get('/learningHistory', async function (req, res) {
@@ -33,6 +55,11 @@ router.get('/watchVideos', async function (req, res) {
 router.get('/courseDetails', async function (req, res) {
     const courseId = req.query.courseId || '';
     const course = await coursesService.getFullCourse(courseId);
+
+    if (course === null) {
+        return res.redirect('/');
+    }
+
     const instructor = await userService.getById(course.createBy);
     let numLecture = 0;
 
@@ -43,12 +70,6 @@ router.get('/courseDetails', async function (req, res) {
             }
     }
 
-    console.log(numLecture);
-
-    console.log(course);
-    if (course === null) {
-        return res.redirect('/');
-    }
     res.render('vwCourses/courseDetails', {
         course: course,
         instructor: instructor,
@@ -60,6 +81,8 @@ router.get('/category', async function (req, res) {
     const category_id = req.query.category_id || '';
     const page = Number(req.query.page) || 1;
     const courses = await coursesService.getInfoByCategory(category_id, page) || [];
+
+    console.log(courses);
 
     let maxPage = 1;
     let countList = await coursesService.getInfoByCategory(category_id, maxPage);
@@ -87,5 +110,21 @@ router.get('/category', async function (req, res) {
         empty: courses === null
     });
 })
+
+router.post('/courseDetails', function (req, res) {
+    const courseId = req.query.courseId || '';
+    const userId = req.session.authUser.userId;
+
+    if (enrollmentsService.isExist(userId, courseId)) {
+
+        const url = req.headers.referer || '/';
+        res.redirect(url);
+    } else {
+        enrollmentsService.insert(userId, courseId);
+  
+        const url = req.headers.referer || '/';
+        res.redirect(url);
+    }   
+  });
 
 export default router;
