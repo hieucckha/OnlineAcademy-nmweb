@@ -14,6 +14,7 @@ router.get('/', async (req, res) => {
     const user = req.session.authUser;
     if (user === undefined) return res.redirect('/');
     else if (user.role !== 1) return res.redirect('/');
+    if(user.avatar === null) user.avatar='img/resource/anonymous_3.png';
 
     const hotCourses = await coursesService.getInfoHot();
     const mostView = await coursesService.getInfoMostWatch();
@@ -46,6 +47,7 @@ router.get('/new/course', async (req, res) => {
   const user = req.session.authUser;
   if (user === undefined) return res.redirect('/');
   else if (user.role !== 1) return res.redirect('/');
+  if(user.avatar === null) user.avatar='img/resource/anonymous_3.png';
 
   const categoryList = await categoryService.getListCateLevel2();
   //const user = await userService.getById('d172436b-5020-4b34-8827-6ebd041d5474');
@@ -59,6 +61,7 @@ router.get('/edit/course/', async (req, res) => {
   const user = req.session.authUser;
   if (user === undefined) return res.redirect('/');
   else if (user.role !== 1) return res.redirect('/');
+  if(user.avatar === null) user.avatar='img/resource/anonymous_3.png';
 
   const courseId = req.query.courseId
   const course = await coursesService.getFullCourse(courseId);
@@ -91,6 +94,7 @@ router.get('/edit/profile/', (req, res)=>{
   const user = req.session.authUser;
   if (user === undefined) return res.redirect('/');
   else if (user.role !== 1) return res.redirect('/');
+  if(user.avatar === null) user.avatar='img/resource/anonymous_3.png';
 
   res.render('teacher/editAccount',
       {
@@ -103,7 +107,7 @@ router.get('/course/mycourse', async (req, res) => {
     const user = req.session.authUser;
     if (user === undefined) return res.redirect('/');
     else if (user.role !== 1) return res.redirect('/');
-
+    if(user.avatar === null) user.avatar='img/resource/anonymous_3.png';
     const teacherID = user.userId;
     const page = Number(req.query.page) || 1;
     const list = await coursesService.getAllCourseTeacher(teacherID, page) || [];

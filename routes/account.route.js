@@ -22,6 +22,12 @@ router.post('/login', async function (req, res) {
       err_message: 'Invalid email or password'
     });
   }
+  if(user.status === 1){
+    return res.render('vwAccount/login', {
+      layout: false,
+      err_message: 'You have been blocked.',
+    });
+  }
   req.session.auth = true;
   req.session.authUser = user;
 

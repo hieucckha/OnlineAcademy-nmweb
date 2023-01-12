@@ -71,8 +71,10 @@ router.get('/courses', async (req, res) => {
     if (user === undefined) return res.redirect('/');
     else if (user.role !== 0) return res.redirect('/');
 
-    const teacherId = req.query.teacherId || null;
-    const categoryId = req.query.categoryId || null;
+    let teacherId = req.query.teacherId || null;
+    let categoryId = req.query.categoryId || null;
+    if (categoryId === 'Open this select category') categoryId = null;
+    if (teacherId === 'Open this select teacher') teacherId = null;
 
     const page = Number(req.query.page) || 1;
     let list = [];

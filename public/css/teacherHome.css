@@ -48,10 +48,12 @@ input, button{
     color: black;
 }
 .addLectureWindow {
-    background-color: #0dcaf0;
+    background-color: #444444;
+    color: white;
     width: 80%;
     height: 250px;
     overflow: auto;
     position: absolute;
     bottom: 40%;
+    border-radius: 0;
 }
