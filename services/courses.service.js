@@ -168,7 +168,7 @@ export default {
                     LIMIT $3 OFFSET $2
                 `;
             }
-            const COURSE_PER_PAGE = 10;
+            const COURSE_PER_PAGE = 5;
             const offset = (page - 1) * COURSE_PER_PAGE;
 
             const result = await db.manyOrNone(sql, [categoryId, offset, COURSE_PER_PAGE,]);

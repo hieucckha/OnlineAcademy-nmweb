@@ -38,17 +38,17 @@
             {{/if}}
         </div>
     {{/each}}
-        <div style="text-align: center">
+        <div style="text-align: center; margin-top: 100px;">
             <a>
                 <button type="button" class="btn" onclick="clickPrevious()"><i class="bi bi-arrow-left-circle fa-2x" style="color: black"></i></button>
             </a>
             {{#each this.pageList}}
                 {{#if isActive}}
-                    <a aria-disabled="false" href="?page={{value}}" style="width: 4rem; display: inline-flex; align-items: center; justify-content: center; color:#5624d0">
+                    <a aria-disabled="false" href="?category_id={{this.category_id}}?page={{value}}" style="width: 4rem; display: inline-flex; align-items: center; justify-content: center; color:#5624d0">
                         <u>{{value}}</u>
                     </a>
                 {{else}}
-                    <a aria-disabled ="false" href="?page={{value}}" style="width: 4rem; display: inline-flex; align-items: center; justify-content: center; color:#5624d0">
+                    <a aria-disabled ="false" href="?category_id={{this.category_id}}?page={{value}}" style="width: 4rem; display: inline-flex; align-items: center; justify-content: center; color:#5624d0">
                         {{value}}
                     </a>
                 {{/if}}

@@ -95,7 +95,7 @@ router.get('/category', async function (req, res) {
     console.log(maxPage);
     let pageList;
     pageList = [];
-    if (maxPage === 2) pageList.push({value: page, isActive: true});
+    if (maxPage <= 1) pageList.push({value: page, isActive: true});
     else if (maxPage === 3 && page === 1) pageList.push({value: page, isActive: true},{value: page+1});
     else if (maxPage === 3 && page === 2) pageList.push({value: page -1},{value: page, isActive: true});
     else if (page === 1) pageList.push({value: page, isActive: true},{value: page+1},{value: page+2});

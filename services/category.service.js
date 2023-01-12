@@ -2,7 +2,6 @@ import {v4 as uuidv4} from 'uuid';
 
 import db from '../utils/db.js';
 import Category from '../models/category.models.js';
-import Course from "../models/course.model.js";
 
 export default {
     get: async (id) => {
