@@ -1,0 +1,141 @@
+<section id="profile">
+    <div class="container">
+        <div class="left-container">
+            <img src="img/user.png" class="profile-img"><br>
+            <button class="btn-change-img">Change Image &nbsp;&nbsp;<i class="bi bi-pencil"></i></button>
+            <h1 class="username">{{authUser.firstName}} {{authUser.lastName}}</h1>
+        </div>
+        <div class="right-container">
+            <div class="leftbox">
+                <nav>
+                    <a class="tab active" onclick="tabs(0)">
+                        <i class="bi bi-person-fill"></i>
+                    </a> 
+                    <a class="tab" onclick="tabs(1)">
+                        <i class="fa fa-pencil-square-o"></i>
+                    </a>
+                </nav>
+            </div>
+            <div class="rightbox">
+                <form id="edit-form" class="profile tabShow" method="post" action="/account/editProfile">
+                    <br>
+                    <h1 class="info">Personal Info</h1>
+                    
+                    <h2>Email</h2>
+                    <input id="txtEmail" type="text" name="email" class="input" value="{{authUser.email}}">
+
+                    <h2>First name</h2>
+                    <input id="txtFirstName" type="text" name="firstName" class="input" value="{{authUser.firstName}}">
+
+                    <h2>Last name</h2>
+                    <input id="txtLastName" type="text" name="lastName" class="input" value="{{authUser.lastName}}">
+
+                    <h2>Password</h2>
+                    <input type="password" name="pass" class="input"><br>
+                    <i class="notification">* Enter password to confirm the change</i>
+
+                    <div class="alert-and-btn">
+                        {{#if err_message}}
+                            <div class="alert alert-danger" role="alert" style="width: 200px; margin-top: 15px;">
+                                {{err_message}}
+                            </div>
+                        {{/if}}
+
+                        <br>
+                        <button class="btn-update" type="submit">Update</button>
+                    </div>
+                </form>
+                <form id="changePass-form" class="profile tabShow" method="post" action="/account/changePass">
+                    <br>
+                    <h1>Change Password</h1>
+
+                    <h2>Password</h2>
+                    <input id="txtPass" type="password" class="input" name="pass">
+
+                    <h2> New Password</h2>
+                    <input id="txtNewPass" type="password" class="input" name="newPass">
+
+                    <h2>Confirm Password</h2>
+                    <input id="txtConfirmPass" type="password" class="input">
+
+                    <br>
+                    <button class="btn-update" type="submit">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{#section 'js'}}
+    <script>
+        const tabBtn = document.querySelectorAll(".tab");
+        const tab = document.querySelectorAll(".tabShow");
+
+        function tabs(panelIndex) {
+            tab.forEach(function(node) {
+                node.style.display = "none";
+            });
+            tab[panelIndex].style.display = "block";
+        }
+        tabs(0);
+    </script>
+    <script>
+        $(".tab").click(function() {
+            $(this).addClass("active").siblings().removeClass("active"); 
+        })
+    </script>
+
+    <script>
+        $('#changePass-form').on('submit', function(e) {
+            e.preventDefault();
+
+            const pass = $('#txtPass').val();
+            if(pass.length === 0) {
+                alert('Invalid data!');
+                return;
+            }
+
+            const newPass = $('#txtNewPass').val();
+            if(newPass.length === 0) {
+                alert('Invalid data!');
+                return;
+            }
+
+            const confirmPass = $('#txtConfirmPass').val();
+            if(confirmPass.length === 0) {
+                alert('Invalid data!');
+                return;
+            }
+
+            if(newPass !== confirmPass) {
+                alert('Password does not match!');
+                return;
+            }
+
+            $('#changePass-form').off('submit').submit();
+        });
+
+        $('#edit-form').on('submit', function(e) {
+            e.preventDefault();
+
+            const firstName = $('#txtFirstName').val();
+            if(firstName.length === 0) {
+                alert('Invalid data!');
+                return;
+            }
+
+            const lastName = $('#txtLastName').val();
+            if(lastName.length === 0) {
+                alert('Invalid data!');
+                return;
+            }
+
+            const email = $('#txtEmail').val();
+            if(email.length === 0) {
+                alert('Invalid data!');
+                return;
+            }
+            $('#changePass-form').off('submit').submit();
+        });
+    </script>
+{{/section}}

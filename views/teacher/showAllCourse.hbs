@@ -1,0 +1,80 @@
+<section id="courses-view">
+    <h1 class="list-container-title">My Courses:</h1>
+    <div class="container">
+        {{#if this.empty}}
+            <h2 class="message">You are not currently have any courses</h2>
+        {{else}}
+        <div class="list-container">
+            {{#each this.myCourses}}
+                <div class="course-list">
+                    <a href="/teacher/edit/course?courseId={{courseId}}"><img src="{{image}}" class="thumbnail"></a>
+                    <div class="course-info">
+                        <a href="/teacher/edit/course?courseId={{courseId}}" class="course-name">{{title}}</a>
+                    </div>
+                    <div class="flex-div">
+                        <p class="avg-rating">{{rating}}</p>
+                        <div id="rating">
+                            <div class="star-rating">
+                                <input type="radio" name="rate" id="rate-5">
+                                <label for="rate-5" class="fa fa-star"></label>
+                                <input type="radio" name="rate" id="rate-4">
+                                <label for="rate-4" class="fa fa-star"></label>
+                                <input type="radio" name="rate" id="rate-3">
+                                <label for="rate-3" class="fa fa-star"></label>
+                                <input type="radio" name="rate" id="rate-2">
+                                <label for="rate-2" class="fa fa-star"></label>
+                                <input type="radio" name="rate" id="rate-1">
+                                <label for="rate-1" class="fa fa-star"></label>
+                            </div>
+                        </div>
+                        <span class="num-of-ratings">({{numRating}})</span>
+                    </div>
+                    <div class="price-of-course">
+                        <div class="promotional-price">{{format_number discount}}đ &nbsp;</div>
+                        <del class="price">{{format_number price}}đ</del>
+                    </div>
+                </div>
+            {{/each}}
+        {{/if}}
+    </div>
+    </div>
+    <div style="text-align: center">
+        <a>
+            <button type="button" class="btn" onclick="clickPrevious()"><i class="bi bi-arrow-left-circle fa-2x" style="color: black"></i></button>
+        </a>
+        {{#each this.pageList}}
+            {{#if isActive}}
+                <a aria-disabled="false" href="?page={{value}}" style="width: 4rem; display: inline-flex; align-items: center; justify-content: center; color:#5624d0"}">
+                    <u>{{value}}</u>
+                </a>
+            {{else}}
+                <a aria-disabled="false" href="?page={{value}}" style="width: 4rem; display: inline-flex; align-items: center; justify-content: center; color:#5624d0"}">
+                    {{value}}
+                </a>
+            {{/if}}
+        {{/each}}
+        <a>
+            <button type="button" class="btn" onclick="clickNext()"><i class="bi bi-arrow-right-circle fa-2x" style="color: black"></i></button>
+        </a>
+    </div>
+</section>
+
+{{#section 'js'}}
+    <script>
+        function clickNext(){
+            const params = new Proxy(new URLSearchParams(window.location.search), {
+                get: (searchParams, prop) => searchParams.get(prop),
+            });
+            let page = Number(params.page);
+            const maxPage = {{this.maxPage}};
+            if (page + 1 < maxPage) location.href = '?page=' + (page+1).toString();
+        }
+        function clickPrevious(){
+            const params = new Proxy(new URLSearchParams(window.location.search), {
+                get: (searchParams, prop) => searchParams.get(prop),
+            });
+            let page = Number(params.page);
+            if (page - 1 > 0) location.href = '?page=' + (page-1).toString();
+        }
+    </script>
+{{/section}}

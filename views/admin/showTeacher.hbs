@@ -1,0 +1,137 @@
+{{#section 'css'}}
+    <style>
+        .btn-circle {
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            padding: 6px 0;
+            font-size: 12px;
+            line-height: 1.428571429;
+            border-radius: 15px;
+            background: rgb(255, 255, 255);
+        }
+
+        .text-black {
+            color: black;
+        }
+    </style>
+
+{{/section}}
+
+{{#if mess}}
+    <div class="position-absolute alert alert-danger shadow rounded" role="alert" style="width: 100%; height: 100px;">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        {{mess}}
+    </div>
+{{/if}}
+<section style="margin-top: 100px">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <div class="row">
+                            <div class="col-xl-12 ml-3">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3>Teacher Table</h3>
+                                        <button class="btn btn-outline-primary float-right"
+                                           onclick="showAddTeacher()">
+                                            <i class="fa fa-plus" aria-hidden="true"></i> Add more
+                                        </button>
+                                        <span class="d-block m-t-5">List of <code>Teachers</code> of the system.</span>
+                                    </div>
+                                    <div class="card-body table-border-style">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped">
+                                                <thead>
+                                                <tr>
+                                                    <th>Teacher ID</th>
+                                                    <th>Name</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                    <th></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody class="">
+                                                {{#each this.teacher}}
+                                                    <form method="post" action="/admin/lock/teacher">
+                                                        <tr>
+                                                            <td>{{userId}}</td>
+                                                            <input type="hidden" value={{userId}} name="userId">
+                                                            <td>{{firstName}} {{lastName}}</td>
+                                                            {{#isActive status}}
+                                                                <td class="text-c-green">Enable</td>
+                                                            {{else}}
+                                                                <td class="text-c-red">Disable</td>
+                                                            {{/isActive}}
+                                                            <td>
+                                                                <div class="dropdown">
+                                                                    <button class="btn btn-light btn-circle pl-2 border-0"
+                                                                            type="button" data-toggle="dropdown">
+                                                                        <i class="fa fa-ellipsis-v text-black ml-1"
+                                                                           aria-hidden="true"></i>
+                                                                    </button>
+                                                                    <div class="dropdown-menu">
+                                                                        {{#isActive status}}
+                                                                            <button type="submit"
+                                                                                    class="view text-c-green dropdown-item"
+                                                                                    name="lockAccount" value="lock">
+                                                                                <i class="fa fa-lock"
+                                                                                   aria-hidden="true"></i> <span
+                                                                                    class="f-16 m-2">Lock</span>
+                                                                            </button>
+                                                                        {{else}}
+                                                                            <button type="submit"
+                                                                                    class="view text-c-green dropdown-item"
+                                                                                    name="unlockAccount" value="unlock">
+                                                                                <i class="fa fa-unlock"
+                                                                                   aria-hidden="true"></i> <span
+                                                                                    class="f-16 m-2">Unlock</span>
+                                                                            </button>
+                                                                        {{/isActive}}
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </form>
+                                                {{/each}}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<form id="addTeacher" action="/admin/add/teacher" method="post" class="position-fixed shadow rounded addLectureWindow" style="display: none; margin-left: 10%; top: 200px; height: 50%" enctype="multipart/form-data">
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    <div id="inputFile" style="padding: 30px 100px 0 100px">
+        <label for="email" style="display: inline-block;">Email:</label>
+        <input type="email" name="email" id="email" class="form-control" placeholder="" aria-describedby="helpId" style="display: inline-block;" required>
+
+        <label for="password" style="display: inline-block;">Password:</label>
+        <input type="password" name="password" id="password" class="form-control" placeholder="" aria-describedby="helpId" style="display: inline-block;" required>
+
+
+        <label for="firstName" style="display: inline-block;">First name:</label>
+        <input type="text" name="firstName" id="firstName" class="form-control" placeholder="" aria-describedby="helpId" style="display: inline-block;" required>
+
+        <label for="lastName" style="display: inline-block;">Last name:</label>
+        <input type="text" name="lastName" id="lastName" class="form-control" placeholder="" aria-describedby="helpId" style="display: inline-block;" required>
+        <div style="text-align: center"><button type="submit" class="btn btn-primary">Save</button></div>
+    </div>
+</form>
+{{#section 'js'}}
+    <script>
+        function showAddTeacher(){
+            document.getElementById('addTeacher').style.display = 'block';
+        }
+    </script>
+{{/section}}

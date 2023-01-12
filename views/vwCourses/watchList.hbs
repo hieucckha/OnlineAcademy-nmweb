@@ -1,0 +1,60 @@
+<section id="courses-view">
+    <h1 class="list-container-title">My Watch List:</h1>
+    <div class="container">
+        {{#if this.empty}}
+            <h2 class="message">You watch list is empty</h2>
+        {{else}} 
+            <div class="list-container">
+                {{#each this.myCourses}}
+                    <div class="course-list">
+                        <div class="course-img">
+                            <a href="/courses/courseDetails?courseId={{courseId}}"><img src="{{image}}" class="thumbnail"></a>
+                            <form id="formDeleteFromWL" method="post" action="/courses/watchList/delete" style="display: none;">
+                                <input type="text" name="courseId" value={{courseId}}></form>
+                            <a href="javascript: $('#formDeleteFromWL').submit();">
+                                <button class="watchList-btn"><i class="fa fa-heart"></i></button>
+                            </a>
+                        </div>    
+                        <div class="course-info">
+                                <a href="/courses/courseDetails?courseId={{courseId}}" class="course-name">{{title}}</a>
+                        </div>
+                        <div class="flex-div">
+                            <p class="avg-rating">{{rating}}</p>
+                            <div id="rating">
+                                <div class="star-rating">
+                                    <input type="radio" name="rate" id="rate-5">
+                                    <label for="rate-5" class="fa fa-star"></label>
+                                    <input type="radio" name="rate" id="rate-4">
+                                    <label for="rate-4" class="fa fa-star"></label>
+                                    <input type="radio" name="rate" id="rate-3">
+                                    <label for="rate-3" class="fa fa-star"></label>
+                                    <input type="radio" name="rate" id="rate-2">
+                                    <label for="rate-2" class="fa fa-star"></label>
+                                    <input type="radio" name="rate" id="rate-1">
+                                    <label for="rate-1" class="fa fa-star"></label>        
+                                </div>
+                            </div>
+                            <span class="num-of-ratings">({{numRating}})</span>
+                        </div>
+                        <div class="price-of-course">
+                            <div class="promotional-price">{{format_number discount}}đ &nbsp;</div>
+                            <del class="price">{{format_number price}}đ</del>
+                        </div>
+                    </div>
+                {{/each}}
+            {{/if}}
+        </div>
+    </div>
+</section>
+
+{{#section 'js'}}
+    <script>
+    let Btn = document.querySelectorAll('.watchList-btn');
+
+    Btn.forEach(btn => {
+        btn.onclick = () => {
+            btn.classList.add('clicked');
+        }
+    });
+    </script>
+{{/section}}

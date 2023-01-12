@@ -1,0 +1,184 @@
+
+<section id="course-details">
+    <div class="header">
+        <div class="hContainer">
+            <h1 class="course-title">{{this.course.title}}<button type="button" class="btn btn-primary" onclick="showEditName()"><i class="bi bi-pen"></i></button></h1>
+            <h3 class="bDescription">{{this.course.bDescription}}<button type="button" class="btn btn-primary" onclick="showEditBDescription()"><i class="bi bi-pen"></i></button></h3>
+            <div class="flex-div">
+                <p class="avg-rating">{{this.course.rating}}</p>
+                <p class="num-enroll">{{format_number this.course.numEnroll}} students</p>
+            </div>
+            <p class="created-by">Created by &nbsp;<a href="#instructor">{{this.instructor.firstName}} {{this.instructor.lastName}}</a></p>
+        </div>
+    </div>
+    <div class="container">
+        <div class="information">
+            <h2 class="content-title">Description:</h2>
+            <p>{{{this.course.description}}}<button type="button" class="btn btn-primary" onclick="showEditDescription()"><i class="bi bi-pen"></i></button></p>
+            <h2 class="content-title">Course content:</h2>
+            <p>{{this.course.sectionList.length}} sections &#8226; {{this.numLecture}} lectures</p>
+            <div class="section-list">
+                <div class="section">
+                    {{#each this.course.sectionList}}
+                        <div class="section-info">
+                            <p class="section-name"><i class="bi bi-chevron-down"></i>&nbsp;&nbsp; {{sectionTitle}}</p>
+
+                            <button type="button" style="color: #5624d0" onclick="showAddLecture('{{sectionId}}')"><u>Add</u></button>
+                        </div>
+                        <div class="lecture-list">
+                            {{#each listLecture}}
+                                <div class="lecture">
+                                    <div>
+                                        <i class="bi bi-play-circle-fill"></i>
+                                        <a href="#" class="lecture-name">{{lectureTitle}}</a>
+                                    </div>
+                                    <p class="time">4:01</p>
+                                </div>
+                            {{/each}}
+                        </div>
+                    {{/each}}
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <button class="btn btn-primary" type="button" style="color: white" onclick="showAddSection()"><u>Add sections</u></button>
+            </div>
+        </div>
+        <form id="addLectures" action="/teacher/edit/course/newLecture" method="post" class="position-fixed shadow rounded addLectureWindow" style="display: none" enctype="multipart/form-data">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <div id="inputFile" style="padding: 30px 100px 0 100px">
+                <input value="{{this.course.courseId}}" name="courseId" style="display: none"/>
+                <input value="" name="sectionId"  id ="sectionId" style="display: none"/>
+                <label for="videoName" style="display: inline-block;">Video name:</label>
+                <input type="text" name="videoName" id="videoName" class="form-control" placeholder="" aria-describedby="helpId" style="display: inline-block;" required>
+
+                <label for="videoDes" style="display: inline-block;">Video description:</label>
+                <input type="text" name="videoDes" id="videoDes" class="form-control" style="display: inline-block;" required>
+                <div class="input-group mb-3">
+                    <input type="file" class="form-control" name="imageFile" id="image">
+                    <label class="input-group-text" for="inputGroupFile02"><button>Upload</button></label>
+                </div>
+                <input class="form-check-input" type="checkbox" value="1" id="isPreview" name="isPreview" required>
+                <label class="form-check-label" for="flexCheckDefault"> Video can preview?</label>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+        <form id="addSection" action="/teacher/edit/course/newSection" method="post" class="position-fixed shadow rounded addLectureWindow" style="display: none" enctype="multipart/form-data">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <div id="inputFile" style="padding: 30px 100px 0 100px">
+                <input value="{{this.course.courseId}}" name="courseId" style="display: none"/>
+                <label for="sectionName" style="display: inline-block;">New section name:</label>
+                <input type="text" name="sectionName" id="sectionName" class="form-control" placeholder="" aria-describedby="helpId" style="display: inline-block;">
+                <div style="text-align: center"><button type="submit" class="btn btn-primary">Save</button></div>
+            </div>
+        </form>
+        <form id="editCourseName" action="/teacher/edit/course/name" method="post" class="position-fixed shadow rounded addLectureWindow" style="display: none" enctype="multipart/form-data">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <div id="inputFile" style="padding: 30px 100px 0 100px">
+                <input value="{{this.course.courseId}}" name="courseId" style="display: none"/>
+                <label for="courseName" style="display: inline-block;">New course name:</label>
+                <input type="text" name="courseName" id="courseName" class="form-control" placeholder="" aria-describedby="helpId" style="display: inline-block;">
+                <div style="text-align: center"><button type="submit" class="btn btn-primary">Save</button></div>
+            </div>
+        </form>
+        <form id="editBDescription" action="/teacher/edit/course/bDescription" method="post" class="position-fixed shadow rounded addLectureWindow" style="display: none" enctype="multipart/form-data">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <div id="inputFile" style="padding: 30px 100px 0 100px">
+                <input value="{{this.course.courseId}}" name="courseId" style="display: none"/>
+                <label for="bDescription" style="display: inline-block;">New short description name:</label>
+                <input type="text" name="bDescription" id="bDescription" class="form-control" placeholder="" aria-describedby="helpId" style="display: inline-block;">
+                <div style="text-align: center"><button type="submit" class="btn btn-primary">Save</button></div>
+            </div>
+        </form>
+        <form id="editDescription" action="/teacher/edit/course/Description" method="post" class="position-fixed shadow rounded addLectureWindow" style="display: none" enctype="multipart/form-data">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <div id="inputFile" style="padding: 30px 100px 0 100px">
+                <input value="{{this.course.courseId}}" name="courseId" style="display: none"/>
+                <label for="Description" style="display: inline-block;">New description name:</label>
+                <textarea class="form-control" name="description" id="Description" style="width: 900%; height:500px;"></textarea>
+                <div style="text-align: center"><button type="submit" class="btn btn-primary">Save</button></div>
+            </div>
+        </form>
+        <form id="editImage" action="/teacher/edit/course/image" method="post" class="position-fixed shadow rounded addLectureWindow" style="display: none" enctype="multipart/form-data">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <div id="inputFile" style="padding: 30px 100px 0 100px">
+                <input value="{{this.course.courseId}}" name="courseId" style="display: none"/>
+                <label for="image" style="display: inline-block;">New image:</label>
+                <input class="form-control" name="image" type="file" id="image">
+                <div style="text-align: center"><button type="submit" class="btn btn-primary">Save</button></div>
+            </div>
+        </form>
+        <form id="editPrices" action="/teacher/edit/course/prices" method="post" class="position-fixed shadow rounded addLectureWindow" style="display: none" enctype="multipart/form-data">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <div id="inputFile" style="padding: 30px 100px 0 100px">
+                <input value="{{this.course.courseId}}" name="courseId" style="display: none"/>
+                <label for="price" style="display: inline-block;">New price:</label>
+                <input type="number" name="price" id="price" class="form-control" placeholder="" aria-describedby="helpId" style="display: inline-block;" required>
+
+                <label for="discount" style="display: inline-block;">New discount price:</label>
+                <input type="number" name="discount" id="discount" class="form-control" placeholder="" aria-describedby="helpId" style="display: inline-block;" required>
+
+                <div style="text-align: center"><button type="submit" class="btn btn-primary">Save</button></div>
+            </div>
+        </form>
+
+
+
+        <div class="watch-video">
+            <div class="course-list">
+                <div style="display: flex">
+                    <a href="/courses/watchVideos"><img src="{{this.course.image}}" class="thumbnail"></a>
+                    <button type="button" class="btn btn-primary" onclick="showEditImage()" style="max-height: 50px"><i class="bi bi-pen"></i></button>
+                </div>
+                <div class="course-info">
+                    <p class="course-name">{{this.course.title}}</p>
+                </div>
+                <div style="display: flex">
+                    <div class="price-of-course">
+                        <div class="promotional-price">{{format_number this.course.discount}}đ &nbsp;</div>
+                        <del class="price">{{format_number this.course.price}}đ</del>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="showEditPrices()" style="max-height: 50px"><i class="bi bi-pen"></i></button>
+                </div>
+                <div class="btn-div">
+                    <button type="button" class="btn-buy">Buy now</button>
+                    <button type="button" class="btn-add-to-wl"><i class="bi bi-heart"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+{{#section 'js'}}
+    <script>
+        function showAddLecture(sectionId){
+            console.log(sectionId);
+            document.getElementById('addLectures').style.display ='block';
+            document.getElementById('sectionId').value = sectionId;
+        }
+        function showAddSection(){
+            document.getElementById('addSection').style.display ='block';
+        }
+        function showEditName(){
+            document.getElementById('editCourseName').style.display ='block';
+        }
+        function showEditBDescription(){
+            document.getElementById('editBDescription').style.display ='block';
+        }
+        function showEditDescription(){
+            document.getElementById('editDescription').style.display ='block';
+        }
+        function showEditImage(){
+            document.getElementById('editImage').style.display ='block';
+        }
+        function showEditPrices(){
+            document.getElementById('editPrices').style.display ='block';
+        }
+    </script>
+    <script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script>
+    <script type="text/javascript">
+        bkLib.onDomLoaded(function() {
+            new nicEditor({maxHeight : 100}).panelInstance('Description');
+        });
+    </script>
+{{/section}}

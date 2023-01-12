@@ -1,0 +1,158 @@
+<section id="watch-videos">
+    <div class="container">
+        <div class="main-video">
+            <video src="videos/video-1.mp4" controls autoplay muted></video>
+            <h3 class="title">Video 01</h3>
+            <hr>
+            <div class="publisher">
+                <img src="img/user.png">
+                <div>
+                    <p>Name of teacher</p>
+                </div>
+            </div>
+            <div class="video-description">
+                <p>Video description...</p>
+                <p>If you think this course is good, please rate it 5 stars</p>
+                <hr>
+                <h4>2 Comments</h4>
+
+                <div class="add-comment">
+                    <img src="img/user.png">
+                    <input type="text" placeholder="Write comment...">
+                </div>
+                <div class="old-comment">
+                    <img src="img/user.png">
+                    <div style="display: block;">
+                        <h3>Trong Khanh <span>2 days ago</span></h3>
+                        <p>Bai giang nay hay do</p>
+                        <div class="acomment-action">
+                            <span>Reply</span>
+                            <a href="">All replies</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="old-comment">
+                    <img src="img/user.png">
+                    <div>
+                        <h3>Bao<span>2 days ago</span></h3>
+                        <p>bai giang nhu cc</p>
+                        <div class="acomment-action">
+                            <span>Reply</span>
+                            <a href="">All replies</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="video-playlist">
+            <h3 class="title">Name Of Course</h3>
+            <p>10 lessons &nbsp; . &nbsp; 50m 48s</p>
+            <div class="videos">
+                
+            </div>
+        </div>
+    </div>
+</section>
+
+{{#section 'js'}}
+    <script>
+       const main_video = document.querySelector('.main-video video');
+        const main_video_title = document.querySelector('.main-video .title');
+        const video_playlist = document.querySelector('.video-playlist .videos');
+
+        let data = [
+            {
+                'id': 'a1',
+                'title': 'Video 01',
+                'name': 'video-1.mp4',
+                'duration': '0:12',
+            },
+            {
+                'id': 'a2',
+                'title': 'Video 02',
+                'name': 'video-2.mp4',
+                'duration': '0:16',
+            },
+            {
+                'id': 'a3',
+                'title': 'Video 03',
+                'name': 'video-3.mp4',
+                'duration': '0:27',
+            },
+
+            {
+                'id': 'a4',
+                'title': 'Video 04',
+                'name': 'video-4.mp4',
+                'duration': '0:23',
+            },
+            {
+                'id': 'a5',
+                'title': 'Video 05',
+                'name': 'video-5.mp4',
+                'duration': '0:16',
+            },
+            {
+                'id': 'a6',
+                'title': 'Video 06',
+                'name': 'video-6.mp4',
+                'duration': '0:51',
+            },
+            {
+                'id': 'a7',
+                'title': 'Video 07',
+                'name': 'video-7.mp4',
+                'duration': '0:26',
+            },
+
+            {
+                'id': 'a8',
+                'title': 'Video 08',
+                'name': 'video-8.mp4',
+                'duration': '0:17',
+            },
+            {
+                'id': 'a9',
+                'title': 'Video 09',
+                'name': 'video-9.mp4',
+                'duration': '0:05',
+            },
+
+        ];
+
+        data.forEach((video, i) => {
+            let video_element = `
+                        <div class="video" data-id="${video.id}">
+                            <img src="img/play.svg">
+                            <p>${i + 1 > 9 ? i + 1 : '0' + (i + 1)}. </p>
+                            <h3 class="title">${video.title}</h3>
+                            <p class="time">${video.duration}</p>
+                        </div>
+            `;
+            video_playlist.innerHTML += video_element;
+        })
+
+        let videos = document.querySelectorAll('.video');
+        videos[0].classList.add('active');
+        videos[0].querySelector('img').src = 'img/pause.svg';
+
+        videos.forEach(selected_video => {
+            selected_video.onclick = () => {
+
+                for (all_videos of videos) {
+                    all_videos.classList.remove('active');
+                    all_videos.querySelector('img').src = 'img/play.svg';
+
+                }
+
+                selected_video.classList.add('active');
+                selected_video.querySelector('img').src = 'img/pause.svg';
+
+                let match_video = data.find(video => video.id == selected_video.dataset.id);
+                main_video.src = 'videos/' + match_video.name;
+                main_video_title.innerHTML = match_video.title;
+            }
+        });
+    </script>
+{{/section}}
