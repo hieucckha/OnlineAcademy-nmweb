@@ -2,7 +2,7 @@ import express from 'express';
 import coursesService from '../services/courses.service.js';
 import userService from '../services/user.service.js';
 import enrollmentsService from '../services/enrollments.service.js';
-import watchListService from '../services/watch_list.service.js'
+import watchListService from '../services/watch_list.service.js';
 
 const router = express.Router();
 
@@ -127,7 +127,7 @@ router.post('/enrollCourse', async function (req, res) {
             res.redirect(url);
         }   
     } else {
-        res.redirect('/');
+        res.redirect('/account/login');
     }
 });
 
@@ -147,12 +147,13 @@ router.post('/AddToWatchList', async function (req, res) {
             res.redirect(url);
         }   
     } else {
-        res.redirect('/');
+        res.redirect('/account/login');
     }
 });
 
 router.post('/watchList/delete', async function (req, res) {
     const courseId = req.body.courseId || '';
+    //console.log(courseId);
     if (typeof(req.session.authUser) !== 'undefined') {
         const userId = req.session.authUser.userId;
 
