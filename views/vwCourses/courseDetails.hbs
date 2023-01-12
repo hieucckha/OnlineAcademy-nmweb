@@ -95,11 +95,18 @@
                     <del class="price">{{format_number this.course.price}}đ</del>
                 </div>
                 <div class="btn-div">
-                    <form id="formEnroll" method="post"></form>
+                    <form id="formEnroll" method="post" action="/courses/enrollCourse" style="display: none;">
+                        <input type="text" name="courseId" value={{this.course.courseId}}>
+                    </form>
                     <a href="javascript: $('#formEnroll').submit();">
-                        <button type="submit" class="btn-buy" name="courseId" value="{{this.course.courseId}}">Buy now</button>
+                        <button class="btn-buy">Buy now</button>
                     </a>
-                    <button type="button" class="btn-add-to-wl"><i class="bi bi-heart"></i></button>
+
+                    <form id="formAddToWL" method="post" action="/courses/addToWatchList" style="display: none;">
+                        <input type="text" name="courseId" value={{this.course.courseId}}></form>
+                    <a href="javascript: $('#formAddToWL').submit();">
+                        <button class="btn-add-to-wl"><i class="bi bi-heart"></i></button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -108,6 +115,6 @@
 
 {{#section 'js'}}
     <script>
-        
+
     </script>
 {{/section}}

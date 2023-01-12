@@ -1457,30 +1457,11 @@ export default {
 
       const result = await db.one(sql, [courseId, date]);
 
-      return result;
-    } catch (err) {
-      console.log(err);
+            return result;
+        } catch (err) {
+            console.log(err);
+        }
+        return null;
     }
-    return null;
-  },
-  checkEnrolledCourse: async (userId, courseId) => {
-    try {
-      const sql = `SELECT EXISTS (SELECT * FROM enrollments WHERE user_id = $1 and course_id = $2) as check`;
-      const result = await db.one(sql, [userId, courseId]);
 
-      return result.check;
-    } catch (err) {
-      console.log(err);
-    }
-  },
-  checkExistsWatchList: async (userId, courseId) => {
-    try {
-      const sql = `SELECT EXISTS (SELECT * FROM watch_list WHERE user_id = $1 and course_id = $2) as check`;
-      const result = await db.one(sql, [userId, courseId]);
-
-      return result.check;
-    } catch (err) {
-      console.log(err);
-    }
-  },
-};
+}
