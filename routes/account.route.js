@@ -22,17 +22,28 @@ router.post('/login', async function (req, res) {
       err_message: 'Invalid email or password'
     });
   }
-  req.session.auth = true;
-  req.session.authUser = user;
 
-  if (user.role === 0) {
-    return res.redirect('/admin');
-  } else if (user.role === 1) {
-    return res.redirect('/teacher');
+  console.log(user);
+
+  if (user.status === 1) {
+    return res.render('vwAccount/login', {
+      layout: false,
+      err_message: 'You are blocked !!'
+    });
   } else {
-    const url = req.session.retUrl || '/';
-    delete req.session.retUrl;
-    res.redirect(url);
+
+    req.session.auth = true;
+    req.session.authUser = user;
+
+    if (user.role === 0) {
+      return res.redirect('/admin');
+    } else if (user.role === 1) {
+      return res.redirect('/teacher');
+    } else {
+      const url = req.session.retUrl || '/';
+      delete req.session.retUrl;
+      res.redirect(url);
+    }
   }
 });
 

@@ -4,7 +4,7 @@ const pgp = pgPromise({});
 
 const db = pgp({
   host: 'localhost',
-  port: 5432,
+  port: 3306,
   database: 'academy_db',
   user: 'root',
   password: '123456',
