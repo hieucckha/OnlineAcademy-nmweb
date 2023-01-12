@@ -171,4 +171,40 @@ router.post('/watchList/delete', async function (req, res) {
     }
 });
 
+router.post('/searchView', async function (req, res) {
+    const txtSearch = req.body.txtSearch || ''; 
+    
+    const page = Number(req.query.page) || 1;
+    const courses = await coursesService.searchCourseByname(txtSearch, page);
+
+    console.log(courses);
+
+    let maxPage = 1;
+    let countList = await coursesService.searchCourseByname(txtSearch, maxPage);
+
+    while (countList !== null){
+        countList = await coursesService.searchCourseByname(txtSearch, maxPage);;
+        maxPage++;
+    }
+    maxPage--;
+    
+    console.log(maxPage);
+    let pageList;
+    pageList = [];
+    if (maxPage <= 1) pageList.push({value: page, isActive: true});
+    else if (maxPage === 3 && page === 1) pageList.push({value: page, isActive: true},{value: page+1});
+    else if (maxPage === 3 && page === 2) pageList.push({value: page -1},{value: page, isActive: true});
+    else if (page === 1) pageList.push({value: page, isActive: true},{value: page+1},{value: page+2});
+    else if (courses.length === 0) pageList.push({value: page-2},{value: page-1},{value: page, isActive: true})
+    else pageList.push({value: page-1},{value: page, isActive: true},{value: page+1});
+
+
+    res.render('vwCourses/searchView', {
+        myCourses: courses,
+        pageList: pageList,
+        maxPage: maxPage,
+        empty: courses === null
+    });
+});
+
 export default router;

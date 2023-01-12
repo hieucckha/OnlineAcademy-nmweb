@@ -720,6 +720,13 @@ section {
   border: 0.4px solid black;
 }
 
+#courses-view .search-title {
+  font-size: 30px;
+  font-weight: 600;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
 #courses-view .watchList-btn {
   position: absolute;
   font-size: 20px;

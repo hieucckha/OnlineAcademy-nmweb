@@ -241,6 +241,7 @@ export default {
           tmp.image = course.image;
           tmp.bDescription = course.b_description;
           tmp.createBy = course.create_by;
+          tmp.rating = course.rating;
           tmp.numRating = course.num_rating;
           tmp.price = course.price;
           tmp.discount = course.discount;

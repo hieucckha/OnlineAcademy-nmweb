@@ -76,12 +76,12 @@
         </ul>
       </nav>
 
-      <div class="input-group mb-4 rounded-pill p-2">
+      <form class="input-group mb-4 rounded-pill p-2" method="post" action="/courses/searchView">
         <div class="input-group-prepend">
-          <button id="btnSearch" type="button" class="btn btn-link"><i class="bi bi-search"></i></button>
+          <button id="btnSearch" type="submit" class="btn btn-link"><i class="bi bi-search"></i></button>
         </div>
-        <input type="search" placeholder="Search for anything" aria-describedby="button-addon4" class="form-control bg-none border-0">
-      </div>
+        <input type="search" name="txtSearch" placeholder="Search for anything" aria-describedby="button-addon4" class="form-control bg-none border-0">
+      </form>
 
       <nav id="navbar" class="navbar order-last order-lg-0">
         <ul>
