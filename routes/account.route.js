@@ -26,9 +26,7 @@ router.post('/login', async function (req, res) {
   req.session.authUser = user;
 
   if (user.role === 0) {
-    res.render('home', {
-      layout: 'admin.hbs'
-    });
+    return res.redirect('/admin');
   } else if (user.role === 1) {
     return res.redirect('/teacher');
   } else {

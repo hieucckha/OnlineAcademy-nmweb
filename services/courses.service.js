@@ -1163,6 +1163,63 @@ export default {
 
     return null;
   },
+  getAllCourseTeacherWithoutPage: async (createBy) => {
+    try {
+      const sql = `
+                SELECT course_id,
+                       course_title,
+                       category_id,
+                       image,
+                       b_description,
+                       description,
+                       price,
+                       discount,
+                       status,
+                       rating,
+                       num_enroll,
+                       num_rating,
+                       create_by,
+                       create_at,
+                       update_at
+                FROM courses
+                WHERE create_by = $1
+                ORDER BY create_at desc
+            `;
+      const result = await db.manyOrNone(sql, [
+        createBy
+      ]);
+
+      if (result.length !== 0) {
+        const courses = [];
+
+        for (let course of result) {
+          courses.push(
+              new Course(
+                  course.course_id,
+                  course.course_title,
+                  course.category_id,
+                  course.image,
+                  course.b_description,
+                  course.description,
+                  course.price,
+                  course.discount,
+                  course.status,
+                  course.rating,
+                  course.num_enroll,
+                  course.num_rating,
+                  course.create_by,
+                  course.create_at,
+                  course.update_at
+              )
+          );
+        }
+        return courses;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    return null;
+  },
   getAllCourseCategory: async (categoryId, page) => {
     try {
       const checkIfParentSql = `
@@ -1194,7 +1251,7 @@ export default {
                            update_at
                     FROM courses
                     WHERE category_id = $1
-                    LIMIT $2 OFFSET $1
+                    LIMIT $3 OFFSET $2
                 `;
       } else {
         sql = `
@@ -1261,6 +1318,97 @@ export default {
       console.log(err);
     }
 
+    return null;
+  },
+  getAllCourseCategoryWithoutPage: async (categoryId) => {
+    try {
+      const checkIfParentSql = `
+                SELECT category_id
+                FROM categories
+                WHERE category_parent = $1
+            `;
+
+      const children = await db.manyOrNone(checkIfParentSql, [categoryId]);
+
+      let sql = '';
+
+      if (children.length === 0) {
+        sql = `
+                    SELECT course_id,
+                           course_title,
+                           category_id,
+                           image,
+                           b_description,
+                           description,
+                           price,
+                           discount,
+                           status,
+                           rating,
+                           num_enroll,
+                           num_rating,
+                           create_by,
+                           create_at,
+                           update_at
+                    FROM courses
+                    WHERE category_id = $1
+                `;
+      } else {
+        sql = `
+                    SELECT course_id,
+                           course_title,
+                           category_id,
+                           image,
+                           b_description,
+                           description,
+                           price,
+                           discount,
+                           status,
+                           rating,
+                           num_enroll,
+                           num_rating,
+                           create_by,
+                           create_at,
+                           update_at
+                    FROM courses
+                    WHERE category_id IN (SELECT category_id
+                                          FROM categories
+                                          WHERE category_parent = $1)
+                `;
+      }
+      const result = await db.manyOrNone(sql, [
+        categoryId
+      ]);
+
+      if (result.length !== 0) {
+        const courses = [];
+
+        for (let course of result) {
+          courses.push(
+              new Course(
+                  course.course_id,
+                  course.course_title,
+                  course.category_id,
+                  course.image,
+                  course.b_description,
+                  course.description,
+                  course.price,
+                  course.discount,
+                  course.status,
+                  course.rating,
+                  course.num_enroll,
+                  course.num_rating,
+                  course.create_by,
+                  course.create_at,
+                  course.update_at
+              )
+          );
+        }
+
+        return Course;
+      }
+    } catch (err) {
+      console.log(err);
+    }
     return null;
   },
   updateStatus: async (courseId, status) => {

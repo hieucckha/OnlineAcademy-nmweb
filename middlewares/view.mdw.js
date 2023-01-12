@@ -18,8 +18,7 @@ export default function (app) {
                         return options.fn(this);
                     }
                     return options.inverse(this);
-                },
-
+                }
             },
         })
     );

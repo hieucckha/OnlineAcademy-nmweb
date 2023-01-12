@@ -47,7 +47,7 @@ router.get('/new/course', async (req, res) => {
   if (user === undefined) return res.redirect('/');
   else if (user.role !== 1) return res.redirect('/');
 
-  const categoryList = await categoryService.getList();
+  const categoryList = await categoryService.getListCateLevel2();
   //const user = await userService.getById('d172436b-5020-4b34-8827-6ebd041d5474');
   res.render('teacher/nCourse', {
     layout: 'teacher.hbs',
@@ -155,8 +155,7 @@ router.post('/new/course', async (req, res)=>{
     } else if (err) {
       console.error(err);
     }
-    //const user = req.session.authUser;
-    const user = await userService.getById('d172436b-5020-4b34-8827-6ebd041d5474');
+    const user = req.session.authUser;
     const newCourse = await coursesService.insert(req.body.title, req.body.categoryId, '', req.body.b_description, req.body.Description,0,0,0,user.userId);
     res.redirect('/teacher/edit/course?courseId='+newCourse.courseid);
   });
@@ -209,8 +208,7 @@ router.post('/edit/course/newSection', async (req, res)=>{
     } else if (err) {
       console.error(err);
     }
-    //const user = req.session.authUser;
-    const user = await userService.getById('d172436b-5020-4b34-8827-6ebd041d5474');
+    const user = req.session.authUser;
     let sectionNum = await sectionService.getAllFullSection(req.body.courseId) || 0;
     if (sectionNum !== 0) sectionNum = sectionNum.length;
     await sectionService.insert(sectionNum+1,req.body.sectionName,req.body.courseId);
@@ -260,8 +258,8 @@ router.post('/edit/course/bDescription', async (req, res)=>{
       console.error(err);
     }
     if (req.body.courseName <= 7) return;
-    //const user = req.session.authUser;
-    const user = await userService.getById('d172436b-5020-4b34-8827-6ebd041d5474');
+    const user = req.session.authUser;
+    //const user = await userService.getById('d172436b-5020-4b34-8827-6ebd041d5474');
     const course = await coursesService.getFullCourse(req.body.courseId);
     course.bDescription = req.body.bDescription;
     await coursesService.update(req.body.courseId, course.title, course.image, course.bDescription, course.description, course.price, course.discount);
@@ -286,8 +284,8 @@ router.post('/edit/course/Description', async (req, res)=>{
       console.error(err);
     }
     if (req.body.courseName <= 7) return;
-    //const user = req.session.authUser;
-    const user = await userService.getById('d172436b-5020-4b34-8827-6ebd041d5474');
+    const user = req.session.authUser;
+    //const user = await userService.getById('d172436b-5020-4b34-8827-6ebd041d5474');
     const course = await coursesService.getFullCourse(req.body.courseId);
     course.description = req.body.description;
     await coursesService.update(req.body.courseId, course.title, course.image, course.bDescription, course.description, course.price, course.discount);
@@ -344,8 +342,8 @@ router.post('/edit/course/prices', async (req, res)=>{
       console.error(err);
     }
     if (req.body.courseName <= 7) return;
-    //const user = req.session.authUser;
-    const user = await userService.getById('d172436b-5020-4b34-8827-6ebd041d5474');
+    const user = req.session.authUser;
+    ///const user = await userService.getById('d172436b-5020-4b34-8827-6ebd041d5474');
     const course = await coursesService.getFullCourse(req.body.courseId);
     course.price = req.body.price;
     course.discount = req.body.discount;

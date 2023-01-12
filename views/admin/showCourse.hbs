@@ -1,0 +1,143 @@
+{{#section 'css'}}
+    <style>
+        .btn-circle {
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            padding: 6px 0;
+            font-size: 12px;
+            line-height: 1.428571429;
+            border-radius: 15px;
+            background: rgb(255, 255, 255);
+        }
+
+        .text-black {
+            color: black;
+        }
+    </style>
+{{/section}}
+
+{{#if mess}}
+    <div class="position-absolute alert alert-danger shadow rounded" role="alert" style="width: 100%; height: 100px;">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        {{mess}}
+    </div>
+{{/if}}
+
+<section style="margin-top: 100px">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <div class="row">
+                            <div class="col-xl-12 ml-3">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3>Teacher Table</h3>
+                                        <button class="btn btn-outline-primary float-right"
+                                                onclick="showFilter()">
+                                            <i class="fa fa-plus" aria-hidden="true"></i> Filter
+                                        </button>
+                                        <span class="d-block m-t-5">List of <code>courses</code> of the system.</span>
+                                    </div>
+                                    <div class="card-body table-border-style">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped">
+                                                <thead>
+                                                <tr>
+                                                    <th>Course ID</th>
+                                                    <th>Course's name</th>
+                                                    <th>Category</th>
+                                                    <th>Teacher ID</th>
+                                                    <th></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody class="">
+                                                {{#each this.myCourses}}
+                                                    <form method="post" action="/admin/lock/teacher">
+                                                        <tr>
+                                                            <td>{{courseId}}</td>
+                                                            <input type="hidden" value={{courseId}} name="userId">
+                                                            <td>{{title}}</td>
+                                                            <td>{{categoryId}}</td>
+                                                            <td>{{createBy}}</td>
+                                                        </tr>
+                                                    </form>
+                                                {{/each}}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="text-align: center">
+        <a>
+            <button type="button" class="btn" onclick="clickPrevious()"><i class="bi bi-arrow-left-circle fa-2x" style="color: black"></i></button>
+        </a>
+        {{#each this.pageList}}
+            {{#if isActive}}
+                <a aria-disabled="false" href="?page={{value}}" style="width: 4rem; display: inline-flex; align-items: center; justify-content: center; color:#5624d0"}">
+                <u>{{value}}</u>
+                </a>
+            {{else}}
+                <a aria-disabled="false" href="?page={{value}}" style="width: 4rem; display: inline-flex; align-items: center; justify-content: center; color:#5624d0"}">
+                {{value}}
+                </a>
+            {{/if}}
+        {{/each}}
+        <a>
+            <button type="button" class="btn" onclick="clickNext()"><i class="bi bi-arrow-right-circle fa-2x" style="color: black"></i></button>
+        </a>
+    </div>
+</section>
+
+<form id="filter" action="/admin/filter/course" method="post" class="position-fixed shadow rounded addLectureWindow" style="display: none; margin-left: 10%; top: 200px; height: 50%">
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    <div id="inputFile" style="padding: 30px 100px 0 100px">
+        <select class="form-select form-select-lg mb-3" name="category" aria-label=".form-select-lg example">
+            <option selected>Open this select category</option>
+            {{#each this.category}}
+                <option value="{{category_id}}">{{category_title}}</option>
+            {{/each}}
+        </select>
+
+        <select class="form-select form-select-lg mb-3" name="teacher" aria-label=".form-select-lg example">
+            <option selected>Open this select teacher</option>
+            {{#each this.teachers}}
+                <option value="{{userId}}">{{firstName}} {{lastName}}</option>
+            {{/each}}
+        </select>
+        <div style="text-align: center"><button type="submit" class="btn btn-primary">Save</button></div>
+    </div>
+</form>
+{{#section 'js'}}
+    <script>
+        function showFilter(){
+            document.getElementById('filter').style.display = 'block';
+        }
+    </script>
+    <script>
+        function clickNext(){
+            const params = new Proxy(new URLSearchParams(window.location.search), {
+                get: (searchParams, prop) => searchParams.get(prop),
+            });
+            let page = Number(params.page);
+            const maxPage = {{this.maxPage}};
+            if (page + 1 < maxPage) location.href = '?page=' + (page+1).toString();
+        }
+        function clickPrevious(){
+            const params = new Proxy(new URLSearchParams(window.location.search), {
+                get: (searchParams, prop) => searchParams.get(prop),
+            });
+            let page = Number(params.page);
+            if (page - 1 > 0) location.href = '?page=' + (page-1).toString();
+        }
+    </script>
+{{/section}}
