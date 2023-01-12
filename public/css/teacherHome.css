@@ -34,3 +34,24 @@ input, button{
 }
 .dropdown-content a:hover {background-color: #ddd;}
 .dropdown:hover .dropdown-content {display: block;}
+.closebtn {
+    margin-right: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.closebtn:hover {
+    color: black;
+}
+.addLectureWindow {
+    background-color: #0dcaf0;
+    width: 80%;
+    height: 250px;
+    overflow: auto;
+    position: absolute;
+    bottom: 40%;
+}

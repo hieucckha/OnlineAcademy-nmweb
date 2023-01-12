@@ -22,27 +22,18 @@ router.post('/login', async function (req, res) {
       err_message: 'Invalid email or password'
     });
   }
-
   req.session.auth = true;
   req.session.authUser = user;
 
-  // if (user.role === 0) {
-  //   res.render('home', {
-  //     layout: 'admin.hbs'
-  //   });
-
-  // } else if (user.role === 1) {
-  //   const url = req.session.retUrl || '/';
-  //   delete req.session.retUrl;
-  //   res.redirect(url, {
-  //     layout: 'teacher.hbs'
-  //   });
-
-  // } else {
+  if (user.role === 0) {
+    return res.redirect('/admin');
+  } else if (user.role === 1) {
+    return res.redirect('/teacher');
+  } else {
     const url = req.session.retUrl || '/';
     delete req.session.retUrl;
     res.redirect(url);
-  //}
+  }
 });
 
 router.get('/signup', async function (req, res) {
@@ -90,8 +81,7 @@ router.post('/logout', async function (req, res) {
   req.session.auth = false;
   req.session.authUser = null;
 
-  const url = req.headers.referer || '/';
-  res.redirect(url);
+  res.redirect('/');
 });
 
 router.post('/editProfile', async function (req, res) {

@@ -1,1 +1,141 @@
-<div style="margin: 200px auto;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate molestiae quas omnis accusamus. Quia cumque nulla dolor aut ipsa quis soluta beatae necessitatibus odit, exercitationem molestias in ea voluptates pariatur.
+<section id="home-view">
+    <h1 class="header-title">Wish you have a good learning experience!!!</h1>
+    <h1 class="list-container-title">Hot Courses:</h1>
+    <div class="container">
+        {{#if this.hot_empty}}
+            <h2 class="message">Hot courses is empty!!!</h2>
+        {{else}}
+        <div class="list-container">
+            {{#each this.hotCourses}}
+                <div class="course-list">
+                    <a href="/courses/courseDetails?courseId={{courseId}}"><img src="{{image}}" class="thumbnail"></a>
+                    <div class="course-info">
+                        <a href="/courses/courseDetails?courseId={{courseId}}" class="course-name">{{course_title}}</a>
+                    </div>
+                    <div class="flex-div">
+                        <p class="avg-rating">{{rating}}</p>
+                        <div id="rating">
+                            <div class="star-rating">
+                                <input type="radio" name="rate" id="rate-5">
+                                <label for="rate-5" class="fa fa-star"></label>
+                                <input type="radio" name="rate" id="rate-4">
+                                <label for="rate-4" class="fa fa-star"></label>
+                                <input type="radio" name="rate" id="rate-3">
+                                <label for="rate-3" class="fa fa-star"></label>
+                                <input type="radio" name="rate" id="rate-2">
+                                <label for="rate-2" class="fa fa-star"></label>
+                                <input type="radio" name="rate" id="rate-1">
+                                <label for="rate-1" class="fa fa-star"></label>
+                            </div>
+                        </div>
+                        <span class="num-of-ratings">({{num_rating}})</span>
+                    </div>
+                    <div class="price-of-course">
+                        <div class="promotional-price">{{format_number discount}}đ &nbsp;</div>
+                        <del class="price">{{format_number price}}đ</del>
+                    </div>
+                </div>
+            {{/each}}
+        {{/if}}
+    </div>
+    </div>
+
+    <h1 class="list-container-title">Most viewed:</h1>
+    <div class="container">
+        {{#if this.mW_empty}}
+            <h2 class="message">Most view is empty!!!</h2>
+        {{else}}
+        <div class="list-container">
+            {{#each this.mostView}}
+                <div class="course-list">
+                    <a href="/courses/courseDetails?courseId={{courseId}}"><img src="{{image}}" class="thumbnail"></a>
+                    <div class="course-info">
+                        <a href="/courses/courseDetails?courseId={{courseId}}" class="course-name">{{course_title}}</a>
+                    </div>
+                    <div class="flex-div">
+                        <p class="avg-rating">{{rating}}</p>
+                        <div id="rating">
+                            <div class="star-rating">
+                                <input type="radio" name="rate" id="rate-5">
+                                <label for="rate-5" class="fa fa-star"></label>
+                                <input type="radio" name="rate" id="rate-4">
+                                <label for="rate-4" class="fa fa-star"></label>
+                                <input type="radio" name="rate" id="rate-3">
+                                <label for="rate-3" class="fa fa-star"></label>
+                                <input type="radio" name="rate" id="rate-2">
+                                <label for="rate-2" class="fa fa-star"></label>
+                                <input type="radio" name="rate" id="rate-1">
+                                <label for="rate-1" class="fa fa-star"></label>
+                            </div>
+                        </div>
+                        <span class="num-of-ratings">({{num_rating}})</span>
+                    </div>
+                    <div class="price-of-course">
+                        <div class="promotional-price">{{format_number discount}}đ &nbsp;</div>
+                        <del class="price">{{format_number price}}đ</del>
+                    </div>
+                </div>
+            {{/each}}
+        {{/if}}
+    </div>
+    </div>
+
+    <h1 class="list-container-title">Newest:</h1>
+    <div class="container">
+        {{#if this.n_empty}}
+            <h2 class="message">Hot courses is empty!!!</h2>
+        {{else}}
+        <div class="list-container">
+            {{#each this.newest}}
+                <div class="course-list">
+                    <a href="/courses/courseDetails?courseId={{courseId}}"><img src="{{image}}" class="thumbnail"></a>
+                    <div class="course-info">
+                        <a href="/courses/courseDetails?courseId={{courseId}}" class="course-name">{{course_title}}</a>
+                    </div>
+                    <div class="flex-div">
+                        <p class="avg-rating">{{rating}}</p>
+                        <div id="rating">
+                            <div class="star-rating">
+                                <input type="radio" name="rate" id="rate-5">
+                                <label for="rate-5" class="fa fa-star"></label>
+                                <input type="radio" name="rate" id="rate-4">
+                                <label for="rate-4" class="fa fa-star"></label>
+                                <input type="radio" name="rate" id="rate-3">
+                                <label for="rate-3" class="fa fa-star"></label>
+                                <input type="radio" name="rate" id="rate-2">
+                                <label for="rate-2" class="fa fa-star"></label>
+                                <input type="radio" name="rate" id="rate-1">
+                                <label for="rate-1" class="fa fa-star"></label>
+                            </div>
+                        </div>
+                        <span class="num-of-ratings">({{num_rating}})</span>
+                    </div>
+                    <div class="price-of-course">
+                        <div class="promotional-price">{{format_number discount}}đ &nbsp;</div>
+                        <del class="price">{{format_number price}}đ</del>
+                    </div>
+                </div>
+            {{/each}}
+        {{/if}}
+    </div>
+    </div>
+
+    <h1 class="list-container-title">Most registered fields:</h1>
+    <div class="container">
+        {{#if this.ct_empty}}
+            <h2 class="message">Hot courses is empty!!!</h2>
+        {{else}}
+        <div class="list-container">
+            {{#each this.categories}}
+                <a href="/courses/category?category_id={{category_id}}"><div class="category">{{category_title}}</div></a>
+            {{/each}}
+        {{/if}}
+    </div>
+    </div>
+</section>
+
+{{#section 'js'}}
+    <script>
+
+    </script>
+{{/section}}
